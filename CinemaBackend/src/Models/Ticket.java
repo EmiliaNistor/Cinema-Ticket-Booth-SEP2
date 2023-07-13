@@ -13,6 +13,10 @@ public class Ticket {
         this.user = user;
     }
 
+    public Ticket() {
+
+    }
+
     public String getId() {
         return id;
     }

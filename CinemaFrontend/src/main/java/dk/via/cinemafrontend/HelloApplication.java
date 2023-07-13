@@ -1,4 +1,4 @@
-package dk.via.cinemafrontend;
+package main.java.dk.via.cinemafrontend;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

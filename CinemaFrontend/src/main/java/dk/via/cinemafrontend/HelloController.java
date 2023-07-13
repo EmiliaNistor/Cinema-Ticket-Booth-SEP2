@@ -1,4 +1,4 @@
-package dk.via.cinemafrontend;
+package main.java.dk.via.cinemafrontend;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

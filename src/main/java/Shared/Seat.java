@@ -1,4 +1,4 @@
-package Models;
+package Shared;
 
 public class Seat {
     private int row;

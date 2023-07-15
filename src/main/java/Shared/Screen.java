@@ -1,7 +1,6 @@
-package Models;
+package Shared;
 
 
-import java.awt.List;
 import java.util.ArrayList;
 
 public class Screen {

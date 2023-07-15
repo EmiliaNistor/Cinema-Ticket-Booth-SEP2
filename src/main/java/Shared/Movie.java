@@ -1,4 +1,4 @@
-package Models;
+package Shared;
 
 public class Movie {
     private String name;

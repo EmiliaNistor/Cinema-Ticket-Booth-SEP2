@@ -1,4 +1,4 @@
-package Models;
+package Shared;
 
 public class Ticket {
     private String id;

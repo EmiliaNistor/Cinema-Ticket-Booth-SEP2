@@ -1,14 +1,15 @@
-package RMI;
+package Shared;
+
+import Shared.Menu;
+import Shared.Movie;
+import Shared.Ticket;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import Models.Menu;
-import Models.Movie;
-import Models.Ticket;
 
 
-public interface CinemaRemote extends Remote {
+public interface ServerI extends Remote {
     ArrayList<Ticket> getAllTickets() throws RemoteException;
 
     ArrayList<Movie> getAllMovies() throws RemoteException;

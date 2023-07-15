@@ -1,12 +1,11 @@
-package RMI;
+package Server.RMI;
 
-import Dao.MovieDao;
-import Dao.SeatDao;
-import Dao.UserDao;
-import Models.*;
-import RMI.CinemaRemote;
-import Utils.DatabaseUtil;
-
+//import Dao.MovieDao;
+//import Dao.SeatDao;
+//import Dao.UserDao;
+import Shared.*;
+import Shared.ServerI;
+import Server.Utils.DatabaseUtil;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -16,7 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class CinemaRemoteImpl extends UnicastRemoteObject implements CinemaRemote {
+public class CinemaRemoteImpl extends UnicastRemoteObject implements ServerI {
     private ArrayList<Ticket> tickets;
     private ArrayList<Movie> movies;
     private ArrayList<Menu> menuItems;
@@ -35,9 +34,9 @@ public class CinemaRemoteImpl extends UnicastRemoteObject implements CinemaRemot
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM tickets")) {
 
-            SeatDao seatDao = new SeatDao();
-            MovieDao movieDao = new MovieDao();
-            UserDao userDao = new UserDao();
+            //SeatDao seatDao = new SeatDao();
+            //MovieDao movieDao = new MovieDao();
+            //UserDao userDao = new UserDao();
 
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
@@ -45,12 +44,12 @@ public class CinemaRemoteImpl extends UnicastRemoteObject implements CinemaRemot
                 String movieId = resultSet.getString("movie_id");
                 String userId = resultSet.getString("user_id");
 
-                Seat seat = seatDao.getSeatById(seatId);
-                Movie movie = movieDao.getMovieById(movieId);
-                User user = userDao.getUserById(userId);
+                //Seat seat = seatDao.getSeatById(seatId);
+                //Movie movie = movieDao.getMovieById(movieId);
+                //User user = userDao.getUserById(userId);
 
-                Ticket ticket = new Ticket(id, seat, movie, user);
-                tickets.add(ticket);
+                //Ticket ticket = new Ticket(id, seat, movie, user);
+                //tickets.add(ticket);
             }
         } catch (SQLException e) {
             // Handle any potential SQLExceptions

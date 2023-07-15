@@ -1,6 +1,6 @@
-package main.RMI;
+package Client.Model;
 
-import RMI.CinemaRemote;
+import Shared.ServerI;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -14,7 +14,7 @@ public class RMIClient {
                     Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 
                     // Lookup the remote object
-                    CinemaRemote remote = (CinemaRemote) registry.lookup("CinemaRemote");
+                    ServerI remote = (ServerI) registry.lookup("CinemaRemote");
 
                     // Call the remote methods
                     System.out.println(remote.getAllTickets());

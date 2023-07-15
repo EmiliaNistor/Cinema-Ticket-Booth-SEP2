@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SEP2-Re" />
+        <module name="Cinema" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SEP2-Re" target="20" />
+      <module name="Cinema" target="19" />
     </bytecodeTargetLevel>
   </component>
 </project>

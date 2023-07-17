@@ -37,12 +37,9 @@ public class DatabaseUtil {
                 executeQuery(query);
             }
 
-            System.out.println("Database tables created successfully!");
+            System.out.println("Successfully created the tables!");
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Close connection
-            closeConnection();
         }
     }
 
@@ -61,7 +58,7 @@ public class DatabaseUtil {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Database connection closed successfully!");
+                System.out.println("The connection is successfully closed!");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

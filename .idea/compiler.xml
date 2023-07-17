@@ -9,9 +9,5 @@
         <module name="Cinema" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Cinema" target="19" />
-      <module name="SEP2-Re" target="19" />
-    </bytecodeTargetLevel>
   </component>
 </project>

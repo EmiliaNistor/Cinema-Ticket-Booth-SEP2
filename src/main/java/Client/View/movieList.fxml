@@ -10,8 +10,12 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ScrollPane layoutX="409.0" layoutY="112.0" prefHeight="449.0" prefWidth="539.0">
-Expand All
-	@@ -20,7 +21,7 @@
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="481.0" prefWidth="524.0">
+               <children>
+                  <TableView fx:id="movieList" prefHeight="488.0" prefWidth="524.0">
+                    <columns>
+                      <TableColumn fx:id="moviePhoto" prefWidth="182.0" text="Movie" />
                       <TableColumn fx:id="movieGenre" prefWidth="92.0" text="Genre" />
                         <TableColumn fx:id="movieLength" prefWidth="75.0" text="Length" />
                         <TableColumn fx:id="movieScreen" prefWidth="74.0" text="Screen" />
@@ -19,7 +23,11 @@ Expand All
                     </columns>
                   </TableView>
                </children>
-	@@ -32,6 +33,6 @@
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Text layoutX="410.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movie List" wrappingWidth="175.736328125">
+         <font>
             <Font size="36.0" />
          </font>
       </Text>

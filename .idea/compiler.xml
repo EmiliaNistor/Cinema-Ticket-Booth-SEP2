@@ -9,8 +9,5 @@
         <module name="Cinema" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Cinema" target="19" />
-    </bytecodeTargetLevel>
   </component>
 </project>

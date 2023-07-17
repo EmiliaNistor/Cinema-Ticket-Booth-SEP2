@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public interface ServerI extends Remote {
     ArrayList<Ticket> getAllTickets() throws RemoteException;
-
     ArrayList<Movie> getAllMovies() throws RemoteException;
 
     ArrayList<Menu> getAllMenuItems() throws RemoteException;

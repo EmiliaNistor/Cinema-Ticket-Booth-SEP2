@@ -1,11 +1,10 @@
-package Client.View.movieList;
+package View.controllers;
 
 import Client.Model.MovieList;
 import Client.ViewModel.ViewModelFactory;
 import Client.ViewModel.movieListViewModel;
-import Client.View.ViewController;
-import Client.View.ViewHandler;
 import Server.Utils.DatabaseImpl;
+import View.ViewHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

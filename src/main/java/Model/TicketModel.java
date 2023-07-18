@@ -1,6 +1,8 @@
-package Client.Model;
+package Model;
 
-import Shared.Ticket;
+import Model.Ticket;
+import Util.ModelFactory;
+import ViewModel.ITicketModel;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;

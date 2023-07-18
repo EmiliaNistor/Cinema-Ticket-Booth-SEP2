@@ -1,6 +1,6 @@
-package Client;
+package View;
 
-import Client.Model.ModelFactory;
+import Util.ModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +14,7 @@ public class CinemaApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CinemaApplication.class.getResource("movieList.fxml"));
+
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);

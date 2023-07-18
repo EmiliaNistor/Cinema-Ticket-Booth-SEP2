@@ -1,8 +1,8 @@
-package Shared;
+package Model.server;
 
-import Shared.Menu;
-import Shared.Movie;
-import Shared.Ticket;
+import Model.Menu;
+import Model.Movie;
+import Model.Ticket;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

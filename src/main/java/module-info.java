@@ -4,17 +4,22 @@ module via.dk.cinema {
     requires java.rmi;
     requires java.sql;
 
-    exports Client.View;
-    opens Client.View to javafx.fxml;
-    exports Client;
-    opens Client to javafx.fxml;
-    exports Client.Model;
-    opens Client.Model to javafx.fxml;
 
-    exports Shared;
 
-    exports Server.RMI;
-    exports Server.Utils;
-    exports Client.ViewModel;
-    opens Client.ViewModel to javafx.fxml;
+
+    exports Util;
+    exports Model;
+    exports Model.server;
+    exports ViewModel;
+    opens ViewModel to javafx.fxml;
+    opens Util to javafx.fxml;
+    opens Model to javafx.fxml;
+    exports View.controllers;
+    opens View.controllers to javafx.fxml;
+    exports View;
+    opens View to javafx.fxml;
+    exports Model.client;
+    opens Model.client to javafx.fxml;
+
+
 }

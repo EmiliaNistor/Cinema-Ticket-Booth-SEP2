@@ -35,7 +35,12 @@ public class DatabaseImpl implements Database {
     {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM ticket WHERE id = ?"
+                    "SELECT t.id, t.seat_id, t.movie_id, t.menu_id, s.row, s.number, m.name, m.start_time, m.end_time, m.date, m.length, m.genre " +
+                            "FROM ticket t " +
+                            "JOIN seat s ON t.seat_id = s.id " +
+                            "JOIN movie m ON t.movie_id = m.id " +
+                            "JOIN menu f ON t.menu_id = f.id" +
+                            "WHERE t.id = ?"
             );
             preparedStatement.setInt(1, ticketId);
 

@@ -32,14 +32,43 @@ public class ViewHandler {
 
             stage.setTitle("Movie List");
             movieList = new Scene(root);
+            stage.setScene(movieList);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.setScene(movieList);
-        stage.show();
+
     }
 
-    public Parent loadFXML(String path) throws IOException{
+    public void openPurchaseWindow() {
+        try {
+            Parent root = loadFXML("Client/View/movieList/purchaseTicket.fxml");
+
+            stage.setTitle("Purchase Ticket");
+            Scene purchaseTicketScene = new Scene(root);
+            stage.setScene(purchaseTicketScene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void openTicketInformation() {
+        try {
+            Parent root = loadFXML("Client/View/movieList/ticketInformation.fxml");
+
+            stage.setTitle("Ticket Information");
+            Scene ticketInfoScene = new Scene(root);
+            stage.setScene(ticketInfoScene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public Parent loadFXML(String path) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(path));
         Parent root = loader.load();

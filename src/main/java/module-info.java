@@ -15,4 +15,6 @@ module via.dk.cinema {
 
     exports Server.RMI;
     exports Server.Utils;
+    exports Client.ViewModel;
+    opens Client.ViewModel to javafx.fxml;
 }

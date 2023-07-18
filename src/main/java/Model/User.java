@@ -1,4 +1,4 @@
-package Shared;
+package Model;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ public class User {
     private ArrayList<Menu> menus;
     private ArrayList<Ticket> tickets;
 
-    // Constructors, getters, and setters
+
 
     public User(String username, String password) {
         this.username = username;

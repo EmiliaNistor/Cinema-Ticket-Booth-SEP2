@@ -1,4 +1,4 @@
-package Shared;
+package Model;
 
 public class Menu {
     private String food;

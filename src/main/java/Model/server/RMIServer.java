@@ -1,4 +1,4 @@
-package Server.RMI;
+package Model.server;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -6,13 +6,13 @@ import java.rmi.registry.Registry;
 public class RMIServer {
     public static void main(String[] args) {
         try {
-            CinemaRemoteImpl remoteImpl = new CinemaRemoteImpl();
+            ServerImpl remoteImpl = new ServerImpl();
 
             // Create and get reference to rmi registry
             Registry registry = LocateRegistry.createRegistry(1099);
 
             // Bind the remote object's stub in the registry
-            registry.rebind("CinemaRemote", remoteImpl);
+            registry.rebind("ServerI", remoteImpl);
 
             System.out.println("RMI server is ready");
 

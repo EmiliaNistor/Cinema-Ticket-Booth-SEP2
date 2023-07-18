@@ -1,6 +1,7 @@
 package Client.ViewModel;
 
-import Client.Model.ModelFactory;
+
+import Util.ModelFactory;
 
 public class ViewModelFactory {
 
@@ -9,10 +10,11 @@ public class ViewModelFactory {
 
     public ViewModelFactory(ModelFactory mf) {
         this.mf = mf;
+        movieListViewModel = new movieListViewModel();
     }
 
     public movieListViewModel getMovieListViewModel() {
-        return(movieListViewModel = movieListViewModel == null ?
-                new movieListViewModel(mf.get);
+        return movieListViewModel;
     }
+
 }

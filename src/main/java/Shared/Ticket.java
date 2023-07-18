@@ -1,5 +1,10 @@
 package Shared;
 
+import Model.Menu;
+import Model.Movie;
+import Model.Seat;
+import Model.User;
+
 public class Ticket {
     private String id;
     private Seat seat;

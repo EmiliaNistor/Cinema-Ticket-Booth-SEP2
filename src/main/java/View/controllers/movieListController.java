@@ -1,17 +1,19 @@
 package View.controllers;
 
-import Client.Model.MovieList;
+
 import Client.ViewModel.ViewModelFactory;
 import Client.ViewModel.movieListViewModel;
-import Server.Utils.DatabaseImpl;
+
+import Model.Movie;
 import View.ViewHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.sql.SQLException;
+
 
 public class movieListController implements ViewController {
 
@@ -19,30 +21,25 @@ public class movieListController implements ViewController {
     private ViewHandler viewHandler;
 
     @FXML
-    private TableView<MovieList> Table;
+    private TableView<Movie> Table;
     @FXML
-    private TableColumn<MovieList,String> Movie;
+    private TableColumn<Movie,String> Movie;
     @FXML
-    private TableColumn<MovieList,String> Genre;
+    private TableColumn<Movie,String> Genre;
     @FXML
-    private TableColumn<MovieList, Integer> Length;
+    private TableColumn<Movie, Integer> Length;
     @FXML
-    private TableColumn<MovieList, Integer> Screen ;
+    private TableColumn<Movie, Integer> Screen ;
 
-    private ObservableList<MovieList> list = FXCollections.observableArrayList();
+    private ObservableList<Movie> list = FXCollections.observableArrayList();
 
-    private DatabaseImpl dbImpl;
-
-    {
-        try {
-            dbImpl = new DatabaseImpl();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public void init(ViewHandler viewHandler, ViewModelFactory vmf) {
         this.viewHandler = viewHandler;
-        this.viewModel = vmf.Ope
+        this.viewModel = vmf.getMovieListViewModel();
+        Movie.setCellValueFactory(new PropertyValueFactory<>("Movie"));
+        Genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+        Length.setCellValueFactory(new PropertyValueFactory<>("Length"));
+        Screen.setCellValueFactory(new PropertyValueFactory<>("Screen"));
     }
 }

@@ -1,7 +1,10 @@
-package Client.Model;
+package Util;
 
-import Shared.ClientI;
-import Shared.ServerI;
+import Model.TicketModel;
+import Model.client.ClientI;
+import Model.client.RMIClientImpl;
+import Model.server.ServerI;
+import ViewModel.ITicketModel;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -17,7 +20,7 @@ public class ModelFactory {
         // Setting up RMI
         Registry registry = LocateRegistry.getRegistry("localhost", 1099);
         // Getting server RMI Interface from registry
-        serverRMI = (ServerI) registry.lookup("CinemaRemote");
+        serverRMI = (ServerI) registry.lookup("ServerI");
 
         // Creating models
         var tm = new TicketModel(this);

@@ -1,11 +1,12 @@
-package Server.RMI;
+package Model.server;
 
 //import Dao.MovieDao;
 //import Dao.SeatDao;
 //import Dao.UserDao;
-import Shared.*;
-import Shared.ServerI;
-import Server.Utils.DatabaseUtil;
+import Model.Menu;
+import Model.Movie;
+import Model.Ticket;
+import Util.DatabaseUtil;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -15,12 +16,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class CinemaRemoteImpl extends UnicastRemoteObject implements ServerI {
+public class ServerImpl extends UnicastRemoteObject implements ServerI {
     private ArrayList<Ticket> tickets;
     private ArrayList<Movie> movies;
     private ArrayList<Menu> menuItems;
 
-    public CinemaRemoteImpl() throws RemoteException {
+    public ServerImpl() throws RemoteException {
         tickets = new ArrayList<>();
         movies = new ArrayList<>();
         menuItems = new ArrayList<>();

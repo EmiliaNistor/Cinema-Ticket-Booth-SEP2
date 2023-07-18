@@ -1,4 +1,6 @@
-package Shared;
+package Model.client;
+
+import Model.Ticket;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

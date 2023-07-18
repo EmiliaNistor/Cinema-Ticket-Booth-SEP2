@@ -1,6 +1,6 @@
-package Client.Model;
+package ViewModel;
 
-import Shared.Ticket;
+import Model.Ticket;
 
 public interface ITicketModel {
     Ticket getTicket(String ticketID);

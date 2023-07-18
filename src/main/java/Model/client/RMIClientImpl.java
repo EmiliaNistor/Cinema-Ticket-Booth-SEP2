@@ -1,7 +1,7 @@
-package Client.Model;
+package Model.client;
 
-import Shared.ClientI;
-import Shared.Ticket;
+import Model.TicketModel;
+import Model.Ticket;
 import java.rmi.RemoteException;
 
 public class RMIClientImpl implements ClientI {

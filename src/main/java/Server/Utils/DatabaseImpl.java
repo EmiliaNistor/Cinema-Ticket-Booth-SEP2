@@ -35,7 +35,7 @@ public class DatabaseImpl implements Database {
     {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM ticket WHERE t.id = ?"
+                    "SELECT * FROM ticket WHERE id = ?"
             );
             preparedStatement.setInt(1, ticketId);
 

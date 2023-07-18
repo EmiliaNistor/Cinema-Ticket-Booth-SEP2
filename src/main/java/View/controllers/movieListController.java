@@ -6,8 +6,6 @@ import Client.ViewModel.movieListViewModel;
 
 import Model.Movie;
 import View.ViewHandler;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -31,7 +29,7 @@ public class movieListController implements ViewController {
     @FXML
     private TableColumn<Movie, Integer> Screen ;
 
-    private ObservableList<Movie> list = FXCollections.observableArrayList();
+
 
 
     public void init(ViewHandler viewHandler, ViewModelFactory vmf) {

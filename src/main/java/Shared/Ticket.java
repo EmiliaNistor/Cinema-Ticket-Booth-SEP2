@@ -5,12 +5,14 @@ public class Ticket {
     private Seat seat;
     private Movie movie;
     private User user;
+    private Menu menu;
 
-    public Ticket(String id, Seat seat, Movie movie, User user) {
+    public Ticket(String id, Seat seat, Movie movie, User user, Menu menu) {
         this.id = id;
         this.seat = seat;
         this.movie = movie;
         this.user = user;
+        this.menu = menu;
     }
 
     public Ticket() {
@@ -48,6 +50,15 @@ public class Ticket {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
 
     // Constructors, getters, and setters
 }

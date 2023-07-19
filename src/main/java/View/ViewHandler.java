@@ -16,6 +16,8 @@ public class ViewHandler {
     private Stage stage;
 
     private ViewModelFactory vmf;
+    private Scene purchaseTicketScene;
+    private Scene ticketInfoScene;
 
     public ViewHandler(ViewModelFactory vmf) {
         this.vmf = vmf;
@@ -45,7 +47,7 @@ public class ViewHandler {
             Parent root = loadFXML("Client/View/movieList/purchaseTicket.fxml");
 
             stage.setTitle("Purchase Ticket");
-            Scene purchaseTicketScene = new Scene(root);
+            purchaseTicketScene = new Scene(root);
             stage.setScene(purchaseTicketScene);
             stage.show();
         } catch (IOException e) {
@@ -59,7 +61,7 @@ public class ViewHandler {
             Parent root = loadFXML("Client/View/movieList/ticketInformation.fxml");
 
             stage.setTitle("Ticket Information");
-            Scene ticketInfoScene = new Scene(root);
+            ticketInfoScene = new Scene(root);
             stage.setScene(ticketInfoScene);
             stage.show();
 
@@ -67,7 +69,7 @@ public class ViewHandler {
             e.printStackTrace();
         }
     }
-    
+
     public Parent loadFXML(String path) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(path));

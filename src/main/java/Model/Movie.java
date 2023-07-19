@@ -1,16 +1,21 @@
 package Model;
 
+import javafx.scene.control.Button;
+
 public class Movie {
     private String name;
     private int length;
     private String genre;
     private String screen;
 
+    private Button button;
+
     public Movie(String name, String genre, int length,String screen) {
         this.name = name;
         this.length = length;
         this.genre = genre;
         this.screen = screen;
+        this.button = new Button("Buy Ticket");
     }
 
     public String getName() {
@@ -43,6 +48,13 @@ public class Movie {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public Button getButton() {
+        return button;
+    }
+    public void setButton(Button button) {
+        this.button = button;
     }
 
 }

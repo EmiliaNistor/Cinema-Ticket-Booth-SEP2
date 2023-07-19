@@ -7,6 +7,7 @@ import Client.ViewModel.movieListViewModel;
 import Model.Movie;
 import View.ViewHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -29,7 +30,17 @@ public class movieListController implements ViewController {
     @FXML
     private TableColumn<Movie, Integer> Screen ;
 
+    @FXML
+    private TableColumn<Movie,Button> BuyTicket;
 
+
+    @FXML
+    private Button ticketInfo;
+
+    @FXML
+    private void opnTicketInfo() {
+        viewHandler.openTicketInformation();
+    }
 
 
     public void init(ViewHandler viewHandler, ViewModelFactory vmf) {
@@ -39,5 +50,9 @@ public class movieListController implements ViewController {
         Genre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
         Length.setCellValueFactory(new PropertyValueFactory<>("Length"));
         Screen.setCellValueFactory(new PropertyValueFactory<>("Screen"));
+        BuyTicket.setCellValueFactory(new PropertyValueFactory<Movie,Button>("Buy Ticket"));
+
     }
+
+
 }

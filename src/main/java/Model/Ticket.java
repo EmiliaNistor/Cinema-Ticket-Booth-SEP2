@@ -1,64 +1,54 @@
 package Model;
 
-public class Ticket {
-    private String id;
-    private Seat seat;
-    private Movie movie;
-    private User user;
-    private Menu menu;
+import java.util.ArrayList;
 
-    public Ticket(String id, Seat seat, Movie movie, User user, Menu menu) {
+/**
+ * Holds information about the ticket
+ */
+public class Ticket {
+    private final String id;
+    private final Seat seat;
+    private final Movie movie;
+    private final Screen screen;
+    private final ArrayList<Menu> menus;
+
+    public Ticket(String id, Seat seat, Movie movie, Screen screen) {
         this.id = id;
         this.seat = seat;
         this.movie = movie;
-        this.user = user;
-        this.menu = menu;
+        this.screen = screen;
+        this.menus = new ArrayList<>();
     }
 
-    public Ticket() {
-
-    }
-
+    /**
+     * Gets the id of the ticket
+     * @return The id of the ticket
+     */
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    /**
+     * The seat of the ticket
+     * @return Seat
+     */
     public Seat getSeat() {
         return seat;
-    }
-
-    public void setSeat(Seat seat) {
-        this.seat = seat;
     }
 
     public Movie getMovie() {
         return movie;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public ArrayList<Menu> getMenus() {
+        return menus;
     }
 
-    public User getUser() {
-        return user;
+    public void addMenu(Menu menu) {
+        menus.add(menu);
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void removeMenu(Menu menu) {
+        menus.remove(menu);
     }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
-
-
-    // Constructors, getters, and setters
 }

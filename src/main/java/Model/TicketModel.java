@@ -1,7 +1,6 @@
 package Model;
 
-import Model.Ticket;
-import Util.ModelFactory;
+import Model.server.ServerI;
 import ViewModel.ITicketModel;
 
 import java.rmi.RemoteException;
@@ -9,11 +8,11 @@ import java.util.HashMap;
 
 public class TicketModel implements ITicketModel {
     private final HashMap<String, Ticket> tickets;
-    private final ModelFactory factory;
+    private final ServerI serverRMI;
 
-    public TicketModel(ModelFactory factory) {
+    public TicketModel(ServerI serverRMI) {
         tickets = new HashMap<>();
-        this.factory = factory;
+        this.serverRMI = serverRMI;
     }
 
     public void addTicket(Ticket ticket) {
@@ -23,7 +22,7 @@ public class TicketModel implements ITicketModel {
     @Override
     public void purchaseTicket(Ticket ticket) {
         try {
-            factory.getServerRMI().addTicket(ticket);
+            serverRMI.addTicket(ticket);
         } catch (Exception e) {
             System.out.println("Purchasing is crying");
         }
@@ -37,7 +36,7 @@ public class TicketModel implements ITicketModel {
 
         // Refreshing all tickets
         try {
-            for (Ticket t: factory.getServerRMI().getAllTickets()) {
+            for (Ticket t: serverRMI.getAllTickets()) {
                 tickets.put(t.getId(), t);
             }
         } catch (RemoteException e) {
@@ -45,5 +44,15 @@ public class TicketModel implements ITicketModel {
         }
 
         return tickets.getOrDefault(ticketID, null);
+    }
+
+    @Override
+    public void cancelTicket(Ticket ticket) {
+        tickets.remove(ticket.getId());
+        try {
+            serverRMI.deleteTicket(ticket);
+        } catch (RemoteException e) {
+            System.out.println("Couldn't cancel :(");
+        }
     }
 }

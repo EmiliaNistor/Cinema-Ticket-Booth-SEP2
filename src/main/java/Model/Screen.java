@@ -2,31 +2,30 @@ package Model;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Screen {
-    private ArrayList<Movie> movies;
-    private ArrayList<Seat> seats;
+    private final HashMap<Integer, Movie> movies;
+    private final ArrayList<Seat> seats;
 
-    public Screen(ArrayList<Movie> movies, ArrayList<Seat> seats) {
-        this.movies = movies;
-        this.seats = seats;
+    public Screen(ArrayList<Seat> seats) {
+        this.movies = new HashMap<>();
+        this.seats = new ArrayList<>();
     }
 
     public ArrayList<Movie> getMovies() {
-        return movies;
+        return new ArrayList<>(movies.values());
     }
 
-    public void setMovies(ArrayList<Movie> movies) {
-        this.movies = movies;
+    public void addMovie(Movie movie) {
+        movies.put(movie.getMovieId(), movie);
+    }
+
+    public void removeMovie(Movie movie) {
+        movies.remove(movie.getMovieId());
     }
 
     public ArrayList<Seat> getSeats() {
         return seats;
     }
-
-    public void setSeats(ArrayList<Seat> seats) {
-        this.seats = seats;
-    }
-
-
 }

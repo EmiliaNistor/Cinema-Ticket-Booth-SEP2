@@ -1,4 +1,4 @@
-package Client.ViewModel;
+package ViewModel;
 
 import Model.Movie;
 import javafx.collections.FXCollections;

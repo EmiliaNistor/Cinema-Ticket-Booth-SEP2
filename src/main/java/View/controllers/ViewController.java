@@ -1,6 +1,6 @@
 package View.controllers;
 
-import Client.ViewModel.ViewModelFactory;
+import Util.ViewModelFactory;
 import View.ViewHandler;
 
 public interface ViewController {

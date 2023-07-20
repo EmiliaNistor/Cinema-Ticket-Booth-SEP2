@@ -1,8 +1,8 @@
 package View.controllers;
 
 
-import Client.ViewModel.ViewModelFactory;
-import Client.ViewModel.movieListViewModel;
+import Util.ViewModelFactory;
+import ViewModel.movieListViewModel;
 
 import Model.Movie;
 import View.ViewHandler;

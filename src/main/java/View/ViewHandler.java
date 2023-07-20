@@ -1,6 +1,6 @@
 package View;
 
-import Client.ViewModel.ViewModelFactory;
+import Util.ViewModelFactory;
 import View.controllers.ViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

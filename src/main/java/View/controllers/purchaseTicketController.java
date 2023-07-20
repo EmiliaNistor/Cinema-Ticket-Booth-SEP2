@@ -1,6 +1,6 @@
 package View.controllers;
-import Client.ViewModel.ViewModelFactory;
-import Client.ViewModel.purchaseTicketViewModel;
+import Util.ViewModelFactory;
+import ViewModel.purchaseTicketViewModel;
 import View.ViewHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

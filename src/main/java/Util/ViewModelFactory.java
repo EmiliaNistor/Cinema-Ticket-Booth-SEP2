@@ -1,16 +1,18 @@
-package Client.ViewModel;
+package Util;
 
 
-import Model.Movie;
 import Util.ModelFactory;
+import ViewModel.movieListViewModel;
+import ViewModel.purchaseTicketViewModel;
+import ViewModel.ticketInformationViewModel;
 
 public class ViewModelFactory {
 
     private ModelFactory mf;
-    private movieListViewModel movieListViewModel;
-    private purchaseTicketViewModel purchaseTicketViewModel;
+    private ViewModel.movieListViewModel movieListViewModel;
+    private ViewModel.purchaseTicketViewModel purchaseTicketViewModel;
 
-    private ticketInformationViewModel ticketInformationViewModel;
+    private ViewModel.ticketInformationViewModel ticketInformationViewModel;
     public ViewModelFactory(ModelFactory mf) {
         this.mf = mf;
         movieListViewModel = new movieListViewModel();

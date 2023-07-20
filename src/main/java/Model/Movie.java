@@ -1,5 +1,7 @@
 package Model;
 
+
+
 public class Movie {
     private final int movieId;
     private String name;
@@ -13,6 +15,7 @@ public class Movie {
         this.length = length;
         this.genre = genre;
         this.screen = screen;
+
     }
 
     public int getMovieId() {return movieId;}
@@ -48,5 +51,6 @@ public class Movie {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+
 
 }

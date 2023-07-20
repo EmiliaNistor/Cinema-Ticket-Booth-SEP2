@@ -1,5 +1,9 @@
 package Server.Utils;
 
+import Model.Menu;
+import Model.Movie;
+import Model.Seat;
+import Model.User;
 import Server.Utils.Database;
 import Shared.*;
 

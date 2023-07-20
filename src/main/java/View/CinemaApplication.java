@@ -22,7 +22,7 @@ public class CinemaApplication extends Application {
     }
 
     public static void main(String[] args) throws NotBoundException, RemoteException {
-        new ModelFactory();
+        ModelFactory mf = new ModelFactory();
         launch();
     }
 }

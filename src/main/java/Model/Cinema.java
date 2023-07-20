@@ -1,13 +1,13 @@
 package Model;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class Cinema {
-    private List<Ticket> tickets;
-    private List<Screen> screens;
-    private List<Menu> menu;
+/*public class Cinema {
+    private ArrayList<Ticket> tickets;
+    private ArrayList<Screen> screens;
+    private ArrayList<Menu> menu;
 
-    public Cinema(List<Ticket> tickets, List<Screen> screens, List<Menu> menu) {
+    public Cinema(ArrayList<Ticket> tickets, ArrayList<Screen> screens, ArrayList<Menu> menu) {
         this.tickets = tickets;
         this.screens = screens;
         this.menu = menu;
@@ -17,16 +17,8 @@ public class Cinema {
         return tickets;
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
     public List<Screen> getScreens() {
         return screens;
-    }
-
-    public void setScreens(List<Screen> screens) {
-        this.screens = screens;
     }
 
     public List<Menu> getMenu() {
@@ -60,4 +52,4 @@ public class Cinema {
     public void removeMenu(Menu menu) {
         this.menu.remove(menu);
     }
-}
+}*/

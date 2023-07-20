@@ -3,20 +3,22 @@ package Model;
 import javafx.scene.control.Button;
 
 public class Movie {
+    private final int movieId;
     private String name;
     private int length;
     private String genre;
     private String screen;
-
     private Button button;
-
-    public Movie(String name, String genre, int length,String screen) {
+    public Movie(int movieId, String name, String genre, int length,String screen) {
+        this.movieId = movieId;
         this.name = name;
         this.length = length;
         this.genre = genre;
         this.screen = screen;
         this.button = new Button("Buy Ticket");
     }
+
+    public int getMovieId() {return movieId;}
 
     public String getName() {
         return name;

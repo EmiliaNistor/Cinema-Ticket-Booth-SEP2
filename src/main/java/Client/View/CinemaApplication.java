@@ -14,14 +14,18 @@ import java.rmi.RemoteException;
 
 public class CinemaApplication extends Application {
 
-    @Override
-    public void start(Stage stage) throws Exception , NotBoundException, RemoteException {
-        ModelFactory modelFactory = new ModelFactory();
-        ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory);
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            ModelFactory modelFactory = new ModelFactory();
+            ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory);
 
-        // Create the ViewHandler and start the client application
-        ViewHandler viewHandler = new ViewHandler(viewModelFactory);
-        viewHandler.start();
+            // Create the ViewHandler and start the client application
+            ViewHandler viewHandler = new ViewHandler(viewModelFactory);
+            viewHandler.start();
+        }
 
-    }
+        public static void main(String[] args) {
+            launch(args);
+        }
 }
+

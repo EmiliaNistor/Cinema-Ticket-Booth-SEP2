@@ -7,19 +7,24 @@ module via.dk.cinema {
 
 
 
-    exports Util;
-    exports Model;
-    exports Model.server;
-    exports ViewModel;
-    opens ViewModel to javafx.fxml;
-    opens Util to javafx.fxml;
-    opens Model to javafx.fxml;
-    exports View.controllers;
-    opens View.controllers to javafx.fxml;
-    exports View;
-    opens View to javafx.fxml;
-    exports Model.client;
-    opens Model.client to javafx.fxml;
+
+    exports Shared.Model;
+
+    exports Client.ViewModel;
+    opens Client.ViewModel to javafx.fxml;
+    opens Shared.Model to javafx.fxml;
+    exports Client.View.controllers;
+    opens Client.View.controllers to javafx.fxml;
+    exports Client.View;
+    opens Client.View to javafx.fxml;
+    exports Shared.network;
+
+
+
+    exports Client.core;
+    opens Client.core to javafx.fxml;
+    exports Client.network;
+    opens Client.network to javafx.fxml;
 
 
 }

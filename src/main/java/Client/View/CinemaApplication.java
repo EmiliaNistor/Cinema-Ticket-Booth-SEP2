@@ -1,6 +1,8 @@
 package Client.View;
 
 import Client.core.ModelFactory;
+import Client.core.ViewHandler;
+import Client.core.ViewModelFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,18 +13,15 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public class CinemaApplication extends Application {
+
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(CinemaApplication.class.getResource("movieList.fxml"));
+    public void start(Stage stage) throws Exception , NotBoundException, RemoteException {
+        ModelFactory modelFactory = new ModelFactory();
+        ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory);
 
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
-    }
+        // Create the ViewHandler and start the client application
+        ViewHandler viewHandler = new ViewHandler(viewModelFactory);
+        viewHandler.start();
 
-    public static void main(String[] args) throws NotBoundException, RemoteException {
-        ModelFactory mf = new ModelFactory();
-        launch();
     }
 }

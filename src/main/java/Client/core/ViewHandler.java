@@ -1,6 +1,7 @@
 package Client.core;
 
 import Client.View.controllers.ViewController;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,9 +24,22 @@ public class ViewHandler {
     }
 
     public void start() {
-        stage = new Stage();
-        openMovieList();
+        Platform.runLater(() -> {
+            Stage primaryStage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(ViewHandler.class.getResource("/movieList.fxml"));
+
+            try {
+                Parent root = fxmlLoader.load();
+                Scene scene = new Scene(root, 1600, 800);
+                primaryStage.setTitle("Hello!");
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
+
 
     public void openMovieList() {
         try {

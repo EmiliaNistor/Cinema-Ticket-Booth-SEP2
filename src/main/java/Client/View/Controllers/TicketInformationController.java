@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
 public class TicketInformationController {
+    //will be used for later
+    //controller.init(this, viewModelFactory.makeMainViewModel());
 
     @FXML
     private void opnBackInfo(ActionEvent actionEvent) {

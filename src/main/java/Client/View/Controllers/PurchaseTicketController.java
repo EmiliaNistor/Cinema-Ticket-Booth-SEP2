@@ -1,7 +1,7 @@
 package Client.View.Controllers;
 
 import Client.Core.ViewModelFactory;
-import Client.ViewModel.purchaseTicketViewModel;
+import Client.ViewModel.PurchaseTicketViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,7 +29,7 @@ public class PurchaseTicketController {
     @FXML
     private Label moviePrice;
 
-    private purchaseTicketViewModel viewModel;
+    private PurchaseTicketViewModel viewModel;
     private ViewHandler viewHandler;
 
     public void init(ViewHandler viewHandler, ViewModelFactory vmf) {

@@ -3,7 +3,7 @@ package Client.ViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class purchaseTicketViewModel {
+public class PurchaseTicketViewModel {
 
     private StringProperty movieName;
     private StringProperty movieScreen;

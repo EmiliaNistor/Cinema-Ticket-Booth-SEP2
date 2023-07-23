@@ -1,6 +1,6 @@
 package Client.Network;
 
-import Shared.Model.TicketModel;
+import Client.Model.TicketModel;
 import Shared.Model.Ticket;
 import Shared.Network.IRMIClient;
 

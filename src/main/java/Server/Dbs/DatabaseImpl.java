@@ -1,5 +1,6 @@
 package Server.Dbs;
 
+import Client.Model.TicketModel;
 import Shared.Model.Movie;
 import Shared.Model.Seat;
 import Shared.Model.*;

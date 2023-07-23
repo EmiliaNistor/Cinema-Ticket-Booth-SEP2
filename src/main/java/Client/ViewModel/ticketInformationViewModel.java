@@ -1,4 +1,4 @@
 package Client.ViewModel;
 
-public class ticketInformationViewModel {
+public class TicketInformationViewModel {
 }

@@ -1,31 +1,31 @@
 package Client.Core;
 
 
-import Client.ViewModel.movieListViewModel;
-import Client.ViewModel.purchaseTicketViewModel;
-import Client.ViewModel.ticketInformationViewModel;
+import Client.ViewModel.MovieListViewModel;
+import Client.ViewModel.PurchaseTicketViewModel;
+import Client.ViewModel.TicketInformationViewModel;
 
 
 public class ViewModelFactory {
 
     private ModelFactory mf;
-    private Client.ViewModel.movieListViewModel movieListViewModel;
-    private Client.ViewModel.purchaseTicketViewModel purchaseTicketViewModel;
+    private MovieListViewModel movieListViewModel;
+    private PurchaseTicketViewModel purchaseTicketViewModel;
 
-    private Client.ViewModel.ticketInformationViewModel ticketInformationViewModel;
+    private TicketInformationViewModel ticketInformationViewModel;
     public ViewModelFactory(ModelFactory mf) {
         this.mf = mf;
-        movieListViewModel = new movieListViewModel();
-        purchaseTicketViewModel = new purchaseTicketViewModel();
-        ticketInformationViewModel = new ticketInformationViewModel();
+        movieListViewModel = new MovieListViewModel();
+        purchaseTicketViewModel = new PurchaseTicketViewModel();
+        ticketInformationViewModel = new TicketInformationViewModel();
     }
 
-    public movieListViewModel getMovieListViewModel() {
+    public MovieListViewModel getMovieListViewModel() {
         return movieListViewModel;
     }
 
-    public purchaseTicketViewModel getPurchaseTicketViewModel(){return purchaseTicketViewModel;}
+    public PurchaseTicketViewModel getPurchaseTicketViewModel(){return purchaseTicketViewModel;}
 
-    public ticketInformationViewModel getTicketInformationViewModel(){return ticketInformationViewModel;}
+    public TicketInformationViewModel getTicketInformationViewModel(){return ticketInformationViewModel;}
 
 }

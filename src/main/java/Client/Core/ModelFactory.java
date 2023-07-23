@@ -18,16 +18,12 @@ public class ModelFactory {
         // Setting up RMI
         Registry registry = LocateRegistry.getRegistry("localhost", 1099);
         // Getting server RMI Interface from registry
-        IRMIServer serverRMI = (IRMIServer) registry.lookup("ServerI");
+        IRMIServer serverRMI = (IRMIServer) registry.lookup("IRMIServer");
 
         // Creating models
 
         ticketModel = new TicketModel(serverRMI);
     }
-
-    /*public ServerI getServerRMI() {
-        return serverRMI;
-    }*/
 
     public ITicketModel getTicketModel() {
         return ticketModel;

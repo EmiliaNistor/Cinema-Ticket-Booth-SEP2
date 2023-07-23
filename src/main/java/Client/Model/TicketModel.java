@@ -1,10 +1,7 @@
 package Client.Model;
 
-
-
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import Client.Model.ITicketModel;
 
 import Shared.Model.Ticket;
 import Shared.Network.IRMIServer;

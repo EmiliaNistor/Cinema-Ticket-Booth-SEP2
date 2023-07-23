@@ -1,14 +1,14 @@
-package Client.View.controllers;
+package Client.View.Controllers;
 
-import Client.core.ViewModelFactory;
+import Client.Core.ViewModelFactory;
 import Client.ViewModel.purchaseTicketViewModel;
-import Client.core.ViewHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import Client.Core.ViewHandler;
 
 
-public class purchaseTicketController {
+public class PurchaseTicketController {
 
 
     @FXML

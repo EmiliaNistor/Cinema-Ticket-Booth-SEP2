@@ -1,4 +1,4 @@
-package Client.core;
+package Client.Core;
 
 
 import Client.ViewModel.movieListViewModel;

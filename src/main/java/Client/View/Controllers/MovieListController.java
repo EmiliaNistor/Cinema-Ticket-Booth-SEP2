@@ -1,14 +1,11 @@
-package Client.View.controllers;
+package Client.View.Controllers;
 
-import Client.core.ViewHandler;
-import Client.core.ViewModelFactory;
+import Client.Core.ViewHandler;
+import Client.Core.ViewModelFactory;
 import javafx.event.ActionEvent;
 
 //import junit testing libraries for assertions and annotations for test methods (e.g. @Test)
 
-import Shared.Model.Ticket;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

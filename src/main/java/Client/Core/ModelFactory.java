@@ -1,9 +1,9 @@
-package Client.core;
+package Client.Core;
 
 
 import Client.ViewModel.ITicketModel;
 import Shared.Model.TicketModel;
-import Shared.network.IRMIServer;
+import Shared.Network.IRMIServer;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

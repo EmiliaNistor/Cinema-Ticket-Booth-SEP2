@@ -1,4 +1,4 @@
-package Shared.network;
+package Shared.Network;
 
 import Shared.Model.Ticket;
 

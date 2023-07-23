@@ -1,10 +1,10 @@
-package Client.View.controllers;
+package Client.View.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
-public class ticketInformationController {
+public class TicketInformationController {
 
     @FXML
     private void opnBackInfo(ActionEvent actionEvent) {

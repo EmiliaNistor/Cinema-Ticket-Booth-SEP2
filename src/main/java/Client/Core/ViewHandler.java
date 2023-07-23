@@ -1,6 +1,6 @@
-package Client.core;
+package Client.Core;
 
-import Client.View.controllers.ViewController;
+import Client.View.Controllers.ViewController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,9 +1,8 @@
-package Client.network;
+package Client.Network;
 
-import Shared.Model.TicketModel;
+import Client.Model.TicketModel;
 import Shared.Model.Ticket;
-import Shared.network.IRMIClient;
-import Shared.network.IRMIServer;
+import Shared.Network.IRMIClient;
 
 import java.rmi.RemoteException;
 

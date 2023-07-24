@@ -1,4 +1,4 @@
-package Client.ViewModel;
+package Client.Model;
 
 import Shared.Model.Ticket;
 

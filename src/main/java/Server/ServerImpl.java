@@ -7,7 +7,7 @@ import Shared.Model.Menu;
 import Shared.Model.Movie;
 import Shared.Model.Ticket;
 import Server.Dbs.DatabaseUtil;
-import Shared.network.IRMIServer;
+import Shared.Network.IRMIServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

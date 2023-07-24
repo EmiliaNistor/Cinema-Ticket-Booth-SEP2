@@ -1,9 +1,9 @@
-package Client.core;
+package Client.Core;
 
 
-import Client.ViewModel.ITicketModel;
-import Shared.Model.TicketModel;
-import Shared.network.IRMIServer;
+import Client.Model.ITicketModel;
+import Client.Model.TicketModel;
+import Shared.Network.IRMIServer;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -18,16 +18,12 @@ public class ModelFactory {
         // Setting up RMI
         Registry registry = LocateRegistry.getRegistry("localhost", 1099);
         // Getting server RMI Interface from registry
-        IRMIServer serverRMI = (IRMIServer) registry.lookup("ServerI");
+        IRMIServer serverRMI = (IRMIServer) registry.lookup("IRMIServer");
 
         // Creating models
 
         ticketModel = new TicketModel(serverRMI);
     }
-
-    /*public ServerI getServerRMI() {
-        return serverRMI;
-    }*/
 
     public ITicketModel getTicketModel() {
         return ticketModel;

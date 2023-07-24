@@ -1,6 +1,6 @@
-package Client.core;
+package Client.Core;
 
-import Client.View.controllers.ViewController;
+import Client.View.Controllers.ViewController;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,7 +30,7 @@ public class ViewHandler {
 
             try {
                 Parent root = fxmlLoader.load();
-                Scene scene = new Scene(root, 1600, 800);
+                Scene scene = new Scene(root, 800, 600);
                 primaryStage.setTitle("Hello!");
                 primaryStage.setScene(scene);
                 primaryStage.show();

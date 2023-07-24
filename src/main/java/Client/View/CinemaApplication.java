@@ -1,16 +1,10 @@
 package Client.View;
 
-import Client.core.ModelFactory;
-import Client.core.ViewHandler;
-import Client.core.ViewModelFactory;
+import Client.Core.ModelFactory;
+import Client.Core.ViewHandler;
+import Client.Core.ViewModelFactory;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 public class CinemaApplication extends Application {
 

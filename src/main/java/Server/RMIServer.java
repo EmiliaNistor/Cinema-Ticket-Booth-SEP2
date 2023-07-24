@@ -12,7 +12,7 @@ public class RMIServer {
             Registry registry = LocateRegistry.createRegistry(1099);
 
             // Bind the remote object's stub in the registry
-            registry.rebind("ServerI", remoteImpl);
+            registry.rebind("IRMIServer", remoteImpl);
 
             System.out.println("RMI server is ready");
 

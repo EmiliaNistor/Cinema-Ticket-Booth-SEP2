@@ -1,12 +1,10 @@
-package Shared.Model;
-
-
+package Client.Model;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import Client.ViewModel.ITicketModel;
 
-import Shared.network.IRMIServer;
+import Shared.Model.Ticket;
+import Shared.Network.IRMIServer;
 
 public class TicketModel implements ITicketModel {
     private final HashMap<Integer, Ticket> tickets;

@@ -1,4 +1,4 @@
-package Shared.util;
+package Shared.Util;
 
 public interface Subject {
 }

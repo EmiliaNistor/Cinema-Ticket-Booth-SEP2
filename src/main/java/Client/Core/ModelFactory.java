@@ -12,7 +12,6 @@ import java.rmi.registry.Registry;
 
 public class ModelFactory {
     private final ITicketModel ticketModel;
-    //private final ServerI serverRMI;
 
     public ModelFactory() throws NotBoundException, RemoteException {
         // Setting up RMI
@@ -21,10 +20,13 @@ public class ModelFactory {
         IRMIServer serverRMI = (IRMIServer) registry.lookup("IRMIServer");
 
         // Creating models
-
         ticketModel = new TicketModel(serverRMI);
     }
 
+    /**
+     * Returns the interface with available methods related to tickets
+     * @return TicketModel interface
+     */
     public ITicketModel getTicketModel() {
         return ticketModel;
     }

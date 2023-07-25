@@ -1,18 +1,16 @@
 package Client.Core;
 
 
-import Client.ViewModel.CancelTicketViewModel;
-import Client.ViewModel.MovieListViewModel;
-import Client.ViewModel.PurchaseTicketViewModel;
-import Client.ViewModel.TicketInformationViewModel;
+import Client.ViewModel.*;
 
 
 public class ViewModelFactory {
-    private ModelFactory mf;
-    private MovieListViewModel movieListViewModel;
-    private PurchaseTicketViewModel purchaseTicketViewModel;
-    private TicketInformationViewModel ticketInformationViewModel;
-    private CancelTicketViewModel cancelTicketViewModel;
+    private final ModelFactory mf;
+    private final MovieListViewModel movieListViewModel;
+    private final PurchaseTicketViewModel purchaseTicketViewModel;
+    private final TicketInformationViewModel ticketInformationViewModel;
+    private final CancelTicketViewModel cancelTicketViewModel;
+    private final ViewTicketPopupViewModel viewTicketPopupViewModel;
 
     public ViewModelFactory(ModelFactory mf) {
         this.mf = mf;
@@ -20,6 +18,7 @@ public class ViewModelFactory {
         purchaseTicketViewModel = new PurchaseTicketViewModel();
         ticketInformationViewModel = new TicketInformationViewModel();
         cancelTicketViewModel = new CancelTicketViewModel(mf.getTicketModel());
+        viewTicketPopupViewModel = new ViewTicketPopupViewModel(mf.getTicketModel());
     }
 
     public MovieListViewModel getMovieListViewModel() {
@@ -30,4 +29,7 @@ public class ViewModelFactory {
 
     public TicketInformationViewModel getTicketInformationViewModel(){return ticketInformationViewModel;}
 
+    public ViewTicketPopupViewModel getViewTicketPopupViewModel() {
+        return viewTicketPopupViewModel;
+    }
 }

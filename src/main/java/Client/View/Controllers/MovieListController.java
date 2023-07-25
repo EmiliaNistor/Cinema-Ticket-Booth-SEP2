@@ -16,7 +16,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MovieListController implements ViewController {
+public class MovieListController {
+    private ViewHandler vh;
+
     @FXML
     private Button ticketInfoButton;
 
@@ -32,8 +34,12 @@ public class MovieListController implements ViewController {
             Stage popupStage = new Stage();
             popupStage.setTitle("Ticket Information");
             popupStage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
-            Scene scene = new Scene(root);
 
+            // set up controller's internal values
+            TicketInformationPopupController controller = fxmlLoader.getController();
+            controller.init(vh.getViewTicketPopupViewModel(), popupStage);
+
+            Scene scene = new Scene(root);
             popupStage.setScene(scene);
             popupStage.show();
         } catch (IOException e) {
@@ -41,8 +47,8 @@ public class MovieListController implements ViewController {
         }
     }
 
-    @Override
-    public void init(ViewHandler vh, ViewModelFactory vmf) {
+    public void init(ViewHandler vh) {
+        this.vh = vh;
         System.out.println("MovieListController init");
     }
 }

@@ -9,12 +9,12 @@
 
 <VBox prefHeight="242.0" prefWidth="419.0" spacing="7.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.Controllers.CancelTicketController">
   <children>
-  <Label fx:id="cancelTicketTitleText" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="378.0" style="&#10;" text="Cancel ticket [82175182515]" textAlignment="CENTER" wrapText="false">
+  <Label fx:id="titleText" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="378.0" style="&#10;" text="Cancel ticket [82175182515]" textAlignment="CENTER" wrapText="false">
     <font>
-      <Font size="22.0" />
+      <Font name="System Bold" size="22.0" />
     </font>
   </Label>
-      <Label fx:id="cancelTicketInfoText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefWidth="445.0" text="Are you sure you want to cancel ticket for movie [Barbenheimer: Return of Ken's Atomic Bomb]?" textAlignment="JUSTIFY" wrapText="true">
+      <Label fx:id="infoText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefWidth="445.0" text="Are you sure you want to cancel ticket for movie [Barbenheimer: Return of Ken's Atomic Bomb]?" textAlignment="JUSTIFY" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
@@ -26,7 +26,7 @@
       </Label>
       <AnchorPane prefHeight="0.0" prefWidth="370.0">
          <children>
-            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#cancelTicketCancelAction" prefHeight="28.0" prefWidth="104.0" text="Cancel" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+            <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#cancel" prefHeight="28.0" prefWidth="104.0" text="Cancel" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -34,7 +34,7 @@
                   <Insets bottom="-15.0" top="-15.0" />
                </padding>
             </Button>
-            <Button layoutX="266.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#cancelTicketConfirmAction" prefHeight="28.0" prefWidth="104.0" text="Confirm" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+            <Button defaultButton="true" layoutX="266.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#confirm" prefHeight="28.0" prefWidth="104.0" text="Confirm" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
                <font>
                   <Font size="18.0" />
                </font>

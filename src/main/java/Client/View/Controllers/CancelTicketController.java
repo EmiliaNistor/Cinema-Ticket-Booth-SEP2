@@ -9,9 +9,9 @@ import javafx.stage.Stage;
 
 public class CancelTicketController {
     @FXML
-    private Label cancelTicketTitleText;
+    private Label titleText;
     @FXML
-    private Label cancelTicketInfoText;
+    private Label infoText;
 
     /**
      * Controller's view model
@@ -31,7 +31,7 @@ public class CancelTicketController {
      * @param actionEvent Click's action event
      */
     @FXML
-    private void cancelTicketCancelAction(ActionEvent actionEvent) {
+    private void cancel(ActionEvent actionEvent) {
         // Close cancel ticket controller window
         window.close();
     }
@@ -41,7 +41,7 @@ public class CancelTicketController {
      * @param actionEvent Click's action event
      */
     @FXML
-    private void cancelTicketConfirmAction(ActionEvent actionEvent) {
+    private void confirm(ActionEvent actionEvent) {
         viewModel.confirmTicketCancellation(ticket);
         window.close();
     }
@@ -56,10 +56,10 @@ public class CancelTicketController {
         this.viewModel = viewModel;
         this.ticket = ticket;
         this.window = stage;
-        cancelTicketTitleText.setText(
+        titleText.setText(
                 String.format("Cancel ticket [%d]", ticket.getId())
         );
-        cancelTicketInfoText.setText(
+        infoText.setText(
                 String.format("Are you sure you want to cancel ticket for movie [%s]?",
                         ticket.getMovie().getName())
         );

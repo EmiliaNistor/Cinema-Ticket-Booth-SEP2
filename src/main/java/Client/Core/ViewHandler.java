@@ -1,6 +1,9 @@
 package Client.Core;
 
+import Client.View.Controllers.MovieListController;
+import Client.View.Controllers.TicketInformationPopupController;
 import Client.View.Controllers.ViewController;
+import Client.ViewModel.ViewTicketPopupViewModel;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,6 +35,11 @@ public class ViewHandler {
                 Parent root = fxmlLoader.load();
                 Scene scene = new Scene(root, 800, 600);
                 primaryStage.setTitle("Hello!");
+
+                // set up controller's internal values
+                MovieListController controller = fxmlLoader.getController();
+                controller.init(this);
+
                 primaryStage.setScene(scene);
                 primaryStage.show();
             } catch (IOException e) {
@@ -40,6 +48,9 @@ public class ViewHandler {
         });
     }
 
+    public ViewTicketPopupViewModel getViewTicketPopupViewModel() {
+        return vmf.getViewTicketPopupViewModel();
+    }
 
     public void openMovieList() {
         try {

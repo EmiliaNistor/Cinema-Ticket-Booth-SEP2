@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView prefHeight="317.0" prefWidth="525.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+   <columns>
+      <TableColumn prefWidth="145.60003358125687" text="Movie" />
+      <TableColumn prefWidth="108.80000305175781" text="Genre" />
+      <TableColumn prefWidth="96.800048828125" text="Length" />
+      <TableColumn prefWidth="96.800048828125" text="Date" />
+      <TableColumn prefWidth="75.20000000000005" text="Buy" />
+   </columns>
+</TableView>

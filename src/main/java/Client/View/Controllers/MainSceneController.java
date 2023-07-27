@@ -1,13 +1,11 @@
 package Client.View.Controllers;
 
-import Client.ViewModel.IMainSceneViewModel;
+import Client.Core.ViewHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 public class MainSceneController {
     // Sidebar buttons
@@ -43,29 +41,26 @@ public class MainSceneController {
      */
     @FXML
     private AnchorPane selectedSubsceneParent;
-    /**
-     * Subscene to display
-     */
-    @FXML
-    private SubScene selectedSubscene;
 
     // Controller related stuff
     /**
      * Main scene controller stage (window)
      */
-    private Stage window;
+    private ViewHandler viewHandler;
     /**
      * Controller's view model
      */
-    private IMainSceneViewModel viewModel;
+    //private IMainSceneViewModel viewModel;
 
     /**
      * Sets the base information about the controller
-     * @param viewModel The controller's view model
-     * @param stage The controller's stage (window)
+     * @param viewHandler View Handler to manage the program's scenes
      */
-    public void init(IMainSceneViewModel viewModel, Stage stage) {
-        this.window = stage;
+    public void init(ViewHandler viewHandler) {
+        this.viewHandler = viewHandler;
+
+        // setting default scene to movies
+        viewMovies(null);
     }
 
     @FXML
@@ -75,7 +70,21 @@ public class MainSceneController {
 
     @FXML
     private void viewMovies(ActionEvent actionEvent) {
+        // setting movie button to blue color
+        moviesButton.setDefaultButton(true);
+        /*selectedSubscene.setRoot(
+                viewHandler.getMovieListScene()
+        );*/
+        var movieList = viewHandler.getMovieList();
+        selectedSubsceneParent.getChildren().setAll(movieList);
+        // auto resizing
+        //movieList.prefWidthProperty().bind(mainContent.widthProperty());
+        //movieList.prefHeightProperty().bind(mainContent.heightProperty());
 
+        // setting other buttons to default color
+        ticketInfoButton.setDefaultButton(false);
+        editMoviesButton.setDefaultButton(false);
+        menusButton.setDefaultButton(false);
     }
 
     @FXML

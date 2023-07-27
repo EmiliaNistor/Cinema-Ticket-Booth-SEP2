@@ -3,12 +3,11 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView prefHeight="317.0" prefWidth="525.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1">
+<TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="284.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.Controllers.MovieListController">
    <columns>
       <TableColumn prefWidth="145.60003358125687" text="Movie" />
       <TableColumn prefWidth="108.80000305175781" text="Genre" />
       <TableColumn prefWidth="96.800048828125" text="Length" />
       <TableColumn prefWidth="96.800048828125" text="Date" />
-      <TableColumn prefWidth="75.20000000000005" text="Buy" />
    </columns>
 </TableView>

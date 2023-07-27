@@ -1,8 +1,10 @@
 package Client.Core;
 
-import Client.View.Controllers.ViewController;
+import Client.View.Controllers.MainSceneController;
+import Client.View.Controllers.MovieListController;
+import Client.View.Controllers.TicketInformationPopupController;
+import Client.ViewModel.IMovieListViewModel;
 import Client.ViewModel.ViewTicketPopupViewModel;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,23 +14,134 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ViewHandler {
+    /**
+     * Used to access view models necessary for controller initialization
+     */
+    private final ViewModelFactory viewModelFactory;
 
-    private Scene movieList;
-
-    private Stage stage;
-
-    private ViewModelFactory vmf;
+    // Scene related stuff
+    private final Stage mainWindow;
+    private final Parent movieList;
     private Scene purchaseTicketScene;
     private Scene ticketInfoScene;
 
-    public ViewHandler(ViewModelFactory vmf) {
-        this.vmf = vmf;
+    public ViewHandler(ViewModelFactory viewModelFactory) {
+        this.viewModelFactory = viewModelFactory;
+
+        // Creating default scenes
+        this.movieList = createMovieList();
+
+        this.mainWindow = createMainWindow();
+        mainWindow.show();
     }
 
-    public void start() {
+    /**
+     * Creates a window used to display the main contents of the application
+     * @return Main window of the application
+     */
+    private Stage createMainWindow() {
+        try {
+            // Create a new stage for the window
+            Stage stage = new Stage();
+            stage.setTitle("Cinema Ticket Booth");
+            stage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
+
+            // Create the scene from the window's fxml
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mainScene.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+
+            // Initializing values for the scene's controller
+            MainSceneController controller = fxmlLoader.getController();
+            controller.init(this);
+
+            stage.setScene(scene);
+            return stage;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Create a new View Ticket Information Popup window
+     * @return The window's stage
+     */
+    public Stage createViewTicketPopup() {
+        try {
+            // Create a new stage for the window
+            Stage stage = new Stage();
+            stage.setTitle("View Ticket Information");
+            stage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
+
+            // Create the scene from the window's fxml
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ticketInformationPopUp.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+
+            // Initializing values for the scene's controller
+            TicketInformationPopupController controller = fxmlLoader.getController();
+            controller.init(viewModelFactory.getViewTicketPopupViewModel(), stage);
+
+            stage.setScene(scene);
+            return stage;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Returns the movie list scene
+     * @return Movie list scene
+     */
+    public Parent getMovieList() {
+        return movieList;
+    }
+
+    /**
+     * Creates a new movie list scene
+     * @return Movie list scene
+     */
+    private Parent createMovieList() {
+        try {
+            // Create the scene from the window's fxml
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/movieList.fxml"));
+            Parent root = fxmlLoader.load();
+            //Scene scene = new Scene(root);
+
+            // Initializing values for the scene's controller
+            MovieListController controller = fxmlLoader.getController();
+            controller.init(this, viewModelFactory.getMovieListViewModel());
+
+            return root;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /*private Scene createMovieList() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mainScene.fxml"));
+            Parent root = fxmlLoader.load();
+
+            // Create a new stage for the window
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Cinema Ticket Booth");
+            popupStage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
+            Scene scene = new Scene(root);
+
+            //fxmlLoader.getController();
+            popupStage.setScene(scene);
+            popupStage.show();
+        } catch (IOException e) {
+
+        }
+    }*/
+
+    /*public void start() {
         Platform.runLater(() -> {
-            /*Stage primaryStage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(ViewHandler.class.getResource("/mainScene.fxml"));*/
 
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mainScene.fxml"));
@@ -43,28 +156,17 @@ public class ViewHandler {
                 //fxmlLoader.getController();
                 popupStage.setScene(scene);
                 popupStage.show();
-
-                /*Parent root = fxmlLoader.load();
-                Scene scene = new Scene(root, 800, 600);
-                primaryStage.setTitle("Hello!");
-
-                // set up controller's internal values
-                MovieListController controller = fxmlLoader.getController();
-                //controller.init(this);
-
-                primaryStage.setScene(scene);
-                primaryStage.show();*/
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-    }
+    }*/
 
     public ViewTicketPopupViewModel getViewTicketPopupViewModel() {
-        return vmf.getViewTicketPopupViewModel();
+        return viewModelFactory.getViewTicketPopupViewModel();
     }
 
-    public void openMovieList() {
+    /*public void openMovieList() {
         try {
             Parent root = loadFXML("/OLDmovieList.fxml");
 
@@ -75,10 +177,9 @@ public class ViewHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }*/
 
-    }
-
-    public void openPurchaseWindow() {
+    /*public void openPurchaseWindow() {
         try {
             Parent root = loadFXML("/purchaseTicket.fxml");
 
@@ -90,9 +191,9 @@ public class ViewHandler {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
-    public void openTicketInformation() {
+    /*public void openTicketInformation() {
         try {
             Parent root = loadFXML("/ticketInformation.fxml");
 
@@ -104,9 +205,9 @@ public class ViewHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    public Parent loadFXML(String path) throws IOException {
+    /*public Parent loadFXML(String path) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(path));
         Parent root = loader.load();
@@ -114,5 +215,5 @@ public class ViewHandler {
         ViewController ctrl = loader.getController();
         ctrl.init(this, vmf);
         return root;
-    }
+    }*/
 }

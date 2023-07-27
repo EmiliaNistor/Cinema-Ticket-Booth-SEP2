@@ -52,7 +52,7 @@ public class PurchaseTicketController {
         String selectedHour = "";
         String ticketPrice = viewModel.getMoviePrice();
 
-        viewHandler.openTicketInformation();
+        //viewHandler.openTicketInformation();
     }
 
 

@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MovieListViewModel {
+public class MovieListViewModel implements IMovieListViewModel {
     private ObservableList<Movie> movieList = FXCollections.observableArrayList();
 
     public void initialize() {

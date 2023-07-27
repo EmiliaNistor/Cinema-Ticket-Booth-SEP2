@@ -50,14 +50,6 @@
                         <Insets bottom="-15.0" top="-15.0" />
                      </padding>
                   </Button>
-                  <Button fx:id="editMoviesButton" layoutX="10.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#editMovies" prefHeight="24.0" prefWidth="135.0" text="Edit Movies" visible="false">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="-15.0" top="-15.0" />
-                     </padding>
-                  </Button>
                   <Button fx:id="menusButton" layoutX="10.0" layoutY="68.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#manageMenus" prefHeight="24.0" prefWidth="135.0" text="Menus" visible="false">
                      <font>
                         <Font size="16.0" />

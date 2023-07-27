@@ -3,6 +3,7 @@ package Client.View.Controllers;
 import Client.Core.ViewHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -24,11 +25,6 @@ public class MainSceneController {
      */
     @FXML
     private Button ticketInfoButton;
-    /**
-     * Add or modify information about a movie
-     */
-    @FXML
-    private Button editMoviesButton;
     /**
      * Modify information about a menu
      */
@@ -78,22 +74,18 @@ public class MainSceneController {
         var movieList = viewHandler.getMovieList();
         selectedSubsceneParent.getChildren().setAll(movieList);
         // auto resizing
-        //movieList.prefWidthProperty().bind(mainContent.widthProperty());
-        //movieList.prefHeightProperty().bind(mainContent.heightProperty());
+        AnchorPane.setTopAnchor(movieList, 0.0);
+        AnchorPane.setRightAnchor(movieList, 0.0);
+        AnchorPane.setLeftAnchor(movieList, 0.0);
+        AnchorPane.setBottomAnchor(movieList, 0.0);
 
         // setting other buttons to default color
         ticketInfoButton.setDefaultButton(false);
-        editMoviesButton.setDefaultButton(false);
         menusButton.setDefaultButton(false);
     }
 
     @FXML
     private void viewTicketInfo(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
-    private void editMovies(ActionEvent actionEvent) {
 
     }
 

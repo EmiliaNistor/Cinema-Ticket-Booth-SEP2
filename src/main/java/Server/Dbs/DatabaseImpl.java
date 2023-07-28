@@ -88,7 +88,9 @@ public class DatabaseImpl implements Database {
                 int length = resultSet.getInt("length");
                 String genre = resultSet.getString("genre");
 
+
                 Movie movie = new Movie(movieId,name,date,genre,length);
+
 
                 ArrayList<Seat> seats = new ArrayList<>();
                 int screenId = resultSet.getInt("screenId");

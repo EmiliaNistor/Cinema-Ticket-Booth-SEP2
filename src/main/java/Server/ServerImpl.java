@@ -13,6 +13,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
     private ArrayList<Ticket> tickets;
@@ -67,7 +68,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
 
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM movies")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM sep2reexam_database.movie")) {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -78,8 +79,11 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
                 int length = resultSet.getInt("length");
                 //screen name
                 String screen = resultSet.getString("screen");
+                Date date = resultSet.getDate("date");
+
 
                 Movie movie = new Movie(id, name, date, genre, length);
+
                 movies.add(movie);
             }
         } catch (SQLException e) {

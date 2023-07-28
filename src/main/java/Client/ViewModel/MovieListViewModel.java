@@ -1,5 +1,7 @@
 package Client.ViewModel;
 
+import Client.Model.IMovieListModel;
+import Client.Model.MovieListModel;
 import Shared.Model.Movie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,8 +12,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MovieListViewModel implements IMovieListViewModel {
-    private ObservableList<Movie> movieList = FXCollections.observableArrayList();
+public class MovieListViewModel implements IMovieListViewModel
+{
+    private IMovieListModel movieListModel;
+    private ObservableList<Movie> movieList;
+
 
     public void initialize() {
         List<Movie> movieData = Arrays.asList(
@@ -21,9 +26,24 @@ public class MovieListViewModel implements IMovieListViewModel {
         );
 
         movieList.addAll(movieData);
+
+    public MovieListViewModel(IMovieListModel movieListModel)
+    {
+        this.movieListModel = movieListModel;
+        this.movieList = FXCollections.observableArrayList();;
+
     }
 
-    public ObservableList<Movie> getMovieList() {
+
+    @Override
+    public ObservableList<Movie> getMovieList()
+    {
+        //return movieListModel.getAllMovies();
+        // Updating the movie list array
+        movieList = FXCollections.observableArrayList(
+                movieListModel.getAllMovies()
+        );
+
         return movieList;
     }
 

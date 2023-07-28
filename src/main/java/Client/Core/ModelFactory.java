@@ -1,7 +1,9 @@
 package Client.Core;
 
 
+import Client.Model.IMovieListModel;
 import Client.Model.ITicketModel;
+import Client.Model.MovieListModel;
 import Client.Model.TicketModel;
 import Shared.Network.IRMIServer;
 
@@ -12,6 +14,7 @@ import java.rmi.registry.Registry;
 
 public class ModelFactory {
     private final ITicketModel ticketModel;
+    private  final  IMovieListModel movieListModel;
 
     public ModelFactory() throws NotBoundException, RemoteException {
         // Setting up RMI
@@ -21,6 +24,9 @@ public class ModelFactory {
 
         // Creating models
         ticketModel = new TicketModel(serverRMI);
+        movieListModel = new MovieListModel(serverRMI);
+
+
     }
 
     /**
@@ -30,4 +36,8 @@ public class ModelFactory {
     public ITicketModel getTicketModel() {
         return ticketModel;
     }
+    public IMovieListModel getMovieListModel() {
+        return movieListModel;
+    }
+
 }

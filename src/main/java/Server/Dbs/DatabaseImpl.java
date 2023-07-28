@@ -54,28 +54,17 @@ public class DatabaseImpl implements Database {
             if (resultSet.next()) {
                int id = resultSet.getInt("id");
 
-                int seatId = resultSet.getInt("seat_id");
                 int seatRow = resultSet.getInt("row");
                 int seatNumber = resultSet.getInt("number");
                 Seat seat = new Seat(seatRow, seatNumber);
 
                 int movieId = resultSet.getInt("movie_id");
                 String name = resultSet.getString("name");
-
                 Date date = resultSet.getDate("date");
                 int length = resultSet.getInt("length");
                 String genre = resultSet.getString("genre");
 
-                Movie movie = new Movie(id,name,genre,length);
-
-                String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                User user = new User(username, password);
-
-                String food = resultSet.getString("food");
-                double price = resultSet.getDouble("price");
-                Menu menu = new Menu(id,food, price);
-
+                Movie movie = new Movie(movieId,name,date,genre,length);
 
                 ArrayList<Seat> seats = new ArrayList<>();
 

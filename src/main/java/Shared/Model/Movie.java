@@ -1,19 +1,24 @@
 package Shared.Model;
 
 
+import java.io.Serializable;
+import java.util.Date;
+import java.time.LocalDate;
 
-public class Movie {
+public class Movie implements Serializable
+{
     private final int movieId;
     private String name;
     private int length;
     private String genre;
+    private Date date;
 
-
-    public Movie(int movieId, String name, String genre, int length) {
+    public Movie(int movieId, String name, String genre, int length, Date date){
         this.movieId = movieId;
         this.name = name;
         this.length = length;
         this.genre = genre;
+        this.date = date;
 
 
     }
@@ -43,6 +48,21 @@ public class Movie {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+    public Date getDate() {
+        return date;
+    }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-
+    @Override
+    public String toString()
+    {
+        return "Movie{" +
+                "movieId=" + movieId +
+                ", name='" + name + '\'' +
+                ", length=" + length +
+                ", genre='" + genre + '\'' +
+                '}';
+    }
 }

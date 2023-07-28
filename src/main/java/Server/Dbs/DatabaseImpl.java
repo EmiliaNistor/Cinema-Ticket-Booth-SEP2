@@ -66,7 +66,7 @@ public class DatabaseImpl implements Database {
                 int length = resultSet.getInt("length");
                 String genre = resultSet.getString("genre");
 
-                Movie movie = new Movie(id,name,genre,length);
+                Movie movie = new Movie(id,name,genre,length,date);
 
                 String username = resultSet.getString("username");
                 String password = resultSet.getString("password");

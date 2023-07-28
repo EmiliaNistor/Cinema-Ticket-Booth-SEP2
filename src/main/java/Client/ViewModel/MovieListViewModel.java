@@ -1,5 +1,7 @@
 package Client.ViewModel;
 
+import Client.Model.IMovieListModel;
+import Client.Model.MovieListModel;
 import Shared.Model.Movie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,21 +9,30 @@ import javafx.collections.ObservableList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MovieListViewModel implements IMovieListViewModel {
-    private ObservableList<Movie> movieList = FXCollections.observableArrayList();
+public class MovieListViewModel implements IMovieListViewModel
+{
+    private IMovieListModel movieListModel;
 
-    public void initialize() {
-        List<Movie> movieData = Arrays.asList(
-                new Movie(1, "Genre 1", "horror", 1),
-                new Movie(2, "Genre 2", "funi", 2),
-                new Movie(3, "Genre 3", "action", 1)
-        );
-
-        movieList.addAll(movieData);
+    public MovieListViewModel(IMovieListModel movieListModel)
+    {
+        this.movieListModel = movieListModel;
     }
 
-    public ObservableList<Movie> getMovieList() {
-        return movieList;
+//    public void initialize()
+//    {
+//        List<Movie> movieData = Arrays.asList(
+//                new Movie(1, "Genre 1", "horror", 1),
+//                new Movie(2, "Genre 2", "funi", 2),
+//                new Movie(3, "Genre 3", "action", 1)
+//        );
+//
+//        movieList.addAll(movieData);
+//    }
+
+    @Override
+    public ObservableList<Movie> getMovieList()
+    {
+        return movieListModel.getAllMovies();
     }
 
 

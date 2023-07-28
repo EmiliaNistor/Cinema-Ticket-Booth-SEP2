@@ -7,6 +7,7 @@ import Shared.Model.*;
 
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DatabaseImpl implements Database {
@@ -83,7 +84,7 @@ public class DatabaseImpl implements Database {
 
                 int movieId = resultSet.getInt("movie_id");
                 String name = resultSet.getString("name");
-                Date date = resultSet.getDate("date");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
                 int length = resultSet.getInt("length");
                 String genre = resultSet.getString("genre");
 

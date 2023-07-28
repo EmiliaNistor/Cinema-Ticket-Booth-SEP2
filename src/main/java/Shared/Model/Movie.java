@@ -1,17 +1,18 @@
 package Shared.Model;
 
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Movie {
     private final int movieId;
     private String name;
-    private Date date;
+    private LocalDate date;
     private int length;
     private String genre;
 
 
-    public Movie(int movieId, String name, Date date, String genre, int length) {
+    public Movie(int movieId, String name, LocalDate date, String genre, int length) {
         this.movieId = movieId;
         this.date = date;
         this.name = name;
@@ -31,11 +32,11 @@ public class Movie {
         this.name = name;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

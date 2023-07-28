@@ -40,6 +40,10 @@ public class Ticket {
         return movie;
     }
 
+    public Screen getScreen() {
+        return screen;
+    }
+
     public ArrayList<Menu> getMenus() {
         return menus;
     }

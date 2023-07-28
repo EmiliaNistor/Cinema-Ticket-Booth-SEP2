@@ -16,6 +16,27 @@ public class DatabaseImpl implements Database {
         connection = DatabaseUtil.getConnection();
     }
 
+    public int getSeatId(int screen, String row, int number)
+    {
+        String query = "SELECT id" +
+                "FROM seat" +
+                "WHERE screen_id = ? AND row = ? AND number = number" +
+                "LIMIT 1";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, screen);
+            preparedStatement.setString(2, row);
+            preparedStatement.setInt(3, number);
+            ResultSet results = preparedStatement.executeQuery();
+            if(results.next()) {
+                return results.getInt("id");
+            }
+            return -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
     //buy ticket
     public void makePurchase(Ticket ticket, Seat seat, Movie movie) {
         try {
@@ -23,8 +44,7 @@ public class DatabaseImpl implements Database {
             String query = "INSERT INTO ticket VALUES (?, ?, ?)";
             PreparedStatement s = connection.prepareStatement(query);
 
-            String seatId = seat.getRow() + "-" + seat.getNumber();
-            s.setString(1, seatId);
+            s.setInt(1, getSeatId(ticket.getScreen().getScreenId(),seat.getRow(), seat.getNumber()));
             s.setString(2, movie.getName());
             s.setString(3, String.valueOf(TicketModel.getMenu()));
             s.executeUpdate(); // inserting the row into the database
@@ -57,7 +77,7 @@ public class DatabaseImpl implements Database {
             if (resultSet.next()) {
                int id = resultSet.getInt("id");
 
-                int seatRow = resultSet.getInt("row");
+                String seatRow = resultSet.getString("row");
                 int seatNumber = resultSet.getInt("number");
                 Seat seat = new Seat(seatRow, seatNumber);
 
@@ -70,8 +90,9 @@ public class DatabaseImpl implements Database {
                 Movie movie = new Movie(movieId,name,date,genre,length);
 
                 ArrayList<Seat> seats = new ArrayList<>();
+                int screenId = resultSet.getInt("screenId");
 
-                Screen screen = new Screen(seats);
+                Screen screen = new Screen(seats, screenId);
 
                 return new Ticket(id, seat, movie,screen);
             }

@@ -1,10 +1,14 @@
 package Client.Model;
 
 import Shared.Model.Movie;
-import javafx.collections.ObservableList;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface IMovieListModel
-{  public ObservableList<Movie> getAllMovies();
+{
+    /**
+     * Gets all the movies
+     * @return A list of movies
+     */
+    ArrayList<Movie> getAllMovies();
 }

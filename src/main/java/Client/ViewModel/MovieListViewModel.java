@@ -12,10 +12,12 @@ import java.util.List;
 public class MovieListViewModel implements IMovieListViewModel
 {
     private IMovieListModel movieListModel;
+    private ObservableList<Movie> movieList;
 
     public MovieListViewModel(IMovieListModel movieListModel)
     {
         this.movieListModel = movieListModel;
+        this.movieList = FXCollections.observableArrayList();;
     }
 
 //    public void initialize()
@@ -32,7 +34,13 @@ public class MovieListViewModel implements IMovieListViewModel
     @Override
     public ObservableList<Movie> getMovieList()
     {
-        return movieListModel.getAllMovies();
+        //return movieListModel.getAllMovies();
+        // Updating the movie list array
+        movieList = FXCollections.observableArrayList(
+                movieListModel.getAllMovies()
+        );
+
+        return movieList;
     }
 
 

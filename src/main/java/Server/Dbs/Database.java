@@ -7,4 +7,5 @@ import Shared.Model.Ticket;
 public interface Database {
      void makePurchase(Ticket ticket, Seat seat, Movie movie);
      Ticket getTicket(int ticketId);
+     void cancelTicket(int ticketId);
 }

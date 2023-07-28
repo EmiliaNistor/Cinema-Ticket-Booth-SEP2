@@ -11,12 +11,8 @@ import Shared.Network.IRMIServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
     private ArrayList<Ticket> tickets;
@@ -76,14 +72,16 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
+                Date date = resultSet.getDate("date");
                 String genre = resultSet.getString("genre");
                 //length
                 int length = resultSet.getInt("length");
                 //screen name
                 String screen = resultSet.getString("screen");
-                Date date = resultSet.getDate("date");
 
-                Movie movie = new Movie(id, name, genre, length,date);
+
+                Movie movie = new Movie(id, name, date.toLocalDate(), genre, length);
+
                 movies.add(movie);
             }
         } catch (SQLException e) {

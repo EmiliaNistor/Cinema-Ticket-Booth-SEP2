@@ -16,6 +16,7 @@ public class DatabaseImpl implements Database {
         connection = DatabaseUtil.getConnection();
     }
 
+    //buy ticket
     public void makePurchase(Ticket ticket, Seat seat, Movie movie) {
         try {
             // provides query with placeholders for the values.
@@ -35,6 +36,8 @@ public class DatabaseImpl implements Database {
             System.exit(0);
         }
     }
+
+    //view ticket info
     public Ticket getTicket(int ticketId)
     {
         try {
@@ -77,6 +80,29 @@ public class DatabaseImpl implements Database {
         }
 
         return null;
+    }
+
+    //cancel ticket
+    public void cancelTicket(int ticketId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM ticket WHERE id = ?");
+            // assigning value of the ticketId in the prepared statement
+            preparedStatement.setInt(1, ticketId);
+            //executing SQL query  and storing number of rows affected by the query in  rowsAffected
+            int rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.close();
+            // committing changes to db
+            connection.commit();
+
+            if (rowsAffected > 0) {
+                System.out.println("Ticket " + ticketId + " was cancelled successfully.");
+            } else {
+                System.out.println("Ticket " + ticketId + " not found.");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
     }
 
 }

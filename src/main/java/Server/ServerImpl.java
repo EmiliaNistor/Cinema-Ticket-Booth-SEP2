@@ -13,7 +13,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
     private ArrayList<Ticket> tickets;
@@ -79,10 +78,9 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
                 int length = resultSet.getInt("length");
                 //screen name
                 String screen = resultSet.getString("screen");
-                Date date = resultSet.getDate("date");
 
 
-                Movie movie = new Movie(id, name, date, genre, length);
+                Movie movie = new Movie(id, name, date.toLocalDate(), genre, length);
 
                 movies.add(movie);
             }

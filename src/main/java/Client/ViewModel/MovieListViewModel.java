@@ -18,14 +18,6 @@ public class MovieListViewModel implements IMovieListViewModel
     private ObservableList<Movie> movieList;
 
 
-    public void initialize() {
-        List<Movie> movieData = Arrays.asList(
-                new Movie(1, "Genre 1", LocalDate.of(2023, 7, 28), "horror", 1),
-                new Movie(2, "Genre 2", LocalDate.of(2023, 7, 29), "funi", 2),
-                new Movie(3, "Genre 3", LocalDate.of(2023, 7, 30),"action", 1)
-        );
-
-        movieList.addAll(movieData);
 
     public MovieListViewModel(IMovieListModel movieListModel)
     {

@@ -11,10 +11,7 @@ import Shared.Network.IRMIServer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
@@ -70,18 +67,21 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
 
         try (Connection connection = DatabaseUtil.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM movies")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM sep2reexam_database.movie")) {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
+                Date date = resultSet.getDate("date");
                 String genre = resultSet.getString("genre");
                 //length
                 int length = resultSet.getInt("length");
                 //screen name
                 String screen = resultSet.getString("screen");
 
-                Movie movie = new Movie(id, name, genre, length);
+
+                Movie movie = new Movie(id, name, date.toLocalDate(), genre, length);
+
                 movies.add(movie);
             }
         } catch (SQLException e) {

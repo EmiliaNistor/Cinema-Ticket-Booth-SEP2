@@ -7,6 +7,7 @@ import Shared.Model.*;
 
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DatabaseImpl implements Database {
@@ -16,14 +17,35 @@ public class DatabaseImpl implements Database {
         connection = DatabaseUtil.getConnection();
     }
 
+    public int getSeatId(int screen, String row, int number)
+    {
+        String query = "SELECT id" +
+                "FROM seat" +
+                "WHERE screen_id = ? AND row = ? AND number = number" +
+                "LIMIT 1";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, screen);
+            preparedStatement.setString(2, row);
+            preparedStatement.setInt(3, number);
+            ResultSet results = preparedStatement.executeQuery();
+            if(results.next()) {
+                return results.getInt("id");
+            }
+            return -1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+    //buy ticket
     public void makePurchase(Ticket ticket, Seat seat, Movie movie) {
         try {
             // provides query with placeholders for the values.
             String query = "INSERT INTO ticket VALUES (?, ?, ?)";
             PreparedStatement s = connection.prepareStatement(query);
 
-            String seatId = seat.getRow() + "-" + seat.getNumber();
-            s.setString(1, seatId);
+            s.setInt(1, getSeatId(ticket.getScreen().getScreenId(),seat.getRow(), seat.getNumber()));
             s.setString(2, movie.getName());
             s.setString(3, String.valueOf(TicketModel.getMenu()));
             s.executeUpdate(); // inserting the row into the database
@@ -35,6 +57,8 @@ public class DatabaseImpl implements Database {
             System.exit(0);
         }
     }
+
+    //view ticket info
     public Ticket getTicket(int ticketId)
     {
         try {
@@ -54,32 +78,24 @@ public class DatabaseImpl implements Database {
             if (resultSet.next()) {
                int id = resultSet.getInt("id");
 
-                int seatId = resultSet.getInt("seat_id");
-                int seatRow = resultSet.getInt("row");
+                String seatRow = resultSet.getString("row");
                 int seatNumber = resultSet.getInt("number");
                 Seat seat = new Seat(seatRow, seatNumber);
 
                 int movieId = resultSet.getInt("movie_id");
                 String name = resultSet.getString("name");
-
-                Date date = resultSet.getDate("date");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
                 int length = resultSet.getInt("length");
                 String genre = resultSet.getString("genre");
 
-                Movie movie = new Movie(id,name,genre,length);
 
-                String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                User user = new User(username, password);
-
-                String food = resultSet.getString("food");
-                double price = resultSet.getDouble("price");
-                Menu menu = new Menu(id,food, price);
+                Movie movie = new Movie(movieId,name,date,genre,length);
 
 
                 ArrayList<Seat> seats = new ArrayList<>();
+                int screenId = resultSet.getInt("screenId");
 
-                Screen screen = new Screen(seats);
+                Screen screen = new Screen(seats, screenId);
 
                 return new Ticket(id, seat, movie,screen);
             }
@@ -88,6 +104,29 @@ public class DatabaseImpl implements Database {
         }
 
         return null;
+    }
+
+    //cancel ticket
+    public void cancelTicket(int ticketId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM ticket WHERE id = ?");
+            // assigning value of the ticketId in the prepared statement
+            preparedStatement.setInt(1, ticketId);
+            //executing SQL query  and storing number of rows affected by the query in  rowsAffected
+            int rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.close();
+            // committing changes to db
+            connection.commit();
+
+            if (rowsAffected > 0) {
+                System.out.println("Ticket " + ticketId + " was cancelled successfully.");
+            } else {
+                System.out.println("Ticket " + ticketId + " not found.");
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
     }
 
 }

@@ -10,12 +10,12 @@
 
 <VBox xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.Controllers.MovieListController">
    <children>
-      <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="288.0" VBox.vgrow="ALWAYS">
+      <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="288.0" VBox.vgrow="ALWAYS" fx:id="movies">
          <columns>
-            <TableColumn prefWidth="145.60003358125687" text="Movie" />
-            <TableColumn prefWidth="108.80000305175781" text="Genre" />
-            <TableColumn prefWidth="96.800048828125" text="Length" />
-            <TableColumn prefWidth="96.800048828125" text="Date" />
+            <TableColumn prefWidth="145.60003358125687" text="Movie" fx:id="title"/>
+            <TableColumn prefWidth="108.80000305175781" text="Genre" fx:id="genre" />
+            <TableColumn prefWidth="96.800048828125" text="Length"  fx:id="length" />
+            <TableColumn prefWidth="96.800048828125" text="Date" fx:id="date"/>
          </columns>
       </TableView>
       <HBox alignment="CENTER_RIGHT" spacing="20.0">

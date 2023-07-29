@@ -7,10 +7,12 @@ import java.util.HashMap;
 public class Screen {
     private final HashMap<Integer, Movie> movies;
     private final ArrayList<Seat> seats;
+    private int screenId;
 
-    public Screen(ArrayList<Seat> seats) {
+    public Screen(ArrayList<Seat> seats, int screenId) {
         this.movies = new HashMap<>();
         this.seats = new ArrayList<>();
+        this.screenId = screenId;
     }
 
     public ArrayList<Movie> getMovies() {
@@ -27,5 +29,9 @@ public class Screen {
 
     public ArrayList<Seat> getSeats() {
         return seats;
+    }
+
+    public int getScreenId() {
+        return screenId;
     }
 }

@@ -14,7 +14,7 @@ public class ViewModelFactory {
 
     public ViewModelFactory(ModelFactory modelFactory) {
         this.modelFactory = modelFactory;
-        movieListViewModel = new MovieListViewModel();
+        movieListViewModel = new MovieListViewModel(modelFactory.getMovieListModel());
         purchaseTicketViewModel = new PurchaseTicketViewModel();
         ticketInformationViewModel = new TicketInformationViewModel();
         cancelTicketViewModel = new CancelTicketViewModel(modelFactory.getTicketModel());

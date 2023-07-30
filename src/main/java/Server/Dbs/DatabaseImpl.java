@@ -43,18 +43,18 @@ public class DatabaseImpl implements Database {
         }
     }
     //buy ticket
-    public void makePurchase(Ticket ticket, Seat seat, Movie movie) {
+    public Ticket makePurchase(Ticket ticket) {
         try {
             // provides query with placeholders for the values
             String query = "INSERT INTO ticket VALUES (?, ?, ?)";
             //creating a PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             //setting 1st placeholder to seat id
-            preparedStatement.setInt(1, getSeatId(ticket.getScreen().getScreenId(),seat.getRow(), seat.getNumber()));
+            preparedStatement.setInt(1, getSeatId(ticket.getScreen().getScreenId(),ticket.getSeat().getRow(), ticket.getSeat().getNumber()));
             //setting 2nd placeholder to movie name
-            preparedStatement.setString(2, movie.getName());
+            preparedStatement.setString(2, ticket.getMovie().getName());
             //setting 3rd placeholder to menu
-            preparedStatement.setString(3, String.valueOf(TicketModel.getMenu()));
+            preparedStatement.setString(3, String.valueOf(ticket.getMenus()));
             preparedStatement.executeUpdate(); // inserting the row into the database
             preparedStatement.close();
             connection.commit();
@@ -63,6 +63,7 @@ public class DatabaseImpl implements Database {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
+        return null;
     }
 
     //view ticket info
@@ -171,7 +172,7 @@ public class DatabaseImpl implements Database {
         return null;
     }
 
-    public ArrayList<Menu> getMenu() {
+    public ArrayList<Menu> getMenus() {
         //creating ArrayList to store Menu obj from db
         ArrayList<Menu> menus = new ArrayList<>();
 

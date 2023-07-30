@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public interface Database {
      int getSeatId(int screen, String row, int number);
-     void makePurchase(Ticket ticket, Seat seat, Movie movie);
+     Ticket makePurchase(Ticket ticket);
      Ticket getTicket(int ticketId);
      void cancelTicket(int ticketId);
      Menu addMenu(String food, double price);
-     ArrayList<Menu> getMenu();
+     ArrayList<Menu> getMenus();
 
 }

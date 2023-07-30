@@ -12,6 +12,7 @@ import Shared.Network.IRMIServer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
@@ -72,7 +73,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                Date date = resultSet.getDate("date");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
                 String genre = resultSet.getString("genre");
                 //length
                 int length = resultSet.getInt("length");
@@ -80,7 +81,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
                 String screen = resultSet.getString("screen");
 
 
-                Movie movie = new Movie(id, name, date.toLocalDate(), genre, length);
+                Movie movie = new Movie(id, name, date, genre, length);
 
                 movies.add(movie);
             }

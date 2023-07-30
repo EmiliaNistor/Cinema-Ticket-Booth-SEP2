@@ -11,7 +11,7 @@ public class Screen {
 
     public Screen(ArrayList<Seat> seats, int screenId) {
         this.movies = new HashMap<>();
-        this.seats = new ArrayList<>();
+        this.seats = seats;
         this.screenId = screenId;
     }
 

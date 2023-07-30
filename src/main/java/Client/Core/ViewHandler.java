@@ -179,20 +179,6 @@ public class ViewHandler {
         }
     }*/
 
-    /*public void openPurchaseWindow() {
-        try {
-            Parent root = loadFXML("/purchaseTicket.fxml");
-
-            stage.setTitle("Purchase Ticket");
-            purchaseTicketScene = new Scene(root);
-            stage.setScene(purchaseTicketScene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }*/
-
     /*public void openTicketInformation() {
         try {
             Parent root = loadFXML("/ticketInformation.fxml");

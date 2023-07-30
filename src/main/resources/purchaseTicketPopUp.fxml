@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 
 
-<VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="540.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="540.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.Controllers.PurchaseTicketPopUpController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="&#10;" text="Purchase a Ticket" textAlignment="CENTER" wrapText="false">
+      <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="&#10;" text="Purchase a Ticket" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>

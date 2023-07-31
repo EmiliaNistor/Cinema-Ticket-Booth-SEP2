@@ -2,9 +2,12 @@ package Client.Core;
 
 import Client.View.Controllers.MainSceneController;
 import Client.View.Controllers.MovieListController;
+import Client.View.Controllers.PurchaseTicketPopUpController;
 import Client.View.Controllers.TicketInformationPopupController;
 import Client.ViewModel.IMovieListViewModel;
+import Client.ViewModel.TicketInformationViewModel;
 import Client.ViewModel.ViewTicketPopupViewModel;
+import Shared.Model.Movie;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,14 +25,15 @@ public class ViewHandler {
     // Scene related stuff
     private final Stage mainWindow;
     private final Parent movieList;
+    private final Parent ticketInfo;
     private Scene purchaseTicketScene;
-    private Scene ticketInfoScene;
 
     public ViewHandler(ViewModelFactory viewModelFactory) {
         this.viewModelFactory = viewModelFactory;
 
         // Creating default scenes
         this.movieList = createMovieList();
+        this.ticketInfo = createTicketInformation();
 
         this.mainWindow = createMainWindow();
         mainWindow.show();
@@ -121,6 +125,54 @@ public class ViewHandler {
         }
     }
 
+    /**
+     * Creates a new ticket information
+     * @return Ticket Information scene
+     */
+    private Parent createTicketInformation() {
+        try {
+            // Create the scene from the window's fxml
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ticketInformation.fxml"));
+            Parent root = fxmlLoader.load();
+            //Scene scene = new Scene(root);
+
+            // Initializing values for the scene's controller
+            TicketInformationViewModel controller = fxmlLoader.getController();
+            //controller.init(this, viewModelFactory.getMovieListViewModel());
+
+            return root;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Opens the purchase ticket popup window
+     */
+    public void openPurchaseTicketPopup() {
+        try {
+            // Create a new stage for the window
+            Stage stage = new Stage();
+            stage.setTitle("View Ticket Information");
+            stage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
+
+            // Create the scene from the window's fxml
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/purchaseTicketPopUp.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+
+            // Initializing values for the scene's controller
+            PurchaseTicketPopUpController controller = fxmlLoader.getController();
+            controller.init(this, viewModelFactory.getPurchaseTicketPopUpViewModel());
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /*private Scene createMovieList() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mainScene.fxml"));
@@ -161,10 +213,6 @@ public class ViewHandler {
             }
         });
     }*/
-
-    public ViewTicketPopupViewModel getViewTicketPopupViewModel() {
-        return viewModelFactory.getViewTicketPopupViewModel();
-    }
 
     /*public void openMovieList() {
         try {

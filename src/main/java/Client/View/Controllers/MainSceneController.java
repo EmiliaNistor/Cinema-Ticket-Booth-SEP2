@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class MainSceneController {
     // Sidebar buttons
@@ -86,7 +87,8 @@ public class MainSceneController {
 
     @FXML
     private void viewTicketInfo(ActionEvent actionEvent) {
-
+        Stage window = viewHandler.createViewTicketPopup();
+        window.show();
     }
 
     @FXML

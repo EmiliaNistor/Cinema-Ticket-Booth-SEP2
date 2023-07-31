@@ -88,4 +88,38 @@ public class Movie implements Serializable
                 ", genre='" + genre + '\'' +
                 '}';
     }
+
+    /**
+     * Compares is the object equal to the movie object, doesn't compare movie IDs
+     * @param object The object to compare against
+     * @return true if equal
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Movie provided)) {
+            return false;
+        }
+
+        return provided.name.equals(name) &&
+                provided.genre.equals(genre) &&
+                provided.length == length &&
+                provided.date.equals(date) &&
+                provided.startTime.equals(startTime) &&
+                provided.endTime.equals(endTime);
+    }
+
+    /**
+     * Compares is the object equal to the movie object, doesn't compare movie IDs, date and times
+     * @param object The object to compare against
+     * @return true if equal
+     */
+    public boolean equalsWithoutTime(Object object) {
+        if (!(object instanceof Movie provided)) {
+            return false;
+        }
+
+        return provided.name.equals(name) &&
+                provided.genre.equals(genre) &&
+                provided.length == length;
+    }
 }

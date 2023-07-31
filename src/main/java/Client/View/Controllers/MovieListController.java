@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
@@ -26,9 +27,7 @@ public class MovieListController
     @FXML
     private Button modifyMovieButton;
     @FXML
-    private Button removeMovieButton;
-    @FXML
-    private TableView movies;
+    private TableView<Movie> movies;
     @FXML
     private TableColumn<Movie,String> title;
     @FXML
@@ -48,6 +47,7 @@ public class MovieListController
      */
     public void init(ViewHandler viewHandler, IMovieListViewModel viewModel)
     {
+        System.out.println("Movie list controller initializing!");
         this.viewHandler = viewHandler;
         this.viewModel = viewModel;
         movies.setItems(viewModel.getMovieList());
@@ -70,14 +70,10 @@ public class MovieListController
     }
 
     @FXML
-    private void removeMovie(ActionEvent actionEvent)
-    {
-
-    }
-
-    @FXML
     private void purchaseTicket(ActionEvent actionEvent)
     {
-
+        Movie selectedMovie = movies.getSelectionModel().getSelectedItem();
+        viewModel.setPopUpMovie(selectedMovie);
+        viewHandler.openPurchaseTicketPopup();
     }
 }

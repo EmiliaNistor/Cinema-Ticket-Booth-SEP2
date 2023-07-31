@@ -1,8 +1,5 @@
 package Server;
 
-//import Dao.MovieDao;
-//import Dao.SeatDao;
-//import Dao.UserDao;
 import Shared.Model.Menu;
 import Shared.Model.Movie;
 import Shared.Model.Ticket;
@@ -13,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
 import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
@@ -73,15 +71,14 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
-                Date date = resultSet.getDate("date");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
                 String genre = resultSet.getString("genre");
                 //length
                 int length = resultSet.getInt("length");
                 //screen name
                 String screen = resultSet.getString("screen");
 
-                Movie movie = new Movie(id, name, date.toLocalDate(), LocalTime.now(), LocalTime.now(), genre, length);
-
+                Movie movie = new Movie(id, name, date, LocalTime.now(), LocalTime.now(), genre, length);
                 movies.add(movie);
             }
         } catch (SQLException e) {

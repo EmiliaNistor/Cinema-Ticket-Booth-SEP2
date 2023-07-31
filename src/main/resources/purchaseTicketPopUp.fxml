@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="540.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.Controllers.PurchaseTicketPopUpController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" style="&#10;" text="Purchase a Ticket" textAlignment="CENTER">
@@ -59,7 +58,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="movieStartTimes" />
+            <ChoiceBox fx:id="movieStartTimes" prefHeight="26.0" prefWidth="94.0" onAction="#startTimeSelected" />
          </children>
       </HBox>
       <HBox layoutX="30.0" layoutY="121.0" maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="7.0">
@@ -90,43 +89,26 @@
             </Label>
          </children>
       </HBox>
-      <VBox prefWidth="100.0">
+      <HBox layoutX="30.0" layoutY="172.0" maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="7.0">
          <children>
-            <Label maxWidth="1.7976931348623157E308" prefHeight="11.0" prefWidth="450.0" text="Seat:">
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="11.0" text="Seat:">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <AnchorPane>
-               <children>
-                  <VBox maxWidth="1.7976931348623157E308" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <HBox maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="7.0">
-                           <children>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Row:">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <ComboBox fx:id="seatRowBox" visibleRowCount="7" />
-                           </children>
-                        </HBox>
-                        <HBox layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="7.0">
-                           <children>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Number:">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <ComboBox fx:id="seatNumberBox" visibleRowCount="7" />
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
+            <ComboBox fx:id="seatSelection" prefWidth="94.0" visibleRowCount="7" onAction="#seatSelected"/>
          </children>
-      </VBox>
+      </HBox>
+      <HBox layoutX="30.0" layoutY="199.0" maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="7.0">
+         <children>
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="11.0" text="Menu:">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="menuSelection" prefWidth="94.0" visibleRowCount="7" onAction="#menuSelected"/>
+         </children>
+      </HBox>
       <HBox layoutX="30.0" layoutY="176.0" maxWidth="1.7976931348623157E308" prefWidth="200.0" spacing="7.0">
          <children>
             <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Price:" textFill="#00c71e">
@@ -151,7 +133,7 @@
                   <Insets bottom="-15.0" top="-15.0" />
                </padding>
             </Button>
-            <Button defaultButton="true" layoutX="266.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#pay" prefHeight="28.0" prefWidth="104.0" text="Pay" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+            <Button fx:id="payButton" defaultButton="true" layoutX="266.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#pay" prefHeight="28.0" prefWidth="104.0" text="Pay" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
                <font>
                   <Font size="18.0" />
                </font>

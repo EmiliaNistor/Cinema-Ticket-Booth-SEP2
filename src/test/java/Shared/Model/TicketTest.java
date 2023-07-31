@@ -5,8 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,10 +21,12 @@ class TicketTest {
     void setUp() {
         seat = new Seat("C", 22);
         LocalDate date = LocalDate.of(2023, 8, 23);
-        movie = new Movie(2321, "Oppenheimer", date, "biographical thriller", 180);
+        LocalTime startTime = LocalTime.of(1,2,3);
+        LocalTime endTime = LocalTime.of(3,2,1);
+        movie = new Movie(2321, "Oppenheimer", date, startTime, endTime, "biographical thriller", 180);
         screen = new Screen(new ArrayList<>(), 3);
-        ticket = new Ticket(1, seat, movie, screen);
         menu = new Menu(17, "Popcorn",3.55);
+        ticket = new Ticket(1, seat, movie, screen, menu);
     }
 
     @AfterEach
@@ -34,7 +36,6 @@ class TicketTest {
         screen = null;
         seat = null;
         menu = null;
-
     }
 
     @Test
@@ -58,20 +59,7 @@ class TicketTest {
     }
 
     @Test
-    void getMenus() {
-        assertTrue(ticket.getMenus().isEmpty());
-    }
-
-    @Test
-    void addMenu() {
-        ticket.addMenu(menu);
-        assertTrue(ticket.getMenus().contains(menu));
-    }
-
-    @Test
-    void removeMenu() {
-        ticket.addMenu(menu);
-        ticket.removeMenu(menu);
-        assertFalse(ticket.getMenus().contains(menu));
+    void getMenu() {
+        assertEquals(menu, ticket.getMenu());
     }
 }

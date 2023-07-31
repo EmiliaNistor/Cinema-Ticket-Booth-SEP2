@@ -3,8 +3,8 @@ package Shared.Model;
 
 
 import java.io.Serializable;
-import java.util.Date;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 
 public class Movie implements Serializable
@@ -12,13 +12,17 @@ public class Movie implements Serializable
     private final int movieId;
     private String name;
     private LocalDate date;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private int length;
     private String genre;
 
 
-    public Movie(int movieId, String name, LocalDate date, String genre, int length) {
+    public Movie(int movieId, String name, LocalDate date, LocalTime startTime, LocalTime endTime, String genre, int length) {
         this.movieId = movieId;
         this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.name = name;
         this.length = length;
         this.genre = genre;
@@ -40,6 +44,22 @@ public class Movie implements Serializable
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
     public int getLength() {

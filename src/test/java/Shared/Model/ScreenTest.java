@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,9 +23,13 @@ class ScreenTest {
         seats.add(new Seat("B", 5));
         screen = new Screen(seats, 1);
         LocalDate date1 = LocalDate.of(2023, 8, 23);
-        movie1 = new Movie(1, "Barbie", date1, "comedy", 163);
+        movie1 = new Movie(1, "Barbie",
+                date1, LocalTime.of(1,2,3), LocalTime.of(3,2,1),
+                "comedy", 163);
         LocalDate date2 = LocalDate.of(2023, 8, 22);
-        movie2 = new Movie(2, "Oppenheimer", date2, "biographical thriller", 180);
+        movie2 = new Movie(2, "Oppenheimer",
+                date2, LocalTime.of(1,2,3), LocalTime.of(3,2,1),
+                "biographical thriller", 180);
     }
 
     @AfterEach

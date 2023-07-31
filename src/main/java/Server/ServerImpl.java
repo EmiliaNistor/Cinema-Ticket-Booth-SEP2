@@ -12,6 +12,7 @@ import Shared.Network.IRMIServer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
@@ -79,8 +80,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer {
                 //screen name
                 String screen = resultSet.getString("screen");
 
-
-                Movie movie = new Movie(id, name, date.toLocalDate(), genre, length);
+                Movie movie = new Movie(id, name, date.toLocalDate(), LocalTime.now(), LocalTime.now(), genre, length);
 
                 movies.add(movie);
             }

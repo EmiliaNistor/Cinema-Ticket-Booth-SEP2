@@ -8,6 +8,8 @@ import Shared.Model.*;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DatabaseImpl implements Database {
@@ -88,16 +90,14 @@ public class DatabaseImpl implements Database {
                 int length = resultSet.getInt("length");
                 String genre = resultSet.getString("genre");
 
-
-                Movie movie = new Movie(movieId,name,date,genre,length);
-
+                Movie movie = new Movie(movieId,name,date, LocalTime.now(), LocalTime.now(), genre,length);
 
                 ArrayList<Seat> seats = new ArrayList<>();
                 int screenId = resultSet.getInt("screenId");
 
                 Screen screen = new Screen(seats, screenId);
 
-                return new Ticket(id, seat, movie,screen);
+                return new Ticket(id, seat, movie,screen, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();

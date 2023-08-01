@@ -1,15 +1,18 @@
 package Shared.Model;
 
-public class Seat {
-    private final String row;
+import java.io.Serializable;
+
+public class Seat implements Serializable
+{
+    private final int row;
     private final int number;
 
-    public Seat(String row, int number) {
+    public Seat(int row, int number) {
         this.row = row;
         this.number = number;
     }
 
-    public String getRow() {
+    public int getRow() {
         return row;
     }
 

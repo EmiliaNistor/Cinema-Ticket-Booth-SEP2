@@ -9,13 +9,15 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 
-public interface IRMIServer extends Remote {
+public interface IRMIServer extends Remote
+{
     ArrayList<Ticket> getAllTickets() throws RemoteException;
+
     ArrayList<Movie> getAllMovies() throws RemoteException;
 
+    boolean signup(String username, String password) throws RemoteException;
+
     ArrayList<Menu> getAllMenuItems() throws RemoteException;
-
-
 
 
     void addTicket(Ticket ticket) throws RemoteException;
@@ -25,15 +27,11 @@ public interface IRMIServer extends Remote {
     void deleteTicket(Ticket ticket) throws RemoteException;
 
 
-
-
     void addMovie(Movie movie) throws RemoteException;
 
     void updateMovie(Movie movie) throws RemoteException;
 
     void deleteMovie(Movie movie) throws RemoteException;
-
-
 
 
     void addMenuItem(Menu menu) throws RemoteException;

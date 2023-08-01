@@ -1,6 +1,7 @@
 package Client.Model;
 
 import Shared.Model.Movie;
+import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public interface IMovieListModel
      * Get all the movies
      * @return A list of movies
      */
-    ArrayList<Movie> getAllMovies();
+    public ObservableList<Movie> getAllMovies();
 
     /**
      * Get all the movies that are equal to provided movie and occur on the same date

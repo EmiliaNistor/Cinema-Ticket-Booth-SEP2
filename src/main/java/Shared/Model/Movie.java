@@ -5,6 +5,7 @@ package Shared.Model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 
 public class Movie implements Serializable
@@ -28,6 +29,7 @@ public class Movie implements Serializable
         this.genre = genre;
     }
 
+
     public int getMovieId() {return movieId;}
 
     public String getName() {
@@ -36,14 +38,6 @@ public class Movie implements Serializable
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public LocalTime getStartTime() {
@@ -76,6 +70,12 @@ public class Movie implements Serializable
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+    public LocalDate getDate() {
+        return date;
+    }
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     @Override

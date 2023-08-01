@@ -95,4 +95,10 @@ public class MainSceneController {
     private void manageMenus(ActionEvent actionEvent) {
 
     }
+
+    @FXML
+    private void signUp(ActionEvent actionEvent)
+    {
+        viewHandler.createSignUpWindow();
+    }
 }

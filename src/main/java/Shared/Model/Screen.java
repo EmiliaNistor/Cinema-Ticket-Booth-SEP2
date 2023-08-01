@@ -1,18 +1,22 @@
 package Shared.Model;
 
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Screen {
+public class Screen implements Serializable {
+    private final int screenId; // You may need to add a screenId field based on your database schema
     private final HashMap<Integer, Movie> movies;
     private final ArrayList<Seat> seats;
-    private int screenId;
 
-    public Screen(ArrayList<Seat> seats, int screenId) {
+    public Screen(int screenId, ArrayList<Seat> seats) {
+        this.screenId = screenId;
         this.movies = new HashMap<>();
         this.seats = seats;
-        this.screenId = screenId;
+    }
+
+    public int getScreenId() {
+        return screenId;
     }
 
     public ArrayList<Movie> getMovies() {
@@ -29,9 +33,5 @@ public class Screen {
 
     public ArrayList<Seat> getSeats() {
         return seats;
-    }
-
-    public int getScreenId() {
-        return screenId;
     }
 }

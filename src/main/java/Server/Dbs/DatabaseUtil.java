@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class DatabaseUtil {
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/sep2reexam_database";
     private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWORD = "Emilia22";
-    private static Connection connection = null;
+    private static final String DB_PASSWORD = "admin";
+    private static Connection connection;
 
     public static void main(String[] args) {
         String dropSchemaQuery = "DROP SCHEMA IF EXISTS sep2reexam_database CASCADE";
@@ -44,9 +44,8 @@ public class DatabaseUtil {
     }
 
     public static Connection getConnection() throws SQLException {
-        if (connection == null) {
-            connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-        }
+
+        connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
         return connection;
     }
 

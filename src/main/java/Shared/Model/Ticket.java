@@ -1,23 +1,25 @@
 package Shared.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Holds information about the ticket
  */
-public class Ticket {
+public class Ticket implements Serializable
+{
     private final int id;
     private final Seat seat;
     private final Movie movie;
     private final Screen screen;
-    private final Menu menu;
+    private final ArrayList<Menu> menus;
 
     public Ticket(int id, Seat seat, Movie movie, Screen screen, Menu menu) {
         this.id = id;
         this.seat = seat;
         this.movie = movie;
         this.screen = screen;
-        this.menu = menu;
+        this.menus = new ArrayList<>();
     }
 
     /**
@@ -40,11 +42,15 @@ public class Ticket {
         return movie;
     }
 
-    public Screen getScreen() {
-        return screen;
+    public ArrayList<Menu> getMenus() {
+        return menus;
     }
 
-    public Menu getMenu() {
-        return menu;
+    public void addMenu(Menu menu) {
+        menus.add(menu);
+    }
+
+    public void removeMenu(Menu menu) {
+        menus.remove(menu);
     }
 }

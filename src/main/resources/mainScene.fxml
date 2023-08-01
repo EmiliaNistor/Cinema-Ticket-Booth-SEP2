@@ -34,6 +34,14 @@
                         <Insets bottom="-15.0" top="-15.0" />
                      </padding>
                   </Button>
+                  <Button fx:id="signUpButton" layoutX="10.0" layoutY="43.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#signUp" prefHeight="24.0" prefWidth="135.0" text="Sign Up">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="-15.0" top="-15.0" />
+                     </padding>
+                  </Button>
                   <Button fx:id="moviesButton" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#viewMovies" prefHeight="24.0" prefWidth="135.0" text="Movies">
                      <font>
                         <Font size="16.0" />

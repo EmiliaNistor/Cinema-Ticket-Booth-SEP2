@@ -22,7 +22,6 @@
          <children>
             <Button fx:id="addMovieButton" layoutX="199.0" layoutY="10.0" mnemonicParsing="false" onAction="#addMovie" text="Add Movie" visible="false" />
             <Button fx:id="modifyMovieButton" layoutX="272.0" layoutY="10.0" mnemonicParsing="false" onAction="#modifyMovie" text="Modify" visible="false" />
-            <Button fx:id="removeMovieButton" layoutX="200.0" layoutY="10.0" mnemonicParsing="false" onAction="#removeMovie" text="Remove" visible="false" />
             <Button defaultButton="true" mnemonicParsing="false" onAction="#purchaseTicket" text="Purchase Ticket" />
          </children>
          <VBox.margin>

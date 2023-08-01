@@ -2,20 +2,23 @@ package Client.Core;
 
 
 import Client.ViewModel.*;
+import Shared.Model.Movie;
 
 
 public class ViewModelFactory {
     private final ModelFactory modelFactory;
     private final MovieListViewModel movieListViewModel;
-    private final PurchaseTicketViewModel purchaseTicketViewModel;
+    private final PurchaseTicketPopUpViewModel purchaseTicketPopUpViewModel;
     private final TicketInformationViewModel ticketInformationViewModel;
     private final CancelTicketViewModel cancelTicketViewModel;
     private final ViewTicketPopupViewModel viewTicketPopupViewModel;
 
     public ViewModelFactory(ModelFactory modelFactory) {
         this.modelFactory = modelFactory;
-        movieListViewModel = new MovieListViewModel(modelFactory.getMovieListModel());
-        purchaseTicketViewModel = new PurchaseTicketViewModel();
+        movieListViewModel = new MovieListViewModel(this, modelFactory.getMovieListModel());
+        purchaseTicketPopUpViewModel = new PurchaseTicketPopUpViewModel(
+                modelFactory.getMovieListModel(), modelFactory.getScreenModel(), modelFactory.getTicketModel()
+        );
         ticketInformationViewModel = new TicketInformationViewModel();
         cancelTicketViewModel = new CancelTicketViewModel(modelFactory.getTicketModel());
         viewTicketPopupViewModel = new ViewTicketPopupViewModel(modelFactory.getTicketModel());
@@ -25,11 +28,19 @@ public class ViewModelFactory {
         return movieListViewModel;
     }
 
-    public PurchaseTicketViewModel getPurchaseTicketViewModel(){return purchaseTicketViewModel;}
+    public PurchaseTicketPopUpViewModel getPurchaseTicketPopUpViewModel(){return purchaseTicketPopUpViewModel;}
 
     public TicketInformationViewModel getTicketInformationViewModel(){return ticketInformationViewModel;}
 
     public ViewTicketPopupViewModel getViewTicketPopupViewModel() {
         return viewTicketPopupViewModel;
+    }
+
+    /**
+     * Updates the purchase ticket popup's movie information
+     * @param movie The movie to use
+     */
+    public void updatePurchaseTicketMovie(Movie movie) {
+        purchaseTicketPopUpViewModel.setMovie(movie);
     }
 }

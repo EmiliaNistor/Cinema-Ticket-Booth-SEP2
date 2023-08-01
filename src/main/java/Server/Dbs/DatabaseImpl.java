@@ -8,6 +8,8 @@ import Shared.Model.*;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DatabaseImpl implements Database {
@@ -54,7 +56,7 @@ public class DatabaseImpl implements Database {
             //setting 2nd placeholder to movie name
             preparedStatement.setString(2, ticket.getMovie().getName());
             //setting 3rd placeholder to menu
-            preparedStatement.setString(3, String.valueOf(ticket.getMenus()));
+            preparedStatement.setString(3, String.valueOf(ticket.getMenu()));
             preparedStatement.executeUpdate(); // inserting the row into the database
             preparedStatement.close();
             connection.commit();
@@ -97,16 +99,14 @@ public class DatabaseImpl implements Database {
                 int length = results.getInt("length");
                 String genre = results.getString("genre");
 
-
-                Movie movie = new Movie(movieId,name,date,genre,length);
-
+                Movie movie = new Movie(movieId,name,date, LocalTime.now(), LocalTime.now(), genre,length);
 
                 ArrayList<Seat> seats = new ArrayList<>();
                 int screenId = results.getInt("screenId");
 
                 Screen screen = new Screen(seats, screenId);
 
-                return new Ticket(id, seat, movie,screen);
+                return new Ticket(id, seat, movie,screen, null);
             }
         } catch (SQLException e) {
             e.printStackTrace();

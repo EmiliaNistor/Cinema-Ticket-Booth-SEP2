@@ -1,44 +1,43 @@
 package Client.ViewModel;
 
+import Client.Core.ViewModelFactory;
 import Client.Model.IMovieListModel;
-import Client.Model.MovieListModel;
 import Shared.Model.Movie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 public class MovieListViewModel implements IMovieListViewModel
 {
     private IMovieListModel movieListModel;
     private ObservableList<Movie> movieList;
+    private ViewModelFactory viewModelFactory;
 
-
-
-    public MovieListViewModel(IMovieListModel movieListModel)
+    public MovieListViewModel(ViewModelFactory viewModelFactory, IMovieListModel movieListModel)
     {
+        this.viewModelFactory = viewModelFactory;
         this.movieListModel = movieListModel;
-        this.movieList = FXCollections.observableArrayList();;
+        this.movieList = FXCollections.observableArrayList(
+                movieListModel.getAllMovies()
+        );
 
     }
-
 
     @Override
     public ObservableList<Movie> getMovieList()
     {
         //return movieListModel.getAllMovies();
         // Updating the movie list array
-        movieList = FXCollections.observableArrayList(
-                movieListModel.getAllMovies()
-        );
 
         return movieList;
     }
 
-
+    /**
+     * Changes the purchase ticket popup information to a new movie
+     * @param movie The movie to purchase a ticket for
+     */
+    @Override
+    public void setPopUpMovie(Movie movie) {
+        viewModelFactory.updatePurchaseTicketMovie(movie);
+    }
 }
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +15,9 @@ class MovieTest {
 
     @BeforeEach
     void setUp() {
-        movie = new Movie(1, "Oppenheimer", LocalDate.of(2023, 7, 28), "Action", 120);
+        movie = new Movie(1, "Oppenheimer",
+                LocalDate.of(2023, 7, 28), LocalTime.of(1,2,3), LocalTime.of(3,2,1),
+                "Action", 120);
     }
 
     @AfterEach

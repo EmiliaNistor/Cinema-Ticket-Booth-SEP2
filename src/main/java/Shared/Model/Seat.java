@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class Seat implements Serializable
 {
-    private final int row;
+    private final String row;
     private final int number;
 
-    public Seat(int row, int number) {
+    public Seat(String row, int number) {
         this.row = row;
         this.number = number;
     }
 
-    public int getRow() {
+    public String getRow() {
         return row;
     }
 

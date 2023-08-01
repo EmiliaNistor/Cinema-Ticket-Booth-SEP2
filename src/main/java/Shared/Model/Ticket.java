@@ -12,14 +12,14 @@ public class Ticket implements Serializable
     private final Seat seat;
     private final Movie movie;
     private final Screen screen;
-    private final ArrayList<Menu> menus;
+    private final Menu menu;
 
     public Ticket(int id, Seat seat, Movie movie, Screen screen, Menu menu) {
         this.id = id;
         this.seat = seat;
         this.movie = movie;
         this.screen = screen;
-        this.menus = new ArrayList<>();
+        this.menu = menu;
     }
 
     /**
@@ -41,16 +41,9 @@ public class Ticket implements Serializable
     public Movie getMovie() {
         return movie;
     }
+    public Screen getScreen() {return screen;}
 
-    public ArrayList<Menu> getMenus() {
-        return menus;
-    }
-
-    public void addMenu(Menu menu) {
-        menus.add(menu);
-    }
-
-    public void removeMenu(Menu menu) {
-        menus.remove(menu);
+    public Menu getMenu() {
+        return menu;
     }
 }

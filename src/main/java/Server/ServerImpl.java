@@ -1,9 +1,6 @@
 package Server;
 
-//import Dao.MovieDao;
-//import Dao.SeatDao;
-//import Dao.UserDao;
-
+import Server.Dbs.Database;
 import Shared.Model.*;
 import Server.Dbs.DatabaseUtil;
 import Shared.Network.IRMIServer;
@@ -11,21 +8,21 @@ import Shared.Network.IRMIServer;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ServerImpl extends UnicastRemoteObject implements IRMIServer
 {
-    private ArrayList<Ticket> tickets;
-    private ArrayList<Movie> movies;
-    private ArrayList<Menu> menuItems;
-    private HashMap<Integer, Screen> screens; // Store screens with their IDs as keys
+    private final Database database;
+    private final ArrayList<Movie> movies;
+    private final HashMap<Integer, Screen> screens; // Store screens with their IDs as keys
 
-    public ServerImpl() throws RemoteException
+    public ServerImpl(Database database) throws RemoteException
     {
-        tickets = new ArrayList<>();
+        this.database = database;
         movies = new ArrayList<>();
-        menuItems = new ArrayList<>();
         screens = new HashMap<>();
     }
 
@@ -63,7 +60,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
                 while (seatResult.next())
                 {
                     int seatId = seatResult.getInt("id");
-                    int row = seatResult.getInt("row");
+                    String row = seatResult.getString("row");
                     int number = seatResult.getInt("number");
                     // Other fields to retrieve from the database, such as seat number, etc.
 
@@ -136,7 +133,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
                 System.out.println("Movie: " + movie);
                 System.out.println("Screen: " + screen);
 
-                Ticket ticket = new Ticket(id, seat, movie, screen, menu);
+                Ticket ticket = new Ticket(id, seat, movie, screen, new Menu(-1,"empty",123));
                 tickets.add(ticket);
                 System.out.println(ticket);
             }
@@ -187,7 +184,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
                 {
                     int id = resultSet.getInt("id");
                     int seatNumber = resultSet.getInt("number");
-                    int rowNumber = resultSet.getInt("row");
+                    String rowNumber = resultSet.getString("row");
 
                     // Other relevant data for Seat
 
@@ -217,11 +214,13 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
                 {
                     int id = resultSet.getInt("id");
                     String name = resultSet.getString("name");
+                    LocalTime startTime = resultSet.getTime("start_time").toLocalTime();
+                    LocalTime endTime = resultSet.getTime("end_time").toLocalTime();
                     String genre = resultSet.getString("genre");
                     int length = resultSet.getInt("length");
-                    Date date = resultSet.getDate("date");
+                    LocalDate date = resultSet.getDate("date").toLocalDate();
 
-                    Movie movie = new Movie(id, name, genre, length, date);
+                    Movie movie = new Movie(id, name, date, startTime, endTime, genre, length);
                     System.out.println(movie);
                     return movie;
                 }
@@ -275,11 +274,13 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
             {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
+                LocalTime startTime = resultSet.getTime("start_time").toLocalTime();
+                LocalTime endTime = resultSet.getTime("end_time").toLocalTime();
                 String genre = resultSet.getString("genre");
                 int length = resultSet.getInt("length");
-                Date date = resultSet.getDate("date");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
 
-                Movie movie = new Movie(id, name, genre, length, date);
+                Movie movie = new Movie(id, name, date, startTime, endTime, genre, length);
                 System.out.println(movie);
                 movies.add(movie);
             }
@@ -295,13 +296,13 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
     @Override
     public ArrayList<Menu> getAllMenuItems() throws RemoteException
     {
-        return menuItems;
+        return database.getMenus();
     }
 
     @Override
     public void addTicket(Ticket ticket) throws RemoteException
     {
-        tickets.add(ticket);
+        database.makePurchase(ticket);
     }
 
     @Override
@@ -313,7 +314,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
     @Override
     public void deleteTicket(Ticket ticket) throws RemoteException
     {
-        tickets.remove(ticket);
+        database.cancelTicket(ticket.getId());
     }
 
     @Override
@@ -337,7 +338,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
     @Override
     public void addMenuItem(Menu menu) throws RemoteException
     {
-        menuItems.add(menu);
+        database.addMenu(menu.getFood(), menu.getPrice());
     }
 
     @Override
@@ -349,6 +350,6 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
     @Override
     public void deleteMenuItem(Menu menu) throws RemoteException
     {
-        menuItems.remove(menu);
+        //menuItems.remove(menu);
     }
 }

@@ -29,7 +29,6 @@ public class ScreenModel implements IScreenModel {
      */
     @Override
     public Screen getScreenByMovie(Movie movie) {
-        ObservableList<Movie> movies = movieListModel.getAllMovies();
         for (Screen s: screens) {
             for (Movie m: s.getMovies()) {
                 if (m.getMovieId() == movie.getMovieId()) {

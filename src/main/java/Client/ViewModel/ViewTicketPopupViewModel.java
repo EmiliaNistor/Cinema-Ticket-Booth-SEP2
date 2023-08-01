@@ -1,13 +1,7 @@
 package Client.ViewModel;
 
-import Client.Core.ViewHandler;
 import Client.Model.ITicketModel;
 import Shared.Model.Ticket;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class ViewTicketPopupViewModel implements IViewTicketPopupViewModel
 {
@@ -29,6 +23,5 @@ public class ViewTicketPopupViewModel implements IViewTicketPopupViewModel
         Ticket ticket = ticketModel.getTicket(ticketID);
         System.out.println(ticketID+"vm");
         return ticket;
-
     }
 }

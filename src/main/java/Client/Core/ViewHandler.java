@@ -37,8 +37,6 @@ public class ViewHandler {
         mainWindow.show();
     }
 
-
-
     /**
      * Creates a window used to display the main contents of the application
      * @return Main window of the application
@@ -102,6 +100,33 @@ public class ViewHandler {
             return null;
         }
     }
+
+    /*
+    OLD METHOD
+    public Stage createViewTicketPopup() {
+        try {
+            // Create a new stage for the window
+            Stage stage = new Stage();
+            stage.setTitle("View Ticket Information");
+            stage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
+
+            // Create the scene from the window's fxml
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ticketInformationPopUp.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+
+            // Initializing values for the scene's controller
+            TicketInformationPopupController controller = fxmlLoader.getController();
+            controller.init(viewModelFactory.getViewTicketPopupViewModel(), stage);
+
+            stage.setScene(scene);
+            return stage;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    */
 
     /**
      * Creates a new ticket information

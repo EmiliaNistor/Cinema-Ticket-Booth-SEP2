@@ -5,12 +5,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import Shared.Model.Movie;
 import Shared.Network.IRMIServer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class MovieListModel implements IMovieListModel
 {
@@ -32,13 +29,18 @@ public class MovieListModel implements IMovieListModel
      * @return List of movies
      */
     @Override
-    public ObservableList<Movie> getAllMovies()
+    public ArrayList<Movie> getAllMovies()
     {
         try
         {
-            List<Movie> moviesList = serverRMI.getAllMovies();
-            ObservableList<Movie> movies = FXCollections.observableArrayList(moviesList);
-            return movies;
+            ArrayList<Movie> moviesList = serverRMI.getAllMovies();
+            System.out.printf("Movies in local storage pre-loop: %d\n",moviesList.size());
+            for (Movie m: moviesList) {
+                this.movieList.put(m.getMovieId(), m);
+            }
+            ArrayList<Movie> list = new ArrayList<>(this.movieList.values());
+            System.out.printf("Movies in local storage: %d\n",list.size());
+            return list;
         } catch (RemoteException e)
         {
             System.out.println("Couldn't fetch movies from the server."  );

@@ -27,8 +27,6 @@ public class TicketInformationPopupController
         this.viewHandler= viewHandler;
     }
 
-
-
     private void validateInput()
     {
         String input = inputField.getCharacters().toString();
@@ -42,14 +40,6 @@ public class TicketInformationPopupController
             continueButton.setDisable(true);
         }
     }
-
-    // Add this setter method to set the ViewHandler instance
-    public void setViewHandler(ViewHandler viewHandler)
-    {
-        this.viewHandler = viewHandler;
-    }
-
-    // Rest of the class code...
 
 
     @FXML
@@ -76,11 +66,8 @@ public class TicketInformationPopupController
         int ticketID = Integer.parseInt(input);
         viewModel.getTicket(ticketID);
 
-        // Use the ViewHandler to open the ticket information stage
-        // Assuming you have a method createViewTicketInfoStage(int ticketID) in the ViewHandler
-        // that opens the ticket information stage based on the ticketID
-        // Replace 'viewHandler' with the actual instance of your ViewHandler class
-        viewHandler.openTicketInformation(viewModel.getTicket(ticketID));
+        // not implemented?
+        //viewHandler.openTicketInformation(viewModel.getTicket(ticketID));
     }
 
     @FXML

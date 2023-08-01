@@ -3,6 +3,7 @@ package Client.Model;
 import Shared.Model.Movie;
 import Shared.Model.Screen;
 import Shared.Network.IRMIServer;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,6 @@ public class ScreenModel implements IScreenModel {
      */
     @Override
     public Screen getScreenByMovie(Movie movie) {
-        ArrayList<Movie> movies = movieListModel.getAllMovies();
         for (Screen s: screens) {
             for (Movie m: s.getMovies()) {
                 if (m.getMovieId() == movie.getMovieId()) {

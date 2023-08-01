@@ -1,6 +1,9 @@
 package Shared.Model;
 
-public class Menu {
+import java.io.Serializable;
+
+public class Menu implements Serializable
+{
     private final int menuId;
     private String food;
     private double price;

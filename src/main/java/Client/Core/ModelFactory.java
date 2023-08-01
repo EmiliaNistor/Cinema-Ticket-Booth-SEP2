@@ -12,6 +12,9 @@ import java.rmi.registry.Registry;
 public class ModelFactory {
     private final ITicketModel ticketModel;
     private  final  IMovieListModel movieListModel;
+
+    private final ISignupModel signupModel;
+
     private final IScreenModel screenModel;
 
     public ModelFactory() throws NotBoundException, RemoteException {
@@ -24,6 +27,8 @@ public class ModelFactory {
         ticketModel = new TicketModel(serverRMI);
         movieListModel = new MovieListModel(serverRMI);
         screenModel = new ScreenModel(serverRMI, movieListModel);
+        signupModel = new SignupModel(serverRMI);
+
     }
 
     /**
@@ -49,4 +54,9 @@ public class ModelFactory {
     public IScreenModel getScreenModel() {
         return screenModel;
     }
+
+    public ISignupModel getSignupModel() {
+        return signupModel;
+    }
+
 }

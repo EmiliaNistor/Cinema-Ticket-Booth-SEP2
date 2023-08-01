@@ -1,6 +1,9 @@
 package Shared.Model;
 
-public class Seat {
+import java.io.Serializable;
+
+public class Seat implements Serializable
+{
     private final String row;
     private final int number;
 

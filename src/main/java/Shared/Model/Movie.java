@@ -28,6 +28,7 @@ public class Movie implements Serializable
         this.genre = genre;
     }
 
+
     public int getMovieId() {return movieId;}
 
     public String getName() {
@@ -36,14 +37,6 @@ public class Movie implements Serializable
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public LocalTime getStartTime() {
@@ -76,6 +69,12 @@ public class Movie implements Serializable
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+    public LocalDate getDate() {
+        return date;
+    }
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     @Override

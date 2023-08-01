@@ -1,13 +1,11 @@
 package Client.Core;
 
-import Client.View.Controllers.MainSceneController;
-import Client.View.Controllers.MovieListController;
-import Client.View.Controllers.PurchaseTicketPopUpController;
-import Client.View.Controllers.TicketInformationPopupController;
+import Client.View.Controllers.*;
 import Client.ViewModel.IMovieListViewModel;
 import Client.ViewModel.TicketInformationViewModel;
 import Client.ViewModel.ViewTicketPopupViewModel;
 import Shared.Model.Movie;
+import Shared.Model.Ticket;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,7 +23,7 @@ public class ViewHandler {
     // Scene related stuff
     private final Stage mainWindow;
     private final Parent movieList;
-    private final Parent ticketInfo;
+    private final Stage ticketInfo;
     private Scene purchaseTicketScene;
 
     public ViewHandler(ViewModelFactory viewModelFactory) {
@@ -33,7 +31,7 @@ public class ViewHandler {
 
         // Creating default scenes
         this.movieList = createMovieList();
-        this.ticketInfo = createTicketInformation();
+        this.ticketInfo = createViewTicketPopup();
 
         this.mainWindow = createMainWindow();
         mainWindow.show();
@@ -71,29 +69,7 @@ public class ViewHandler {
      * Create a new View Ticket Information Popup window
      * @return The window's stage
      */
-    public Stage createViewTicketPopup() {
-        try {
-            // Create a new stage for the window
-            Stage stage = new Stage();
-            stage.setTitle("View Ticket Information");
-            stage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
 
-            // Create the scene from the window's fxml
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ticketInformationPopUp.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-
-            // Initializing values for the scene's controller
-            TicketInformationPopupController controller = fxmlLoader.getController();
-            controller.init(viewModelFactory.getViewTicketPopupViewModel(), stage);
-
-            stage.setScene(scene);
-            return stage;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * Returns the movie list scene
@@ -125,27 +101,65 @@ public class ViewHandler {
         }
     }
 
-    /**
-     * Creates a new ticket information
-     * @return Ticket Information scene
-     */
-    private Parent createTicketInformation() {
+    /*
+    OLD METHOD
+    public Stage createViewTicketPopup() {
         try {
+            // Create a new stage for the window
+            Stage stage = new Stage();
+            stage.setTitle("View Ticket Information");
+            stage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
+
             // Create the scene from the window's fxml
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ticketInformation.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ticketInformationPopUp.fxml"));
             Parent root = fxmlLoader.load();
-            //Scene scene = new Scene(root);
+            Scene scene = new Scene(root);
 
             // Initializing values for the scene's controller
-            TicketInformationViewModel controller = fxmlLoader.getController();
-            //controller.init(this, viewModelFactory.getMovieListViewModel());
+            TicketInformationPopupController controller = fxmlLoader.getController();
+            controller.init(viewModelFactory.getViewTicketPopupViewModel(), stage);
 
-            return root;
+            stage.setScene(scene);
+            return stage;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
+    */
+
+    /**
+     * Creates a new ticket information
+     * @return Ticket Information scene
+     */
+    public Stage createViewTicketPopup() {
+        try {
+            // Create a new stage for the window
+            Stage stage = new Stage();
+            stage.setTitle("View Ticket Information");
+            stage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
+
+            // Create the scene from the window's fxml
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ticketInformationPopUp.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+
+            // Initializing values for the scene's controller
+            TicketInformationPopupController controller = fxmlLoader.getController();
+            controller.init(viewModelFactory.getViewTicketPopupViewModel(), stage, this);
+
+            stage.setScene(scene);
+
+            // Show the popup
+            stage.show();
+
+            return stage;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     /**
      * Opens the purchase ticket popup window
@@ -171,6 +185,43 @@ public class ViewHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Stage createSignUpWindow() {
+
+        // Create a new stage for the SignUp window
+        Stage stage = new Stage();
+        stage.setTitle("Sign Up");
+        stage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
+
+
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/signUp.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+
+            // Create the SignupController
+            SignupController controller = fxmlLoader.getController();
+
+            // Initialize the signupViewModel field in the controller
+            controller.signupViewModel = viewModelFactory.getSignupViewModel();
+
+            // Call the init method after setting the signupViewModel
+            controller.init( viewModelFactory.getSignupViewModel());
+
+            stage.setScene(scene);
+            stage.show();
+
+            return stage;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public ViewTicketPopupViewModel getViewTicketPopupViewModel() {
+        return viewModelFactory.getViewTicketPopupViewModel();
     }
 
     /*private Scene createMovieList() {
@@ -250,4 +301,5 @@ public class ViewHandler {
         ctrl.init(this, vmf);
         return root;
     }*/
+
 }

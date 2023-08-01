@@ -8,8 +8,6 @@ import java.util.HashMap;
 
 import Shared.Model.Movie;
 import Shared.Network.IRMIServer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class MovieListModel implements IMovieListModel
 {
@@ -40,7 +38,6 @@ public class MovieListModel implements IMovieListModel
             for (Movie m: moviesList) {
                 this.movieList.put(m.getMovieId(), m);
             }
-            //ObservableList<Movie> movies = FXCollections.observableArrayList(moviesList);
             ArrayList<Movie> list = new ArrayList<>(this.movieList.values());
             System.out.printf("Movies in local storage: %d\n",list.size());
             return list;
@@ -48,6 +45,7 @@ public class MovieListModel implements IMovieListModel
         {
             System.out.println("Couldn't fetch movies from the server."  );
             e.printStackTrace();
+
         }
         return null;
     }

@@ -170,7 +170,6 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
     @Override
     public ArrayList<Movie> getAllMovies() throws RemoteException
     {
-        System.out.println("RMI Server received get all movies request!");
         return database.getAllMovies();
     }
 

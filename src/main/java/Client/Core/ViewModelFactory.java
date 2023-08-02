@@ -11,8 +11,9 @@ public class ViewModelFactory {
     private final PurchaseTicketPopUpViewModel purchaseTicketPopUpViewModel;
     private final TicketInformationViewModel ticketInformationViewModel;
     private final CancelTicketViewModel cancelTicketViewModel;
+    private final LogInViewModel logInViewModel;
+    private final MainSceneViewModel mainSceneViewModel;
     private final ViewTicketPopupViewModel viewTicketPopupViewModel;
-
     private final SignupViewModel signupViewModel; // Add the SignupViewModel
 
     public ViewModelFactory(ModelFactory modelFactory) {
@@ -27,7 +28,12 @@ public class ViewModelFactory {
         cancelTicketViewModel = new CancelTicketViewModel(modelFactory.getTicketModel());
         viewTicketPopupViewModel = new ViewTicketPopupViewModel(modelFactory.getTicketModel());
         signupViewModel = new SignupViewModel(modelFactory.getAccountModel()); // Create an instance of SignupViewModel
+        mainSceneViewModel = new MainSceneViewModel(this, modelFactory.getAccountModel());
+        logInViewModel = new LogInViewModel(modelFactory.getAccountModel());
     }
+
+    public LogInViewModel getLogInViewModel() {return logInViewModel;}
+    public MainSceneViewModel getMainSceneViewModel() {return mainSceneViewModel;}
 
     public MovieListViewModel getMovieListViewModel() {
         return movieListViewModel;

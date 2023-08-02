@@ -16,7 +16,6 @@ public class DatabaseImpl implements Database {
 
     @Override
     public ArrayList<Movie> getAllMovies() {
-        System.out.println("Database received get all movies request!");
         try {
 
             Statement statement = connection.createStatement();
@@ -63,6 +62,8 @@ public class DatabaseImpl implements Database {
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Signup successful for user: " + username);
+
+                return checkUserCredentials(username,password);
             } else {
                 System.out.println("Signup failed for user: " + username);
             }

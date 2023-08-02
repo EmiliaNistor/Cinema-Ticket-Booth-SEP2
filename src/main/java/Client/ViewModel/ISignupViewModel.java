@@ -2,5 +2,5 @@ package Client.ViewModel;
 
 public interface ISignupViewModel
 {
-    void signup(String username, String password);
+    boolean signup(String username, String password);
 }

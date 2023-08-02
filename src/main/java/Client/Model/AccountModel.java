@@ -37,6 +37,7 @@ public class AccountModel implements IAccountModel, PropertyChangeSubject {
 
             propertyChangeSupport.firePropertyChange("AccountChange", loggedInUser, createdUser);
             loggedInUser = createdUser;
+            return true;
         } catch (RemoteException e)
         {
             System.out.println("Error occurred during signup process.");
@@ -64,6 +65,7 @@ public class AccountModel implements IAccountModel, PropertyChangeSubject {
 
             propertyChangeSupport.firePropertyChange("AccountChange", this.loggedInUser, loggedInUser);
             this.loggedInUser = loggedInUser;
+            return true;
         } catch (RemoteException e)
         {
             System.out.println("Error occurred during log in process.");

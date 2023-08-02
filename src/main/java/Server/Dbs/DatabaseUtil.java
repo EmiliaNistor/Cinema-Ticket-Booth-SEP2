@@ -25,7 +25,7 @@ public class DatabaseUtil {
                         "REFERENCES sep2reexam_database.seat(id), movie_id INTEGER REFERENCES sep2reexam_database.movie(id), " +
                         "menu_id INTEGER REFERENCES sep2reexam_database.menu(id));" +
                 "CREATE TABLE sep2reexam_database.users (" +
-                        "id SERIAL PRIMARY KEY, username VARCHAR(255) UNIQUE, password VARCHAR(255), administrator BOOLEAN);"
+                        "id SERIAL PRIMARY KEY, username VARCHAR(255) UNIQUE, password VARCHAR(255), administrator BOOLEAN DEFAULT false);"
         };
 
         try {

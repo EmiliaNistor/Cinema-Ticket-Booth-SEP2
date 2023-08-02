@@ -265,19 +265,6 @@ public class ViewHandler {
         });
     }*/
 
-    /*public void openMovieList() {
-        try {
-            Parent root = loadFXML("/OLDmovieList.fxml");
-
-            stage.setTitle("Movie List");
-            movieList = new Scene(root);
-            stage.setScene(movieList);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     /*public void openTicketInformation() {
         try {
             Parent root = loadFXML("/ticketInformation.fxml");

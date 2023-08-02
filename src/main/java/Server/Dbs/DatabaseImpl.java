@@ -1,9 +1,6 @@
 package Server.Dbs;
 
-import Shared.Model.Movie;
-import Shared.Model.Seat;
 import Shared.Model.*;
-
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -11,10 +8,105 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class DatabaseImpl implements Database {
-    Connection connection;
+    private Connection connection;
 
     public DatabaseImpl() throws SQLException {
         connection = DatabaseUtil.getConnection();
+    }
+
+    @Override
+    public ArrayList<Movie> getAllMovies() {
+        System.out.println("Database received get all movies request!");
+        try {
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM sep2reexam_database.movie");
+
+            ArrayList<Movie> movies = new ArrayList<>();
+            while (resultSet.next())
+            {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                LocalTime startTime = resultSet.getTime("start_time").toLocalTime();
+                LocalTime endTime = resultSet.getTime("end_time").toLocalTime();
+                String genre = resultSet.getString("genre");
+                int length = resultSet.getInt("length");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
+
+                Movie movie = new Movie(id, name, date, startTime, endTime, genre, length);
+                movies.add(movie);
+            }
+            return movies;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
+    /**
+     * Creates a new user account without administrator privileges
+     * @param username The username of the account (MUST BE UNIQUE)
+     * @param password The password of the account
+     * @return The newly created user account, null if failed
+     */
+    @Override
+    public User createAccount(String username, String password) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO sep2reexam_database.users (username, password) VALUES (?, ?)"
+            );
+            statement.setString(1, username);
+            statement.setString(2, password);
+
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Signup successful for user: " + username);
+            } else {
+                System.out.println("Signup failed for user: " + username);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error occurred during signup process for user: " + username);
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks user's credentials and returns the signed in user
+     *
+     * @param username The username of the account
+     * @param password The password of the account
+     * @return The signed in user
+     */
+    @Override
+    public User checkUserCredentials(String username, String password) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM sep2reexam_database.users u " +
+                            "WHERE u.username = ? AND u.password = ? LIMIT 1"
+            );
+            statement.setString(1, username);
+            statement.setString(2, password);
+
+            // executing the query returns a ResultSet which has the result of the query
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new User(
+                        resultSet.getInt("id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getBoolean("administrator")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Error occurred during log in process for user: " + username);
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override
@@ -93,7 +185,7 @@ public class DatabaseImpl implements Database {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT t.id, t.seat_id, t.movie_id, t.menu_id, " +
-                            "s.row, s.number, " +
+                            "s.row, s.number, s.screen_id, " +
                             "m.name, m.start_time, m.end_time, m.date, m.length, m.genre, " +
                             "f.food, f.price " +
                             "FROM ticket t " +
@@ -108,10 +200,12 @@ public class DatabaseImpl implements Database {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                int seatId = resultSet.getInt("seat_id");
                 String seatRow = resultSet.getString("row");
                 int seatNumber = resultSet.getInt("number");
                 Seat seat = new Seat(seatRow, seatNumber);
+
+                // empty screen data, because we only need screen id
+                Screen screen = new Screen(resultSet.getInt("number"), new ArrayList<>());
 
                 int movieId = resultSet.getInt("movie_id");
                 String name = resultSet.getString("name");
@@ -132,11 +226,6 @@ public class DatabaseImpl implements Database {
                 String food = resultSet.getString("food");
                 double price = resultSet.getDouble("price");
                 Menu menu = new Menu(menuId,food, price);
-
-
-                ArrayList<Seat> seats = new ArrayList<>();
-
-                Screen screen = new Screen(1,seats);
 
                 return new Ticket(ticketId, seat, movie,screen, menu);
             }

@@ -17,15 +17,16 @@ public class ViewModelFactory {
 
     public ViewModelFactory(ModelFactory modelFactory) {
         this.modelFactory = modelFactory;
-        movieListViewModel = new MovieListViewModel(this, modelFactory.getMovieListModel());
+        movieListViewModel = new MovieListViewModel(
+                this, modelFactory.getMovieListModel(), modelFactory.getAccountModel()
+        );
         purchaseTicketPopUpViewModel = new PurchaseTicketPopUpViewModel(
                 modelFactory.getMovieListModel(), modelFactory.getScreenModel(), modelFactory.getTicketModel()
         );
         ticketInformationViewModel = new TicketInformationViewModel();
         cancelTicketViewModel = new CancelTicketViewModel(modelFactory.getTicketModel());
         viewTicketPopupViewModel = new ViewTicketPopupViewModel(modelFactory.getTicketModel());
-        signupViewModel = new SignupViewModel(modelFactory.getSignupModel()); // Create an instance of SignupViewModel
-
+        signupViewModel = new SignupViewModel(modelFactory.getAccountModel()); // Create an instance of SignupViewModel
     }
 
     public MovieListViewModel getMovieListViewModel() {
@@ -43,8 +44,6 @@ public class ViewModelFactory {
     public SignupViewModel getSignupViewModel() {
         return signupViewModel; // Return the SignupViewModel instance
     }
-
-
 
     /**
      * Updates the purchase ticket popup's movie information

@@ -1,29 +1,14 @@
 package Client.ViewModel;
 
-import Client.Model.ISignupModel;
-import Client.Model.SignupModel;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import Client.Model.IAccountModel;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class SignupViewModel implements ISignupViewModel {
-    private StringProperty usernameProperty;
-    private StringProperty passwordProperty;
-    private ISignupModel signupModel; // Instance of the SignupModel
+    private final IAccountModel accountModel; // Instance of the AccountModel
 
-    public SignupViewModel(ISignupModel signupModel) {
-        this.signupModel = signupModel;
-        usernameProperty = new SimpleStringProperty();
-        passwordProperty = new SimpleStringProperty();
-    }
-
-    public StringProperty usernameProperty() {
-        return usernameProperty;
-    }
-
-    public StringProperty passwordProperty() {
-        return passwordProperty;
+    public SignupViewModel(IAccountModel accountModel) {
+        this.accountModel = accountModel;
     }
 
     @Override
@@ -36,7 +21,7 @@ public class SignupViewModel implements ISignupViewModel {
         }
 
         // Call the signup method from the SignupModel
-        boolean signupSuccessful = signupModel.signup(username, password);
+        boolean signupSuccessful = accountModel.signup(username, password);
 
         if (signupSuccessful) {
             showInfo("Signup successful! Welcome, " + username + "!");

@@ -15,10 +15,6 @@ public class TicketModel implements ITicketModel {
         this.serverRMI = serverRMI;
     }
 
-    public static char[] getMenu() {
-        return new char[0];
-    }
-
     public void addTicket(Ticket ticket) {
         tickets.put(ticket.getId(), ticket);
     }
@@ -26,9 +22,16 @@ public class TicketModel implements ITicketModel {
     @Override
     public void purchaseTicket(Ticket ticket) {
         try {
-            serverRMI.addTicket(ticket);
+            Ticket purchasedTicket = serverRMI.purchase(ticket);
+            if (purchasedTicket == null) {
+                // purchase failed!
+                System.out.println("Ticket purchase failed");
+                return;
+            }
+
+            tickets.put(purchasedTicket.getId(), purchasedTicket);
         } catch (Exception e) {
-            System.out.println("Purchasing is crying");
+            System.out.println("Ticket purchase failed");
         }
     }
 
@@ -45,14 +48,13 @@ public class TicketModel implements ITicketModel {
 
         // Refreshing all tickets
         try {
-            for (Ticket t: serverRMI.getAllTickets()) {
-                tickets.put(t.getId(), t);
-            }
+            Ticket ticket = serverRMI.getTicketById(ticketID);
+            return ticket;
         } catch (RemoteException e) {
-            System.out.println("No ticket connection?");
+            System.out.println("Getting information about a ticket failed!");
         }
 
-        return tickets.getOrDefault(ticketID, null);
+        return null;
     }
 
     /**
@@ -61,11 +63,11 @@ public class TicketModel implements ITicketModel {
      */
     @Override
     public void cancelTicket(Ticket ticket) {
-        tickets.remove(ticket.getId());
         try {
-            serverRMI.deleteTicket(ticket);
+            serverRMI.cancelTicket(ticket.getId());
+            tickets.remove(ticket.getId());
         } catch (RemoteException e) {
-            System.out.println("Couldn't cancel :(");
+            System.out.println("Couldn't cancel the ticket");
         }
     }
 }

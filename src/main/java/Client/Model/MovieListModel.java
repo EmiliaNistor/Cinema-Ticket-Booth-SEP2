@@ -2,7 +2,6 @@ package Client.Model;
 
 import java.rmi.RemoteException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,8 +18,7 @@ public class MovieListModel implements IMovieListModel
 
     public MovieListModel(IRMIServer serverRMI)
     {
-        this.movieList = new HashMap<>(); //FXCollections.observableArrayList();
-        movieList.put(123, new Movie(123, ":(", LocalDate.now(), LocalTime.now(), LocalTime.now(), "sad", 1234));
+        this.movieList = new HashMap<>();
         this.serverRMI = serverRMI;
     }
 
@@ -34,12 +32,10 @@ public class MovieListModel implements IMovieListModel
         try
         {
             ArrayList<Movie> moviesList = serverRMI.getAllMovies();
-            System.out.printf("Movies in local storage pre-loop: %d\n",moviesList.size());
             for (Movie m: moviesList) {
                 this.movieList.put(m.getMovieId(), m);
             }
             ArrayList<Movie> list = new ArrayList<>(this.movieList.values());
-            System.out.printf("Movies in local storage: %d\n",list.size());
             return list;
         } catch (RemoteException e)
         {

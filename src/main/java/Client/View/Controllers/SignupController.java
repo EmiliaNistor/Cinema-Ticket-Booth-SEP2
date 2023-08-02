@@ -23,11 +23,6 @@ public class SignupController {
     }
 
     @FXML
-    private void initialize() {
-        // Perform any initialization tasks if needed.
-    }
-
-    @FXML
     private void handleSignup() {
         signupViewModel.signup(usernameField.getText(), passwordField.getText());
     }

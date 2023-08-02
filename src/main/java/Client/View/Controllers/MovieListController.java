@@ -25,6 +25,8 @@ public class MovieListController
     @FXML
     private Button addMovieButton;
     @FXML
+    private Button purchaseMovieButton;
+    @FXML
     private Button modifyMovieButton;
     @FXML
     private TableView<Movie> movies;
@@ -55,6 +57,12 @@ public class MovieListController
         genre.setCellValueFactory(new PropertyValueFactory<>("genre"));
         length.setCellValueFactory(new PropertyValueFactory<>("length"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        // regular user buttons
+        purchaseMovieButton.visibleProperty().bind(viewModel.loggedInProperty());
+        // administrator buttons
+        addMovieButton.visibleProperty().bind(viewModel.administratorProperty());
+        modifyMovieButton.visibleProperty().bind(viewModel.administratorProperty());
     }
 
     @FXML

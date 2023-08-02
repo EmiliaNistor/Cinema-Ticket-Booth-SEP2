@@ -13,7 +13,7 @@ public class ModelFactory {
     private final ITicketModel ticketModel;
     private  final  IMovieListModel movieListModel;
 
-    private final ISignupModel signupModel;
+    private final IAccountModel accountModel;
 
     private final IScreenModel screenModel;
 
@@ -27,8 +27,7 @@ public class ModelFactory {
         ticketModel = new TicketModel(serverRMI);
         movieListModel = new MovieListModel(serverRMI);
         screenModel = new ScreenModel(serverRMI, movieListModel);
-        signupModel = new SignupModel(serverRMI);
-
+        accountModel = new AccountModel(serverRMI);
     }
 
     /**
@@ -55,8 +54,8 @@ public class ModelFactory {
         return screenModel;
     }
 
-    public ISignupModel getSignupModel() {
-        return signupModel;
+    public IAccountModel getAccountModel() {
+        return accountModel;
     }
 
 }

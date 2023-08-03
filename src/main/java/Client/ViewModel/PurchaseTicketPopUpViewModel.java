@@ -1,6 +1,7 @@
 package Client.ViewModel;
 
-import Client.Core.ViewModelFactory;
+import Client.Core.PropertyChangeSubject;
+import Client.Model.IMenuModel;
 import Client.Model.IMovieListModel;
 import Client.Model.IScreenModel;
 import Client.Model.ITicketModel;
@@ -10,14 +11,17 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.beans.PropertyChangeEvent;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewModel {
     private Movie movie;
     private final IMovieListModel movieModel;
     private final IScreenModel screenModel;
     private final ITicketModel ticketModel;
+    private final IMenuModel menuModel;
 
     private final StringProperty movieName;
     private final StringProperty movieScreen;
@@ -29,10 +33,13 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
     private final ObservableList<Seat> seatOptions;
     private final ObservableList<Menu> menuOptions;
 
-    public PurchaseTicketPopUpViewModel(IMovieListModel movieModel, IScreenModel screenModel, ITicketModel ticketModel) {
+    public PurchaseTicketPopUpViewModel(
+            IMovieListModel movieModel, IScreenModel screenModel, ITicketModel ticketModel, IMenuModel menuModel
+    ) {
         this.movieModel = movieModel;
         this.screenModel = screenModel;
         this.ticketModel = ticketModel;
+        this.menuModel = menuModel;
 
         movieName = new SimpleStringProperty();
         movieScreen = new SimpleStringProperty();
@@ -43,6 +50,41 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         movieEndTime = new SimpleStringProperty();
         seatOptions = FXCollections.observableArrayList();
         menuOptions = FXCollections.observableArrayList();
+
+        ((PropertyChangeSubject) menuModel).addPropertyChangeListener(
+                "MenuListChange",
+                (PropertyChangeEvent evt) -> this.updateMenuContents(evt)
+        );
+
+        ((PropertyChangeSubject) movieModel).addPropertyChangeListener(
+                "MovieListChange",
+                (PropertyChangeEvent evt) -> this.updateMovieStartTimes(evt)
+        );
+    }
+
+    private void updateMenuContents(PropertyChangeEvent evt) {
+        if (evt.getNewValue() == null) {
+            menuOptions.clear();
+            return;
+        }
+
+        menuOptions.setAll((Collection<Menu>) evt.getNewValue());
+    }
+
+    private void updateMovieStartTimes(PropertyChangeEvent evt) {
+        System.out.println("PurchaseTicket movie list change received!");
+        if (evt.getNewValue() == null) {
+            movieStartTimes.clear();
+            return;
+        }
+
+        // populating start times
+        ArrayList<LocalTime> startTimes = new ArrayList<>();
+        for (Movie m: (Collection<Movie>) evt.getNewValue()) {
+            startTimes.add(m.getStartTime());
+        }
+
+        movieStartTimes.setAll(startTimes);
     }
 
     /**
@@ -57,6 +99,17 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         movieLength.setValue(""+movie.getLength());
         movieDate.setValue(movie.getDate().toString());
         movieEndTime.setValue(movie.getEndTime().toString());
+
+        // populating start times
+        ArrayList<LocalTime> startTimes = new ArrayList<>();
+        for (Movie m: movieModel.getSameMoviesByDate(movie, movie.getDate())) {
+            startTimes.add(m.getStartTime());
+        }
+
+        movieStartTimes.setAll(startTimes);
+
+        // Also refreshing menu contents
+        menuModel.getAllMenus();
     }
 
     @Override
@@ -152,7 +205,6 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         ticketModel.purchaseTicket(
                 new Ticket(-1, seat, movie, screenModel.getScreenByMovie(movie), menu)
         );
-
     }
 }
 

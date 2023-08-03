@@ -52,6 +52,8 @@ public class MovieListController
         System.out.println("Movie list controller initializing!");
         this.viewHandler = viewHandler;
         this.viewModel = viewModel;
+        var a = viewModel.getMovieList();
+        System.out.println("Controller has "+a.size()+" movies!");
         movies.setItems(viewModel.getMovieList());
         title.setCellValueFactory(new PropertyValueFactory<>("name"));
         genre.setCellValueFactory(new PropertyValueFactory<>("genre"));

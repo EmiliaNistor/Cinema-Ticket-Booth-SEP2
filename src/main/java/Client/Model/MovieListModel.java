@@ -1,49 +1,67 @@
 package Client.Model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
+import Client.Core.PropertyChangeSubject;
+import Shared.Model.Menu;
 import Shared.Model.Movie;
 import Shared.Network.IRMIServer;
 
-public class MovieListModel implements IMovieListModel
+public class MovieListModel implements IMovieListModel, PropertyChangeSubject
 {
     /**
      * List of saved movies within memory. Key is movie ID
      */
     private final HashMap<Integer, Movie> movieList;
     private final IRMIServer serverRMI;
+    private final PropertyChangeSupport propertyChangeSupport;
 
     public MovieListModel(IRMIServer serverRMI)
     {
         this.movieList = new HashMap<>();
         this.serverRMI = serverRMI;
+        this.propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
     /**
-     * Get a list of all available movies
-     * @return List of movies
+     * Refreshes the available list of movies
      */
     @Override
-    public ArrayList<Movie> getAllMovies()
+    public void refreshMovies()
     {
         try
         {
-            ArrayList<Movie> moviesList = serverRMI.getAllMovies();
-            for (Movie m: moviesList) {
-                this.movieList.put(m.getMovieId(), m);
+            System.out.println("Fetching movies from server");
+            ArrayList<Movie> movies = serverRMI.getAllMovies();
+            if (movies != null) {
+                System.out.println("Successful fetch!");
+                // successful fetch
+                Collection<Movie> oldMovieList = movieList.values();
+
+                // populating movie list
+                System.out.println("Clearing movie list and repopulating it!");
+                movieList.clear();
+                for (Movie m: movies) {
+                    movieList.put(m.getMovieId(), m);
+                }
+                System.out.println("Movies in list: "+movieList.values().size());
+
+                System.out.println("Movies refreshed! Notifying listeners!");
+                propertyChangeSupport.firePropertyChange(
+                        "MovieListChange", oldMovieList, movieList.values()
+                );
             }
-            ArrayList<Movie> list = new ArrayList<>(this.movieList.values());
-            return list;
         } catch (RemoteException e)
         {
-            System.out.println("Couldn't fetch movies from the server."  );
+            System.out.println("Couldn't fetch movies from the server.");
             e.printStackTrace();
-
         }
-        return null;
     }
 
     /**
@@ -80,5 +98,27 @@ public class MovieListModel implements IMovieListModel
         }
 
         return matchingMovies;
+    }
+
+    // Property Change Subject implementations
+    @Override
+    public void addPropertyChangeListener(String name, PropertyChangeListener listener) {
+        System.out.println("New listener, listening to: "+name);
+        propertyChangeSupport.addPropertyChangeListener(name, listener);
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(String name, PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(name, listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 }

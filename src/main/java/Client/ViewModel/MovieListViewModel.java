@@ -8,11 +8,14 @@ import Shared.Model.Movie;
 import Shared.Model.User;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class MovieListViewModel implements IMovieListViewModel
 {
@@ -25,12 +28,11 @@ public class MovieListViewModel implements IMovieListViewModel
 
     public MovieListViewModel(ViewModelFactory viewModelFactory, IMovieListModel movieListModel, IAccountModel accountModel)
     {
+        System.out.println("Movie list view model initialized!");
         this.viewModelFactory = viewModelFactory;
         this.movieListModel = movieListModel;
         this.accountModel = accountModel;
-        this.movieList = FXCollections.observableArrayList(
-                movieListModel.getAllMovies()
-        );
+        this.movieList = FXCollections.observableArrayList();
 
         loggedInProperty = new SimpleBooleanProperty(false);
         administratorProperty = new SimpleBooleanProperty(false);
@@ -38,6 +40,11 @@ public class MovieListViewModel implements IMovieListViewModel
         ((PropertyChangeSubject) accountModel).addPropertyChangeListener(
                 "AccountChange",
                 (PropertyChangeEvent evt) -> this.updateButtonAccess(evt)
+        );
+
+        ((PropertyChangeSubject) movieListModel).addPropertyChangeListener(
+                "MovieListChange",
+                (PropertyChangeEvent evt) -> this.updateMovieList(evt)
         );
     }
 
@@ -54,10 +61,26 @@ public class MovieListViewModel implements IMovieListViewModel
         administratorProperty.setValue(newAccount.getAdministrator());
     }
 
+    private void updateMovieList(PropertyChangeEvent event) {
+        System.out.println("New movie notification received!");
+        if (event.getNewValue() == null) {
+            System.out.println("No movies!");
+            movieList.clear();
+            return;
+        }
+
+        ArrayList<Movie> movies = new ArrayList<>();
+        for (Movie m: (Collection<Movie>) event.getNewValue()) {
+            movies.add(m);
+        }
+
+        System.out.println("Movie amount: "+movies.size());
+        movieList.setAll(movies);
+    }
+
     @Override
     public ObservableList<Movie> getMovieList()
     {
-        // Updating the movie list array
         return movieList;
     }
 

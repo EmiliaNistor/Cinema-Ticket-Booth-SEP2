@@ -35,6 +35,8 @@ public class DatabaseImpl implements Database {
                 Movie movie = new Movie(id, name, date, startTime, endTime, genre, length);
                 movies.add(movie);
             }
+
+            statement.close();
             return movies;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,6 +65,7 @@ public class DatabaseImpl implements Database {
             if (rowsAffected > 0) {
                 System.out.println("Signup successful for user: " + username);
 
+                statement.close();
                 return checkUserCredentials(username,password);
             } else {
                 System.out.println("Signup failed for user: " + username);
@@ -95,12 +98,13 @@ public class DatabaseImpl implements Database {
             // executing the query returns a ResultSet which has the result of the query
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new User(
-                        resultSet.getInt("id"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password"),
-                        resultSet.getBoolean("administrator")
-                );
+                int id = resultSet.getInt("id");
+                String userUsername = resultSet.getString("username");
+                String userPassword = resultSet.getString("password");
+                boolean administrator = resultSet.getBoolean("administrator");
+                statement.close();
+
+                return new User(id, userUsername, userPassword, administrator);
             }
         } catch (SQLException e) {
             System.out.println("Error occurred during log in process for user: " + username);
@@ -174,10 +178,8 @@ public class DatabaseImpl implements Database {
 
             preparedStatement.close();
             return null; // no ticket found after purchase?
-            //connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //System.exit(0);
             return null;
         }
     }
@@ -218,16 +220,12 @@ public class DatabaseImpl implements Database {
 
                 Movie movie = new Movie(movieId, name, date, startTime, endTime, genre, length);
 
-                // ???
-                /*String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                User user = new User(username, password);*/
-
                 int menuId = resultSet.getInt("menu_id");
                 String food = resultSet.getString("food");
                 double price = resultSet.getDouble("price");
                 Menu menu = new Menu(menuId,food, price);
 
+                preparedStatement.close();
                 return new Ticket(ticketId, seat, movie,screen, menu);
             }
         } catch (SQLException e) {
@@ -324,6 +322,7 @@ public class DatabaseImpl implements Database {
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Failed to get menu: " + e.getMessage());
+            return null;
         }
 
         return menus;

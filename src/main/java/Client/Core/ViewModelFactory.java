@@ -22,7 +22,8 @@ public class ViewModelFactory {
                 this, modelFactory.getMovieListModel(), modelFactory.getAccountModel()
         );
         purchaseTicketPopUpViewModel = new PurchaseTicketPopUpViewModel(
-                modelFactory.getMovieListModel(), modelFactory.getScreenModel(), modelFactory.getTicketModel()
+                modelFactory.getMovieListModel(), modelFactory.getScreenModel(), modelFactory.getTicketModel(),
+                modelFactory.getMenuModel()
         );
         ticketInformationViewModel = new TicketInformationViewModel();
         cancelTicketViewModel = new CancelTicketViewModel(modelFactory.getTicketModel());
@@ -30,6 +31,9 @@ public class ViewModelFactory {
         signupViewModel = new SignupViewModel(modelFactory.getAccountModel()); // Create an instance of SignupViewModel
         mainSceneViewModel = new MainSceneViewModel(this, modelFactory.getAccountModel());
         logInViewModel = new LogInViewModel(modelFactory.getAccountModel());
+
+        // final setup calls
+        modelFactory.getMovieListModel().refreshMovies();
     }
 
     public LogInViewModel getLogInViewModel() {return logInViewModel;}

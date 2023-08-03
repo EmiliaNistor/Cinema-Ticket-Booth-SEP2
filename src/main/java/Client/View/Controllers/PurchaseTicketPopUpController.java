@@ -79,7 +79,7 @@ public class PurchaseTicketPopUpController {
     }
 
     @FXML
-    private void seatSelected(ActionEvent action) {;
+    private void seatSelected(ActionEvent action) {
     }
 
     @FXML

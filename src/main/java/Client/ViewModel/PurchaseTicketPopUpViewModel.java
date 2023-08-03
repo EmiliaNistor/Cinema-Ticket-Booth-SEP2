@@ -47,7 +47,7 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         movieScreen = new SimpleStringProperty();
         movieLength = new SimpleStringProperty();
         movieDate = new SimpleStringProperty();
-        ticketPrice = new SimpleStringProperty(basePrice+" DKK");
+        ticketPrice = new SimpleStringProperty(String.format("%.2f DKK",basePrice));
         movieStartTimes = FXCollections.observableArrayList();
         movieEndTime = new SimpleStringProperty();
         seatOptions = FXCollections.observableArrayList();
@@ -193,7 +193,7 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
     @Override
     public void updateMenu(Menu menu) {
         if (menu == null) {
-            ticketPrice.setValue(basePrice+" DKK");
+            ticketPrice.setValue(String.format("%.2f DKK",basePrice));
             return;
         }
 

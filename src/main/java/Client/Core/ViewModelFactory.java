@@ -34,6 +34,7 @@ public class ViewModelFactory {
 
         // final setup calls
         modelFactory.getMovieListModel().refreshMovies();
+        modelFactory.getMenuModel().getAllMenus();
     }
 
     public LogInViewModel getLogInViewModel() {return logInViewModel;}

@@ -35,12 +35,14 @@ public class MenuModel implements IMenuModel, PropertyChangeSubject {
 
                 // populating menu list
                 menuList.clear();
+                ArrayList<Menu> menuAR = new ArrayList<>();
                 for (Menu m: menus) {
                     menuList.put(m.getMenuId(), m);
+                    menuAR.add(m);
                 }
 
                 propertyChangeSupport.firePropertyChange(
-                        "MenuListChange", oldMenuList, menuList.values()
+                        "MenuListChange", oldMenuList, menuAR
                 );
             }
         } catch (RemoteException e) {

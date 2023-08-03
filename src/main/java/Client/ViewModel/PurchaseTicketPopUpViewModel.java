@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 import java.beans.PropertyChangeEvent;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewModel {
     private Movie movie;
@@ -33,6 +32,8 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
     private final ObservableList<Seat> seatOptions;
     private final ObservableList<Menu> menuOptions;
 
+    private double basePrice;
+
     public PurchaseTicketPopUpViewModel(
             IMovieListModel movieModel, IScreenModel screenModel, ITicketModel ticketModel, IMenuModel menuModel
     ) {
@@ -40,12 +41,13 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         this.screenModel = screenModel;
         this.ticketModel = ticketModel;
         this.menuModel = menuModel;
+        this.basePrice = 100;
 
         movieName = new SimpleStringProperty();
         movieScreen = new SimpleStringProperty();
         movieLength = new SimpleStringProperty();
         movieDate = new SimpleStringProperty();
-        ticketPrice = new SimpleStringProperty();
+        ticketPrice = new SimpleStringProperty(basePrice+" DKK");
         movieStartTimes = FXCollections.observableArrayList();
         movieEndTime = new SimpleStringProperty();
         seatOptions = FXCollections.observableArrayList();
@@ -68,11 +70,10 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
             return;
         }
 
-        menuOptions.setAll((Collection<Menu>) evt.getNewValue());
+        menuOptions.setAll((ArrayList<Menu>) evt.getNewValue());
     }
 
     private void updateMovieStartTimes(PropertyChangeEvent evt) {
-        System.out.println("PurchaseTicket movie list change received!");
         if (evt.getNewValue() == null) {
             movieStartTimes.clear();
             return;
@@ -80,8 +81,10 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
 
         // populating start times
         ArrayList<LocalTime> startTimes = new ArrayList<>();
-        for (Movie m: (Collection<Movie>) evt.getNewValue()) {
-            startTimes.add(m.getStartTime());
+        for (Movie m: (ArrayList<Movie>) evt.getNewValue()) {
+            if (m.getDate().equals(m.getDate())) {
+                startTimes.add(m.getStartTime());
+            }
         }
 
         movieStartTimes.setAll(startTimes);
@@ -159,39 +162,42 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
 
     /**
      * Updates the information about the movie from selected settings
-     * @param movieStartTime The chosen movie start time, null if not changed
-     * @param seat           The chosen seat for the ticket, null if not changed
-     * @param menu           The chosen menu for the ticket, null if not changed
+     * @param movieStartTime The chosen movie start time
      */
     @Override
-    public void updateTicketInfo(LocalTime movieStartTime, Seat seat, Menu menu) {
-        if (movieStartTime != null) {
-            // movie start time was changed, refreshing available seats and info
-            ArrayList<Movie> sameDate = movieModel.getSameMoviesByDate(movie, movie.getDate());
-            for (Movie m: sameDate) {
-                if (m.getStartTime().equals(movieStartTime)) {
-                    movie = m;
-                    Screen matchingScreen = screenModel.getScreenByMovie(m);
-                    if (matchingScreen != null) {
-                        seatOptions.setAll(matchingScreen.getSeats());
-                    } else {
-                        seatOptions.clear();
-                    }
-
-                    return;
-                }
-            }
-
+    public void updateMovieStart(LocalTime movieStartTime) {
+        if (movieStartTime == null) {
             return;
         }
 
-        if (seat != null) {
-            // nothing to change for now?
+        // movie start time was changed, refreshing available seats and info
+        ArrayList<Movie> sameDate = movieModel.getSameMoviesByDate(movie, movie.getDate());
+        for (Movie m: sameDate) {
+            if (m.getStartTime().equals(movieStartTime)) {
+                movie = m;
+                Screen matchingScreen = screenModel.getScreenByMovie(m);
+                if (matchingScreen != null) {
+                    seatOptions.setAll(matchingScreen.getSeats());
+                } else {
+                    seatOptions.clear();
+                }
+                return;
+            }
+        }
+    }
+
+    /**
+     * Updates the information about the selected menu
+     * @param menu The chosen menu item
+     */
+    @Override
+    public void updateMenu(Menu menu) {
+        if (menu == null) {
+            ticketPrice.setValue(basePrice+" DKK");
+            return;
         }
 
-        if (menu != null) {
-            // nothing either?
-        }
+        ticketPrice.setValue(String.format("%.2f DKK",basePrice+menu.getPrice()));
     }
 
     /**

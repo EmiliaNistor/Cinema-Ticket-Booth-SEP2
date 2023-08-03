@@ -9,6 +9,7 @@ import Shared.Model.Seat;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -55,32 +56,14 @@ public class PurchaseTicketPopUpController {
         this.viewHandler = viewHandler;
         this.viewModel = viewModel;
 
-        // setting the listeners
-        // name
-        viewModel.getMovieNameProperty().addListener(
-                (observable, oldValue, newValue) -> movieName.setText(newValue)
-        );
-        // date
-        viewModel.getMovieDateProperty().addListener(
-                (observable, oldValue, newValue) -> movieDate.setText(newValue)
-        );
-        // length
-        viewModel.getMovieLengthProperty().addListener(
-                (observable, oldValue, newValue) -> movieLength.setText(newValue)
-        );
-        // start times
+        // binding values
+        movieName.textProperty().bind(viewModel.getMovieNameProperty());
+        movieDate.textProperty().bind(viewModel.getMovieDateProperty());
+        movieLength.textProperty().bind(viewModel.getMovieLengthProperty());
         movieStartTimes.setItems(viewModel.getMovieStartTimes());
-        // end time
-        viewModel.getMovieEndTimeProperty().addListener(
-                (observable, oldValue, newValue) -> movieEndTime.setText(newValue)
-        );
-        // price
-        viewModel.getTicketPriceProperty().addListener(
-                (observable, oldValue, newValue) -> ticketPrice.setText(newValue)
-        );
-        // seat choices
+        movieEndTime.textProperty().bind(viewModel.getMovieEndTimeProperty());
+        ticketPrice.textProperty().bind(viewModel.getTicketPriceProperty());
         seatSelection.setItems(viewModel.getTicketSeatOptions());
-        // menu choices
         menuSelection.setItems(viewModel.getTicketMenuOptions());
     }
 
@@ -92,31 +75,42 @@ public class PurchaseTicketPopUpController {
 
     @FXML
     private void menuSelected(ActionEvent action) {
-        viewModel.updateTicketInfo(
-                null, null, menuSelection.getValue()
-        );
+        viewModel.updateMenu(menuSelection.getValue());
     }
 
     @FXML
-    private void seatSelected(ActionEvent action) {
-        viewModel.updateTicketInfo(
-                null, seatSelection.getValue(), null
-        );
+    private void seatSelected(ActionEvent action) {;
     }
 
     @FXML
     private void startTimeSelected(ActionEvent action) {
-        viewModel.updateTicketInfo(
-                movieStartTimes.getValue(), null, null
-        );
+        viewModel.updateMovieStart(movieStartTimes.getValue());
     }
 
     @FXML
     private void pay(ActionEvent action) {
+        if (movieStartTimes.getValue() == null || seatSelection.getValue() == null) {
+            showError("Ticket purchase failed!");
+            return;
+        }
+
         viewModel.purchaseTicket(
                 movieStartTimes.getValue(), seatSelection.getValue(), menuSelection.getValue()
         );
         Stage stage = (Stage) movieName.getScene().getWindow();
         stage.close();
+    }
+
+    // Helper methods to display alerts for showing messages
+    private void showError(String message) {
+        showAlert(Alert.AlertType.ERROR, "Error", message);
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

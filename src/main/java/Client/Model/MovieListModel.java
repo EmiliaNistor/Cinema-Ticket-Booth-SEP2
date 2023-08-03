@@ -37,24 +37,21 @@ public class MovieListModel implements IMovieListModel, PropertyChangeSubject
     {
         try
         {
-            System.out.println("Fetching movies from server");
             ArrayList<Movie> movies = serverRMI.getAllMovies();
             if (movies != null) {
-                System.out.println("Successful fetch!");
                 // successful fetch
                 Collection<Movie> oldMovieList = movieList.values();
 
                 // populating movie list
-                System.out.println("Clearing movie list and repopulating it!");
                 movieList.clear();
+                ArrayList<Movie> movieAR = new ArrayList<>();
                 for (Movie m: movies) {
                     movieList.put(m.getMovieId(), m);
+                    movieAR.add(m);
                 }
-                System.out.println("Movies in list: "+movieList.values().size());
 
-                System.out.println("Movies refreshed! Notifying listeners!");
                 propertyChangeSupport.firePropertyChange(
-                        "MovieListChange", oldMovieList, movieList.values()
+                        "MovieListChange", oldMovieList, movieAR
                 );
             }
         } catch (RemoteException e)
@@ -103,7 +100,6 @@ public class MovieListModel implements IMovieListModel, PropertyChangeSubject
     // Property Change Subject implementations
     @Override
     public void addPropertyChangeListener(String name, PropertyChangeListener listener) {
-        System.out.println("New listener, listening to: "+name);
         propertyChangeSupport.addPropertyChangeListener(name, listener);
     }
 

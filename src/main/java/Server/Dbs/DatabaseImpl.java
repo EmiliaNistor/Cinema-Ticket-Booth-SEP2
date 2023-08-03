@@ -145,7 +145,7 @@ public class DatabaseImpl implements Database {
     public Ticket makePurchase(Ticket ticket) {
         try {
             // provides query with placeholders for the values.
-            String query = "INSERT INTO ticket VALUES (?, ?, ?)";
+            String query = "INSERT INTO sep2reexam_database.ticket VALUES (?, ?, ?)";
             //creating a PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             //setting 1st placeholder to seat id
@@ -191,7 +191,7 @@ public class DatabaseImpl implements Database {
                             "s.row, s.number, s.screen_id, " +
                             "m.name, m.start_time, m.end_time, m.date, m.length, m.genre, " +
                             "f.food, f.price " +
-                            "FROM ticket t " +
+                            "FROM sep2reexam_database.ticket t " +
                             "JOIN seat s ON t.seat_id = s.id " +
                             "JOIN movie m ON t.movie_id = m.id " +
                             "JOIN menu f ON t.menu_id = f.id" +
@@ -238,7 +238,7 @@ public class DatabaseImpl implements Database {
     //cancel ticket
     public void cancelTicket(int ticketId) {
         try {
-            String query = "DELETE FROM ticket WHERE id = ?";
+            String query = "DELETE FROM sep2reexam_database.ticket WHERE id = ?";
             //creating PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             //assigning value of the ticketId in the prepared statement
@@ -264,7 +264,7 @@ public class DatabaseImpl implements Database {
     public Menu addMenu(String food, double price) {
         try {
             //provides query with placeholders for the values
-            String query = "INSERT INTO menu (food, price) VALUES (?, ?)";
+            String query = "INSERT INTO sep2reexam_database.menu (food, price) VALUES (?, ?)";
             //creating PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             //setting 1st placeholder to "food"
@@ -301,7 +301,7 @@ public class DatabaseImpl implements Database {
         ArrayList<Menu> menus = new ArrayList<>();
 
         try {
-            String query = "SELECT id, food, price FROM menu";
+            String query = "SELECT id, food, price FROM sep2reexam_database.menu";
             //creating PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             //executing query and getting the results in a ResultSet

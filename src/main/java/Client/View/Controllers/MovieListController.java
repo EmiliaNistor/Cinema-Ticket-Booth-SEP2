@@ -8,6 +8,7 @@ import Client.ViewModel.IMovieListViewModel;
 import Shared.Model.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -49,11 +50,9 @@ public class MovieListController
      */
     public void init(ViewHandler viewHandler, IMovieListViewModel viewModel)
     {
-        System.out.println("Movie list controller initializing!");
         this.viewHandler = viewHandler;
         this.viewModel = viewModel;
-        var a = viewModel.getMovieList();
-        System.out.println("Controller has "+a.size()+" movies!");
+
         movies.setItems(viewModel.getMovieList());
         title.setCellValueFactory(new PropertyValueFactory<>("name"));
         genre.setCellValueFactory(new PropertyValueFactory<>("genre"));
@@ -83,7 +82,9 @@ public class MovieListController
     private void purchaseTicket(ActionEvent actionEvent)
     {
         Movie selectedMovie = movies.getSelectionModel().getSelectedItem();
-        viewModel.setPopUpMovie(selectedMovie);
-        viewHandler.openPurchaseTicketPopup();
+        if (selectedMovie != null) {
+            viewModel.setPopUpMovie(selectedMovie);
+            viewHandler.openPurchaseTicketPopup();
+        }
     }
 }

@@ -21,11 +21,14 @@ public interface IPurchaseTicketPopUpViewModel {
 
     /**
      * Updates the information about the movie from selected settings
-     * @param movieStartTime The chosen movie start time, null if not changed
-     * @param seat           The chosen seat for the ticket, null if not changed
-     * @param menu           The chosen menu for the ticket, null if not changed
+     * @param movieStartTime The chosen movie start time
      */
-    void updateTicketInfo(LocalTime movieStartTime, Seat seat, Menu menu);
+    void updateMovieStart(LocalTime movieStartTime);
+    /**
+     * Updates the information about the selected menu
+     * @param menu The chosen menu item
+     */
+    void updateMenu(Menu menu);
 
     /**
      * Handle the purchase of a ticket

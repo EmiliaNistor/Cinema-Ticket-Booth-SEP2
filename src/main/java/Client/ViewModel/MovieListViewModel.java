@@ -28,7 +28,6 @@ public class MovieListViewModel implements IMovieListViewModel
 
     public MovieListViewModel(ViewModelFactory viewModelFactory, IMovieListModel movieListModel, IAccountModel accountModel)
     {
-        System.out.println("Movie list view model initialized!");
         this.viewModelFactory = viewModelFactory;
         this.movieListModel = movieListModel;
         this.accountModel = accountModel;
@@ -62,19 +61,14 @@ public class MovieListViewModel implements IMovieListViewModel
     }
 
     private void updateMovieList(PropertyChangeEvent event) {
-        System.out.println("New movie notification received!");
         if (event.getNewValue() == null) {
-            System.out.println("No movies!");
             movieList.clear();
             return;
         }
 
         ArrayList<Movie> movies = new ArrayList<>();
-        for (Movie m: (Collection<Movie>) event.getNewValue()) {
-            movies.add(m);
-        }
+        movies.addAll((ArrayList<Movie>) event.getNewValue());
 
-        System.out.println("Movie amount: "+movies.size());
         movieList.setAll(movies);
     }
 

@@ -3,6 +3,7 @@ module via.dk.cinema {
     requires javafx.fxml;
     requires java.rmi;
     requires java.sql;
+    requires java.desktop;
 
     exports Client.ViewModel;
     opens Client.ViewModel to javafx.fxml;

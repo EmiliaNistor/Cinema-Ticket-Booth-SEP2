@@ -11,22 +11,29 @@ public class ViewModelFactory {
     private final PurchaseTicketPopUpViewModel purchaseTicketPopUpViewModel;
     private final TicketInformationViewModel ticketInformationViewModel;
     private final CancelTicketViewModel cancelTicketViewModel;
+    private final LogInViewModel logInViewModel;
+    private final MainSceneViewModel mainSceneViewModel;
     private final ViewTicketPopupViewModel viewTicketPopupViewModel;
-
     private final SignupViewModel signupViewModel; // Add the SignupViewModel
 
     public ViewModelFactory(ModelFactory modelFactory) {
         this.modelFactory = modelFactory;
-        movieListViewModel = new MovieListViewModel(this, modelFactory.getMovieListModel());
+        movieListViewModel = new MovieListViewModel(
+                this, modelFactory.getMovieListModel(), modelFactory.getAccountModel()
+        );
         purchaseTicketPopUpViewModel = new PurchaseTicketPopUpViewModel(
                 modelFactory.getMovieListModel(), modelFactory.getScreenModel(), modelFactory.getTicketModel()
         );
         ticketInformationViewModel = new TicketInformationViewModel();
         cancelTicketViewModel = new CancelTicketViewModel(modelFactory.getTicketModel());
         viewTicketPopupViewModel = new ViewTicketPopupViewModel(modelFactory.getTicketModel());
-        signupViewModel = new SignupViewModel(modelFactory.getSignupModel()); // Create an instance of SignupViewModel
-
+        signupViewModel = new SignupViewModel(modelFactory.getAccountModel()); // Create an instance of SignupViewModel
+        mainSceneViewModel = new MainSceneViewModel(this, modelFactory.getAccountModel());
+        logInViewModel = new LogInViewModel(modelFactory.getAccountModel());
     }
+
+    public LogInViewModel getLogInViewModel() {return logInViewModel;}
+    public MainSceneViewModel getMainSceneViewModel() {return mainSceneViewModel;}
 
     public MovieListViewModel getMovieListViewModel() {
         return movieListViewModel;
@@ -43,8 +50,6 @@ public class ViewModelFactory {
     public SignupViewModel getSignupViewModel() {
         return signupViewModel; // Return the SignupViewModel instance
     }
-
-
 
     /**
      * Updates the purchase ticket popup's movie information

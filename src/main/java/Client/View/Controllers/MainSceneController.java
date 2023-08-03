@@ -1,6 +1,7 @@
 package Client.View.Controllers;
 
 import Client.Core.ViewHandler;
+import Client.ViewModel.IMainSceneViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -47,14 +48,18 @@ public class MainSceneController {
     /**
      * Controller's view model
      */
-    //private IMainSceneViewModel viewModel;
+    private IMainSceneViewModel viewModel;
 
     /**
      * Sets the base information about the controller
      * @param viewHandler View Handler to manage the program's scenes
      */
-    public void init(ViewHandler viewHandler) {
+    public void init(ViewHandler viewHandler, IMainSceneViewModel viewModel) {
         this.viewHandler = viewHandler;
+        this.viewModel = viewModel;
+        logInButton.textProperty().bind(viewModel.logInTextStringProperty());
+        ticketInfoButton.visibleProperty().bind(viewModel.loggedInProperty());
+        menusButton.visibleProperty().bind(viewModel.administratorProperty());
 
         // setting default scene to movies
         viewMovies(null);
@@ -62,7 +67,14 @@ public class MainSceneController {
 
     @FXML
     private void logIn(ActionEvent actionEvent) {
+        if (viewModel.isLoggedIn()) {
+            // logging out
+            viewModel.logOut();
+            return;
+        }
 
+        // opening log in window
+        viewHandler.openLogIn();
     }
 
     @FXML

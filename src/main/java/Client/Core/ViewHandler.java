@@ -1,11 +1,6 @@
 package Client.Core;
 
 import Client.View.Controllers.*;
-import Client.ViewModel.IMovieListViewModel;
-import Client.ViewModel.TicketInformationViewModel;
-import Client.ViewModel.ViewTicketPopupViewModel;
-import Shared.Model.Movie;
-import Shared.Model.Ticket;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,7 +18,7 @@ public class ViewHandler {
     // Scene related stuff
     private final Stage mainWindow;
     private final Parent movieList;
-    private final Stage ticketInfo;
+    //private final Stage ticketInfo;
     private Scene purchaseTicketScene;
 
     public ViewHandler(ViewModelFactory viewModelFactory) {
@@ -31,7 +26,7 @@ public class ViewHandler {
 
         // Creating default scenes
         this.movieList = createMovieList();
-        this.ticketInfo = createViewTicketPopup();
+        //this.ticketInfo = createViewTicketPopup();
 
         this.mainWindow = createMainWindow();
         mainWindow.show();
@@ -55,7 +50,7 @@ public class ViewHandler {
 
             // Initializing values for the scene's controller
             MainSceneController controller = fxmlLoader.getController();
-            controller.init(this);
+            controller.init(this, viewModelFactory.getMainSceneViewModel());
 
             stage.setScene(scene);
             return stage;
@@ -64,12 +59,6 @@ public class ViewHandler {
             return null;
         }
     }
-
-    /**
-     * Create a new View Ticket Information Popup window
-     * @return The window's stage
-     */
-
 
     /**
      * Returns the movie list scene
@@ -187,7 +176,7 @@ public class ViewHandler {
         }
     }
 
-    public Stage createSignUpWindow() {
+    public void createSignUpWindow() {
 
         // Create a new stage for the SignUp window
         Stage stage = new Stage();
@@ -213,15 +202,32 @@ public class ViewHandler {
             stage.setScene(scene);
             stage.show();
 
-            return stage;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
-    public ViewTicketPopupViewModel getViewTicketPopupViewModel() {
-        return viewModelFactory.getViewTicketPopupViewModel();
+    public void openLogIn() {
+        try {
+            // Create a new stage for the window
+            Stage stage = new Stage();
+            stage.setTitle("Account Log In");
+            stage.initModality(Modality.APPLICATION_MODAL); // This makes the popup window modal
+
+            // Create the scene from the window's fxml
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/logIn.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+
+            // Initializing values for the scene's controller
+            LogInController controller = fxmlLoader.getController();
+            controller.init(viewModelFactory.getLogInViewModel());
+
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*private Scene createMovieList() {
@@ -263,19 +269,6 @@ public class ViewHandler {
                 e.printStackTrace();
             }
         });
-    }*/
-
-    /*public void openMovieList() {
-        try {
-            Parent root = loadFXML("/OLDmovieList.fxml");
-
-            stage.setTitle("Movie List");
-            movieList = new Scene(root);
-            stage.setScene(movieList);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }*/
 
     /*public void openTicketInformation() {

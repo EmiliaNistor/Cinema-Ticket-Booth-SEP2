@@ -1,7 +1,9 @@
 package Server.Dbs;
 
 import Shared.Model.Menu;
+import Shared.Model.Movie;
 import Shared.Model.Ticket;
+import Shared.Model.User;
 
 import java.util.ArrayList;
 
@@ -48,4 +50,26 @@ public interface Database {
       * @return All menus in the database
       */
      ArrayList<Menu> getMenus();
+
+     /**
+      * Get all movies within the cinema
+      * @return A list of movies
+      */
+     ArrayList<Movie> getAllMovies();
+
+     /**
+      * Creates a new user account without administrator privileges
+      * @param username The username of the account (MUST BE UNIQUE)
+      * @param password The password of the account
+      * @return The newly created user account, null if failed
+      */
+     User createAccount(String username, String password);
+
+     /**
+      * Checks user's credentials and returns the signed in user
+      * @param username The username of the account
+      * @param password The password of the account
+      * @return The signed in user
+      */
+     User checkUserCredentials(String username, String password);
 }

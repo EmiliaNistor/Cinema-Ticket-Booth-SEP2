@@ -1,35 +1,38 @@
 package Client.View.Controllers;
 
-import Client.ViewModel.ISignupViewModel;
+import Client.ViewModel.ILogInViewModel;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-public class SignupController {
+public class LogInController {
+    private ILogInViewModel viewModel;
+
     @FXML
-    private TextField usernameField;
-
+    private TextField usernameInput;
     @FXML
-    private PasswordField passwordField;
+    private PasswordField passwordInput;
 
-    public ISignupViewModel signupViewModel;
-
-    /**
-     * Initializes the controller with the ISignupViewModel instance.
-     * @param signupViewModel The ISignupViewModel to be used by the controller.
-     */
-    public void init(ISignupViewModel signupViewModel) {
-        this.signupViewModel = signupViewModel;
+    public void init(ILogInViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     @FXML
-    private void handleSignup() {
-        boolean success = signupViewModel.signup(usernameField.getText(), passwordField.getText());
-        if (success) {
-            showInfo("Sign up successful! Welcome, "+usernameField.getText());
+    private void cancel(ActionEvent event) {
+        Stage stage = (Stage) usernameInput.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void logIn(ActionEvent event) {
+        if (viewModel.logIn(usernameInput.getText(), passwordInput.getText())) {
+            // logging in successful
+            showInfo("You've successfully logged in! Welcome, "+usernameInput.getText());
         } else {
-            showError("Sign up failed! Please try again.");
+            showError("Log in failed. Please try again.");
         }
     }
 

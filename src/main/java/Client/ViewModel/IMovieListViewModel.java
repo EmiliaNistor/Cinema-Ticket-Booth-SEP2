@@ -1,6 +1,7 @@
 package Client.ViewModel;
 
 import Shared.Model.Movie;
+import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
 
 public interface IMovieListViewModel {
@@ -11,4 +12,6 @@ public interface IMovieListViewModel {
      * @param movie The movie to purchase a ticket for
      */
     void setPopUpMovie(Movie movie);
+    BooleanProperty administratorProperty();
+    BooleanProperty loggedInProperty();
 }

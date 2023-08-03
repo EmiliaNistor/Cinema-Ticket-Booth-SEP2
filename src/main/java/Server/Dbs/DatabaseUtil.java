@@ -15,15 +15,17 @@ public class DatabaseUtil {
         String createSchemaQuery = "CREATE SCHEMA sep2reexam_database";
 
         String[] tableCreationQueries = {
-                "CREATE TABLE sep2reexam_database.menu (id SERIAL PRIMARY KEY, food VARCHAR(255), price DECIMAL(10,2))",
+                "CREATE TABLE sep2reexam_database.menu (id SERIAL PRIMARY KEY, food VARCHAR(255), price DECIMAL(10,2));",
                 "CREATE TABLE sep2reexam_database.movie (id SERIAL PRIMARY KEY, name VARCHAR(255), " +
-                        "start_time TIME, end_time TIME, date DATE, length INTEGER, genre VARCHAR(255))",
-                "CREATE TABLE sep2reexam_database.screen (id SERIAL PRIMARY KEY)",
+                        "start_time TIME, end_time TIME, date DATE, length INTEGER, genre VARCHAR(255));",
+                "CREATE TABLE sep2reexam_database.screen (id SERIAL PRIMARY KEY);",
                 "CREATE TABLE sep2reexam_database.seat (id SERIAL PRIMARY KEY, row VARCHAR(10), " +
-                        "number INTEGER, screen_id INTEGER REFERENCES sep2reexam_database.screen(id))",
+                        "number INTEGER, screen_id INTEGER REFERENCES sep2reexam_database.screen(id));",
                 "CREATE TABLE sep2reexam_database.ticket (id SERIAL PRIMARY KEY, seat_id INTEGER " +
                         "REFERENCES sep2reexam_database.seat(id), movie_id INTEGER REFERENCES sep2reexam_database.movie(id), " +
-                        "menu_id INTEGER REFERENCES sep2reexam_database.menu(id))"
+                        "menu_id INTEGER REFERENCES sep2reexam_database.menu(id));" +
+                "CREATE TABLE sep2reexam_database.users (" +
+                        "id SERIAL PRIMARY KEY, username VARCHAR(255) UNIQUE, password VARCHAR(255), administrator BOOLEAN DEFAULT false);"
         };
 
         try {

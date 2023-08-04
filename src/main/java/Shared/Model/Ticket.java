@@ -1,7 +1,6 @@
 package Shared.Model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Holds information about the ticket
@@ -10,16 +9,14 @@ public class Ticket implements Serializable
 {
     private final int id;
     private final Seat seat;
-    private final Movie movie;
-    private final Screen screen;
-    private final Menu menu;
+    private final int movieId;
+    private final int menuId;
 
-    public Ticket(int id, Seat seat, Movie movie, Screen screen, Menu menu) {
+    public Ticket(int id, Seat seat, int movieId, int menuId) {
         this.id = id;
         this.seat = seat;
-        this.movie = movie;
-        this.screen = screen;
-        this.menu = menu;
+        this.movieId = movieId;
+        this.menuId = menuId;
     }
 
     /**
@@ -38,12 +35,11 @@ public class Ticket implements Serializable
         return seat;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public int getMovieId() {
+        return movieId;
     }
-    public Screen getScreen() {return screen;}
 
-    public Menu getMenu() {
-        return menu;
+    public int getMenuId() {
+        return menuId;
     }
 }

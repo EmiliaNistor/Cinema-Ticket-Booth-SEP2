@@ -17,7 +17,6 @@ public class DatabaseImpl implements Database {
     @Override
     public ArrayList<Movie> getAllMovies() {
         try {
-
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM sep2reexam_database.movie");
 
@@ -31,25 +30,139 @@ public class DatabaseImpl implements Database {
                 String genre = resultSet.getString("genre");
                 int length = resultSet.getInt("length");
                 LocalDate date = resultSet.getDate("date").toLocalDate();
+                int screenId = resultSet.getInt("screen_id");
 
-                Movie movie = new Movie(id, name, date, startTime, endTime, genre, length);
+                Movie movie = new Movie(id, name, date, startTime, endTime, genre, length, screenId);
                 movies.add(movie);
             }
+
+            statement.close();
             return movies;
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    @Override
+    public Movie getMovieById(int movieId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM sep2reexam_database.movie WHERE id = ?");
+            preparedStatement.setInt(1, movieId);
+
+            // executing the query returns a ResultSet which has the result of the query
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
+                LocalTime startTime = resultSet.getTime("start_time").toLocalTime();
+                LocalTime endTime = resultSet.getTime("end_time").toLocalTime();
+                String genre = resultSet.getString("genre");
+                int length = resultSet.getInt("length");
+                int screenId = resultSet.getInt("screen_id");
+
+                preparedStatement.close();
+                return new Movie(id, name, date, startTime, endTime, genre, length, screenId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
 
-    /**
-     * Creates a new user account without administrator privileges
-     * @param username The username of the account (MUST BE UNIQUE)
-     * @param password The password of the account
-     * @return The newly created user account, null if failed
-     */
+    @Override
+    public ArrayList<Screen> getAllScreens() {
+        try {
+            Statement screenStatement = connection.createStatement();
+            Statement seatStatement = connection.createStatement();
+            ResultSet screenResultSet = screenStatement.executeQuery("SELECT * FROM sep2reexam_database.screen");
+
+            ArrayList<Screen> screens = new ArrayList<>();
+            while (screenResultSet.next())
+            {
+                int id = screenResultSet.getInt("id");
+                String name = screenResultSet.getString("name");
+
+                ResultSet seatResultSet = seatStatement.executeQuery("SELECT * FROM sep2reexam_database.seat  WHERE screen_id = ?");
+                ArrayList<Seat> seats = new ArrayList<>();
+                while (seatResultSet.next()) {
+                    String row = screenResultSet.getString("row");
+                    int number = screenResultSet.getInt("number");
+                    seats.add(new Seat(row, number));
+                }
+
+                screens.add(
+                        new Screen(id, name, seats)
+                );
+            }
+
+            screenStatement.close();
+            seatStatement.close();
+
+            return screens;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public Screen getScreenById(int screenId) {
+        try (Connection connection = DatabaseUtil.getConnection();
+             PreparedStatement screenStatement = connection.prepareStatement("SELECT * FROM sep2reexam_database.screen WHERE id = ? LIMIT 1");
+             PreparedStatement seatStatement = connection.prepareStatement("SELECT * FROM sep2reexam_database.seat WHERE screen_id = ?"))
+        {
+            // Get the screen details
+            screenStatement.setInt(1, screenId);
+            ResultSet screenResult = screenStatement.executeQuery();
+
+            // If the screen is found, create the Screen object
+            if (screenResult.next())
+            {
+                int id = screenResult.getInt("id");
+                String name = screenResult.getString("name");
+                // Other fields to retrieve from the database, such as name, etc.
+
+                // Get the associated seats for the screen
+                seatStatement.setInt(1, id);
+                ResultSet seatResult = seatStatement.executeQuery();
+                ArrayList<Seat> seats = new ArrayList<>();
+
+                while (seatResult.next())
+                {
+                    int seatId = seatResult.getInt("id");
+                    String row = seatResult.getString("row");
+                    int number = seatResult.getInt("number");
+                    // Other fields to retrieve from the database, such as seat number, etc.
+
+                    // Create the Seat object and add it to the seats list
+                    Seat seat = new Seat(row,number);
+                    seats.add(seat);
+                }
+
+                // Create the Screen object with the retrieved data
+                Screen screen = new Screen(id, name, seats);
+
+                // Cache the screen in the "screens" map for future use
+                //screens.put(screenId, screen);
+
+                return screen;
+            }
+
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null; // Return null if the screen is not found in the database
+    }
+
     @Override
     public User createAccount(String username, String password) {
         try {
@@ -63,6 +176,7 @@ public class DatabaseImpl implements Database {
             if (rowsAffected > 0) {
                 System.out.println("Signup successful for user: " + username);
 
+                statement.close();
                 return checkUserCredentials(username,password);
             } else {
                 System.out.println("Signup failed for user: " + username);
@@ -75,13 +189,6 @@ public class DatabaseImpl implements Database {
         return null;
     }
 
-    /**
-     * Checks user's credentials and returns the signed in user
-     *
-     * @param username The username of the account
-     * @param password The password of the account
-     * @return The signed in user
-     */
     @Override
     public User checkUserCredentials(String username, String password) {
         try {
@@ -95,12 +202,13 @@ public class DatabaseImpl implements Database {
             // executing the query returns a ResultSet which has the result of the query
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return new User(
-                        resultSet.getInt("id"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password"),
-                        resultSet.getBoolean("administrator")
-                );
+                int id = resultSet.getInt("id");
+                String userUsername = resultSet.getString("username");
+                String userPassword = resultSet.getString("password");
+                boolean administrator = resultSet.getBoolean("administrator");
+                statement.close();
+
+                return new User(id, userUsername, userPassword, administrator);
             }
         } catch (SQLException e) {
             System.out.println("Error occurred during log in process for user: " + username);
@@ -114,9 +222,9 @@ public class DatabaseImpl implements Database {
     public int getSeatId(int screen, String row, int number)
     {
         try {
-            String query = "SELECT id" +
-                    "FROM seat" +
-                    "WHERE screen_id = ? AND row = ? AND number = ?" +
+            String query = "SELECT s.id " +
+                    "FROM sep2reexam_database.seat s " +
+                    "WHERE screen_id = ? AND row = ? AND number = ? " +
                     "LIMIT 1";
             //creating a PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -141,20 +249,28 @@ public class DatabaseImpl implements Database {
     public Ticket makePurchase(Ticket ticket) {
         try {
             // provides query with placeholders for the values.
-            String query = "INSERT INTO ticket VALUES (?, ?, ?)";
+            String query = "INSERT INTO sep2reexam_database.ticket (seat_id, movie_id, menu_id) VALUES (?, ?, ?);";
             //creating a PreparedStatement obj with query
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query, new String[] {"id"});
+
+            Movie movie = getMovieById(ticket.getMovieId());
+
             //setting 1st placeholder to seat id
             preparedStatement.setInt(1,
-                    getSeatId(ticket.getScreen().getScreenId(),
+                    getSeatId(movie.getScreenId(),
                             ticket.getSeat().getRow(),
                             ticket.getSeat().getNumber()
                     )
             );
             //setting 2nd placeholder to movie name
-            preparedStatement.setString(2, ticket.getMovie().getName());
+            preparedStatement.setInt(2, ticket.getMovieId());
             //setting 3rd placeholder to menu
-            preparedStatement.setString(3, String.valueOf(ticket.getMenu()));
+            if (ticket.getMenuId() < 1) {
+                preparedStatement.setNull(3, Types.INTEGER);
+            } else {
+                preparedStatement.setInt(3, ticket.getMenuId());
+            }
+
 
             //executing SQL query and storing number of rows affected by the query in  rowsAffected
             int rowsAffected = preparedStatement.executeUpdate();
@@ -162,7 +278,7 @@ public class DatabaseImpl implements Database {
                 ResultSet results = preparedStatement.getGeneratedKeys();
                 if (results.next()) {
                     // fetching newly made ticket info
-                    int newTicketId = results.getInt(1);
+                    int newTicketId = results.getInt("id");
                     preparedStatement.close();
                     return getTicket(newTicketId);
                 } else {
@@ -174,10 +290,8 @@ public class DatabaseImpl implements Database {
 
             preparedStatement.close();
             return null; // no ticket found after purchase?
-            //connection.commit();
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            //System.exit(0);
             return null;
         }
     }
@@ -186,15 +300,10 @@ public class DatabaseImpl implements Database {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT t.id, t.seat_id, t.movie_id, t.menu_id, " +
-                            "s.row, s.number, s.screen_id, " +
-                            "m.name, m.start_time, m.end_time, m.date, m.length, m.genre, " +
-                            "f.food, f.price " +
-                            "FROM ticket t " +
-                            "JOIN seat s ON t.seat_id = s.id " +
-                            "JOIN movie m ON t.movie_id = m.id " +
-                            "JOIN menu f ON t.menu_id = f.id" +
-                            "WHERE t.id = ?"
-            );
+                            "s.row, s.number " +
+                            "FROM sep2reexam_database.ticket t " +
+                            "JOIN sep2reexam_database.seat s ON t.seat_id = s.id " +
+                            "WHERE t.id = ?");
             preparedStatement.setInt(1, ticketId);
 
             // executing the query returns a ResultSet which has the result of the query
@@ -205,30 +314,11 @@ public class DatabaseImpl implements Database {
                 int seatNumber = resultSet.getInt("number");
                 Seat seat = new Seat(seatRow, seatNumber);
 
-                // empty screen data, because we only need screen id
-                Screen screen = new Screen(resultSet.getInt("number"), new ArrayList<>());
-
                 int movieId = resultSet.getInt("movie_id");
-                String name = resultSet.getString("name");
-                LocalDate date = resultSet.getDate("date").toLocalDate();
-                LocalTime startTime = resultSet.getTime("start_time").toLocalTime();
-                LocalTime endTime = resultSet.getTime("end_time").toLocalTime();
-                int length = resultSet.getInt("length");
-                String genre = resultSet.getString("genre");
-
-                Movie movie = new Movie(movieId, name, date, startTime, endTime, genre, length);
-
-                // ???
-                /*String username = resultSet.getString("username");
-                String password = resultSet.getString("password");
-                User user = new User(username, password);*/
-
                 int menuId = resultSet.getInt("menu_id");
-                String food = resultSet.getString("food");
-                double price = resultSet.getDouble("price");
-                Menu menu = new Menu(menuId,food, price);
 
-                return new Ticket(ticketId, seat, movie,screen, menu);
+                preparedStatement.close();
+                return new Ticket(ticketId, seat, movieId, menuId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -240,7 +330,7 @@ public class DatabaseImpl implements Database {
     //cancel ticket
     public void cancelTicket(int ticketId) {
         try {
-            String query = "DELETE FROM ticket WHERE id = ?";
+            String query = "DELETE FROM sep2reexam_database.ticket WHERE id = ?";
             //creating PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             //assigning value of the ticketId in the prepared statement
@@ -248,8 +338,6 @@ public class DatabaseImpl implements Database {
             //executing SQL query  and storing number of rows affected by the query in  rowsAffected
             int rowsAffected = preparedStatement.executeUpdate();
             preparedStatement.close();
-            //committing changes to db
-            connection.commit();
 
             if (rowsAffected > 0) {
                 System.out.println("Ticket " + ticketId + " was cancelled successfully.");
@@ -266,7 +354,7 @@ public class DatabaseImpl implements Database {
     public Menu addMenu(String food, double price) {
         try {
             //provides query with placeholders for the values
-            String query = "INSERT INTO menu (food, price) VALUES (?, ?)";
+            String query = "INSERT INTO sep2reexam_database.menu (food, price) VALUES (?, ?)";
             //creating PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             //setting 1st placeholder to "food"
@@ -303,7 +391,7 @@ public class DatabaseImpl implements Database {
         ArrayList<Menu> menus = new ArrayList<>();
 
         try {
-            String query = "SELECT id, food, price FROM menu";
+            String query = "SELECT id, food, price FROM sep2reexam_database.menu";
             //creating PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             //executing query and getting the results in a ResultSet
@@ -324,6 +412,7 @@ public class DatabaseImpl implements Database {
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println("Failed to get menu: " + e.getMessage());
+            return null;
         }
 
         return menus;

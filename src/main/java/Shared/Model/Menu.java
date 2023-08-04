@@ -34,5 +34,8 @@ public class Menu implements Serializable
         this.price = price;
     }
 
-
+    @Override
+    public String toString() {
+        return String.format("%s (%.2f DKK)", food, price);
+    }
 }

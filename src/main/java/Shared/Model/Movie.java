@@ -16,9 +16,12 @@ public class Movie implements Serializable
     private LocalTime endTime;
     private int length;
     private String genre;
+    private final int screenId;
 
 
-    public Movie(int movieId, String name, LocalDate date, LocalTime startTime, LocalTime endTime, String genre, int length) {
+    public Movie(
+            int movieId, String name, LocalDate date, LocalTime startTime, LocalTime endTime, String genre, int length, int screenId
+    ) {
         this.movieId = movieId;
         this.date = date;
         this.startTime = startTime;
@@ -26,6 +29,7 @@ public class Movie implements Serializable
         this.name = name;
         this.length = length;
         this.genre = genre;
+        this.screenId = screenId;
     }
 
 
@@ -33,6 +37,9 @@ public class Movie implements Serializable
 
     public String getName() {
         return name;
+    }
+    public int getScreenId() {
+        return screenId;
     }
 
     public void setName(String name) {

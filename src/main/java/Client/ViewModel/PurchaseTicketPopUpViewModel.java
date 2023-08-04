@@ -1,6 +1,8 @@
 package Client.ViewModel;
 
+import Client.Core.PropertyChangeSubject;
 import Client.Core.ViewModelFactory;
+import Client.Model.IMenuModel;
 import Client.Model.IMovieListModel;
 import Client.Model.IScreenModel;
 import Client.Model.ITicketModel;
@@ -10,6 +12,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.beans.PropertyChangeEvent;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -18,9 +21,10 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
     private final IMovieListModel movieModel;
     private final IScreenModel screenModel;
     private final ITicketModel ticketModel;
+    private final IMenuModel menuModel;
+    private final ViewModelFactory vmf;
 
     private final StringProperty movieName;
-    private final StringProperty movieScreen;
     private final StringProperty movieLength;
     private final StringProperty movieDate;
     private final StringProperty ticketPrice;
@@ -29,20 +33,62 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
     private final ObservableList<Seat> seatOptions;
     private final ObservableList<Menu> menuOptions;
 
-    public PurchaseTicketPopUpViewModel(IMovieListModel movieModel, IScreenModel screenModel, ITicketModel ticketModel) {
+    private double basePrice;
+
+    public PurchaseTicketPopUpViewModel( ViewModelFactory vmf,
+            IMovieListModel movieModel, IScreenModel screenModel, ITicketModel ticketModel, IMenuModel menuModel
+    ) {
+        this.vmf = vmf;
         this.movieModel = movieModel;
         this.screenModel = screenModel;
         this.ticketModel = ticketModel;
+        this.menuModel = menuModel;
+        this.basePrice = 100;
 
         movieName = new SimpleStringProperty();
-        movieScreen = new SimpleStringProperty();
         movieLength = new SimpleStringProperty();
         movieDate = new SimpleStringProperty();
-        ticketPrice = new SimpleStringProperty();
+        ticketPrice = new SimpleStringProperty(String.format("%.2f DKK",basePrice));
         movieStartTimes = FXCollections.observableArrayList();
         movieEndTime = new SimpleStringProperty();
         seatOptions = FXCollections.observableArrayList();
         menuOptions = FXCollections.observableArrayList();
+
+        ((PropertyChangeSubject) menuModel).addPropertyChangeListener(
+                "MenuListChange",
+                (PropertyChangeEvent evt) -> this.updateMenuContents(evt)
+        );
+
+        ((PropertyChangeSubject) movieModel).addPropertyChangeListener(
+                "MovieListChange",
+                (PropertyChangeEvent evt) -> this.updateMovieStartTimes(evt)
+        );
+    }
+
+    private void updateMenuContents(PropertyChangeEvent evt) {
+        if (evt.getNewValue() == null) {
+            menuOptions.clear();
+            return;
+        }
+
+        menuOptions.setAll((ArrayList<Menu>) evt.getNewValue());
+    }
+
+    private void updateMovieStartTimes(PropertyChangeEvent evt) {
+        if (evt.getNewValue() == null) {
+            movieStartTimes.clear();
+            return;
+        }
+
+        // populating start times
+        ArrayList<LocalTime> startTimes = new ArrayList<>();
+        for (Movie m: (ArrayList<Movie>) evt.getNewValue()) {
+            if (m.getDate().equals(m.getDate())) {
+                startTimes.add(m.getStartTime());
+            }
+        }
+
+        movieStartTimes.setAll(startTimes);
     }
 
     /**
@@ -57,16 +103,22 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         movieLength.setValue(""+movie.getLength());
         movieDate.setValue(movie.getDate().toString());
         movieEndTime.setValue(movie.getEndTime().toString());
+
+        // populating start times
+        ArrayList<LocalTime> startTimes = new ArrayList<>();
+        for (Movie m: movieModel.getSameMoviesByDate(movie, movie.getDate())) {
+            startTimes.add(m.getStartTime());
+        }
+
+        movieStartTimes.setAll(startTimes);
+
+        // Also refreshing menu contents
+        menuModel.getAllMenus();
     }
 
     @Override
     public StringProperty getMovieNameProperty() {
         return movieName;
-    }
-
-    @Override
-    public StringProperty getMovieScreenProperty() {
-        return movieScreen;
     }
 
     @Override
@@ -106,53 +158,63 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
 
     /**
      * Updates the information about the movie from selected settings
-     * @param movieStartTime The chosen movie start time, null if not changed
-     * @param seat           The chosen seat for the ticket, null if not changed
-     * @param menu           The chosen menu for the ticket, null if not changed
+     * @param movieStartTime The chosen movie start time
      */
     @Override
-    public void updateTicketInfo(LocalTime movieStartTime, Seat seat, Menu menu) {
-        if (movieStartTime != null) {
-            // movie start time was changed, refreshing available seats and info
-            ArrayList<Movie> sameDate = movieModel.getSameMoviesByDate(movie, movie.getDate());
-            for (Movie m: sameDate) {
-                if (m.getStartTime().equals(movieStartTime)) {
-                    movie = m;
-                    Screen matchingScreen = screenModel.getScreenByMovie(m);
-                    if (matchingScreen != null) {
-                        seatOptions.setAll(matchingScreen.getSeats());
-                    } else {
-                        seatOptions.clear();
-                    }
-
-                    return;
-                }
-            }
-
+    public void updateMovieStart(LocalTime movieStartTime) {
+        if (movieStartTime == null) {
             return;
         }
 
-        if (seat != null) {
-            // nothing to change for now?
-        }
-
-        if (menu != null) {
-            // nothing either?
+        // movie start time was changed, refreshing available seats and info
+        ArrayList<Movie> sameDate = movieModel.getSameMoviesByDate(movie, movie.getDate());
+        for (Movie m: sameDate) {
+            if (m.getStartTime().equals(movieStartTime)) {
+                movie = m;
+                Screen matchingScreen = screenModel.getScreenById(movie.getScreenId());
+                if (matchingScreen != null) {
+                    seatOptions.setAll(matchingScreen.getSeats());
+                } else {
+                    seatOptions.clear();
+                }
+                return;
+            }
         }
     }
 
-    /**
-     * Handle the purchase of a ticket
-     * @param movieStartTime The chosen movie start time
-     * @param seat The chosen seat for the ticket
-     * @param menu The chosen menu for the ticket
-     */
     @Override
-    public void purchaseTicket(LocalTime movieStartTime, Seat seat, Menu menu) {
-        ticketModel.purchaseTicket(
-                new Ticket(-1, seat, movie, screenModel.getScreenByMovie(movie), menu)
-        );
+    public void updateMenu(Menu menu) {
+        if (menu == null) {
+            ticketPrice.setValue(String.format("%.2f DKK",basePrice));
+            return;
+        }
 
+        ticketPrice.setValue(String.format("%.2f DKK",basePrice+menu.getPrice()));
+    }
+
+    @Override
+    public boolean purchaseTicket(LocalTime movieStartTime, Seat seat, Menu menu) {
+        if (movieStartTimes == null || seat == null) {
+            return false;
+        }
+
+        Ticket purchased;
+        if (menu == null) {
+            purchased = ticketModel.purchaseTicket(
+                    new Ticket(-1, seat, movie.getMovieId(), -1)
+            );
+        } else {
+            purchased = ticketModel.purchaseTicket(
+                    new Ticket(-1, seat, movie.getMovieId(), menu.getMenuId())
+            );
+        }
+
+        if (purchased != null) {
+            vmf.getTicketInformationViewModel().setCurrentTicket(purchased);
+            vmf.getMainSceneViewModel().changeToTicketInfo();
+            return true;
+        }
+        return false;
     }
 }
 

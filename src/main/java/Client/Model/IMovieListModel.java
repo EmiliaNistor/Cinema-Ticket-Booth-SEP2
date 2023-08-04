@@ -8,10 +8,9 @@ import java.util.ArrayList;
 public interface IMovieListModel
 {
     /**
-     * Get all the movies
-     * @return A list of movies
+     * Refreshes the available list of movies
      */
-    ArrayList<Movie> getAllMovies();
+    void refreshMovies();
 
     /**
      * Get all the movies that are equal to provided movie and occur on the same date
@@ -27,4 +26,11 @@ public interface IMovieListModel
      * @return Movies that are equal
      */
     ArrayList<Movie> getSameMovies(Movie movie);
+
+    /**
+     * Get movie by its id
+     * @param movieId The movie's id
+     * @return Movie, null if not found
+     */
+    Movie getMovieById(int movieId);
 }

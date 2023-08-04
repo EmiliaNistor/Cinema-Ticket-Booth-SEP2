@@ -1,9 +1,6 @@
 package Shared.Network;
 
-import Shared.Model.Menu;
-import Shared.Model.Movie;
-import Shared.Model.Ticket;
-import Shared.Model.User;
+import Shared.Model.*;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -26,6 +23,29 @@ public interface IRMIServer extends Remote
      * @throws RemoteException
      */
     ArrayList<Movie> getAllMovies() throws RemoteException;
+
+    /**
+     * Returns information about the movie from its id
+     * @param movieId The movie's id
+     * @return Information about the movie, null if not found
+     * @throws RemoteException
+     */
+    Movie getMovieById(int movieId) throws RemoteException;
+
+    /**
+     * Gets all screens in the cinema
+     * @return A list of screens
+     * @throws RemoteException
+     */
+    ArrayList<Screen> getAllScreens() throws RemoteException;
+
+    /**
+     * Gets a screen by its id
+     * @param screenId The screen's id
+     * @return Screen with its information, null if not found
+     * @throws RemoteException
+     */
+    Screen getScreenById(int screenId) throws RemoteException;
 
     /**
      * Allows the user to register a new account

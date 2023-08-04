@@ -17,7 +17,7 @@ class MovieTest {
     void setUp() {
         movie = new Movie(1, "Oppenheimer",
                 LocalDate.of(2023, 7, 28), LocalTime.of(1,2,3), LocalTime.of(3,2,1),
-                "Action", 120);
+                "Action", 120, 1);
     }
 
     @AfterEach

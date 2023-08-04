@@ -12,10 +12,9 @@ import java.rmi.registry.Registry;
 public class ModelFactory {
     private final ITicketModel ticketModel;
     private  final  IMovieListModel movieListModel;
-
     private final IAccountModel accountModel;
-
     private final IScreenModel screenModel;
+    private final IMenuModel menuModel;
 
     public ModelFactory() throws NotBoundException, RemoteException {
         // Setting up RMI
@@ -26,8 +25,17 @@ public class ModelFactory {
         // Creating models
         ticketModel = new TicketModel(serverRMI);
         movieListModel = new MovieListModel(serverRMI);
-        screenModel = new ScreenModel(serverRMI, movieListModel);
+        screenModel = new ScreenModel(serverRMI);
         accountModel = new AccountModel(serverRMI);
+        menuModel = new MenuModel(serverRMI);
+    }
+
+    /**
+     * Returns the interface with available methods related to menus
+     * @return MenuModel interface
+     */
+    public IMenuModel getMenuModel() {
+        return menuModel;
     }
 
     /**

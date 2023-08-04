@@ -4,41 +4,22 @@ import Client.Core.ViewHandler;
 import Client.ViewModel.IViewTicketPopupViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class TicketInformationPopupController
 {
     private IViewTicketPopupViewModel viewModel;
-    private Stage window;
     private ViewHandler viewHandler; // Add the ViewHandler variable here
 
     @FXML
     private TextField inputField;
 
-    @FXML
-    private Button continueButton;
-
-    public void init(IViewTicketPopupViewModel viewModel, Stage stage,ViewHandler viewHandler)
+    public void init(IViewTicketPopupViewModel viewModel,ViewHandler viewHandler)
     {
         this.viewModel = viewModel;
-        this.window = stage;
         this.viewHandler= viewHandler;
-    }
-
-    private void validateInput()
-    {
-        String input = inputField.getCharacters().toString();
-
-        try
-        {
-            int ticketID = Integer.parseInt(input);
-            continueButton.setDisable(ticketID < 1); // Update button disable state
-        } catch (NumberFormatException e)
-        {
-            continueButton.setDisable(true);
-        }
     }
 
 
@@ -46,34 +27,41 @@ public class TicketInformationPopupController
     private void cancel(ActionEvent actionEvent)
     {
         // Close ticket info popup controller window
-        window.close();
+        Stage stage = (Stage) inputField.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
     private void continueAction(ActionEvent actionEvent)
     {
-        validateInput();
-        if (continueButton.isDisabled())
-        {
-            return;
-        }
+        try {
+            String input = inputField.getCharacters().toString();
+            int ticketID = Integer.parseInt(input);
 
-        // Close ticket info popup controller window
-        window.close();
+            if (viewModel.openTicketInfo(ticketID)) {
+                // Close ticket info popup controller window
+                Stage stage = (Stage) inputField.getScene().getWindow();
+                stage.close();
+                return;
+            }
 
-        // Open ticket info window
-        String input = inputField.getCharacters().toString();
-        int ticketID = Integer.parseInt(input);
-        viewModel.getTicket(ticketID);
+            showError("Failed to get ticket information! Please double check your input.");
+        } catch (NumberFormatException ignored) {}
 
-        // not implemented?
-        //viewHandler.openTicketInformation(viewModel.getTicket(ticketID));
+        showError("Failed to get ticket information! Please double check your input.");
     }
 
-    @FXML
-    private void inputChanged(ActionEvent actionEvent)
-    {
-        validateInput();
+    // Helper methods to display alerts for showing messages
+    private void showError(String message) {
+        showAlert(Alert.AlertType.ERROR, "Error", message);
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
 

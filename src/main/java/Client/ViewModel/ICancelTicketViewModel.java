@@ -1,11 +1,13 @@
 package Client.ViewModel;
 
 import Shared.Model.Ticket;
+import javafx.beans.property.StringProperty;
 
 public interface ICancelTicketViewModel {
     /**
      * Cancels the ticket
-     * @param ticket The ticket to cancel
      */
-    void confirmTicketCancellation(Ticket ticket);
+    void confirmTicketCancellation();
+    StringProperty title();
+    StringProperty info();
 }

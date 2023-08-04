@@ -30,7 +30,8 @@ public class LogInController {
     private void logIn(ActionEvent event) {
         if (viewModel.logIn(usernameInput.getText(), passwordInput.getText())) {
             // logging in successful
-            showInfo("You've successfully logged in! Welcome, "+usernameInput.getText());
+            Stage stage = (Stage) usernameInput.getScene().getWindow();
+            stage.close();
         } else {
             showError("Log in failed. Please try again.");
         }
@@ -39,10 +40,6 @@ public class LogInController {
     // Helper methods to display alerts for showing messages
     private void showError(String message) {
         showAlert(Alert.AlertType.ERROR, "Error", message);
-    }
-
-    private void showInfo(String message) {
-        showAlert(Alert.AlertType.INFORMATION, "Information", message);
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

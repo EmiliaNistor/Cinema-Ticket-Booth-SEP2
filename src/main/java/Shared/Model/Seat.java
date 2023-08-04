@@ -19,4 +19,9 @@ public class Seat implements Serializable
     public int getNumber() {
         return number;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s-%d", row, number);
+    }
 }

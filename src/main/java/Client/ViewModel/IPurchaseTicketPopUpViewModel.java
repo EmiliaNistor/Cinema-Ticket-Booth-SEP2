@@ -35,6 +35,7 @@ public interface IPurchaseTicketPopUpViewModel {
      * @param movieStartTime The chosen movie start time
      * @param seat The chosen seat for the ticket
      * @param menu The chosen menu for the ticket
+     * @return True if successful
      */
-    void purchaseTicket(LocalTime movieStartTime, Seat seat, Menu menu);
+    boolean purchaseTicket(LocalTime movieStartTime, Seat seat, Menu menu);
 }

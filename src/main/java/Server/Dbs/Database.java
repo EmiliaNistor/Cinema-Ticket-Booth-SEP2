@@ -1,9 +1,6 @@
 package Server.Dbs;
 
-import Shared.Model.Menu;
-import Shared.Model.Movie;
-import Shared.Model.Ticket;
-import Shared.Model.User;
+import Shared.Model.*;
 
 import java.util.ArrayList;
 
@@ -56,6 +53,19 @@ public interface Database {
       * @return A list of movies
       */
      ArrayList<Movie> getAllMovies();
+
+     /**
+      * Get all screens within the cinema
+      * @return A list of screens
+      */
+     ArrayList<Screen> getAllScreens();
+
+     /**
+      * Get a screen by its id
+      * @param screenId The screen's id
+      * @return Found screen
+      */
+     Screen getScreenById(int screenId);
 
      /**
       * Creates a new user account without administrator privileges

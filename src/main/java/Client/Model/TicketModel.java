@@ -1,38 +1,48 @@
 package Client.Model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import Client.Core.PropertyChangeSubject;
 import Shared.Model.Ticket;
 import Shared.Network.IRMIServer;
 
-public class TicketModel implements ITicketModel {
+public class TicketModel implements ITicketModel, PropertyChangeSubject {
     private final HashMap<Integer, Ticket> tickets;
     private final IRMIServer serverRMI;
+    private final PropertyChangeSupport propertyChangeSupport;
 
     public TicketModel(IRMIServer serverRMI) {
         tickets = new HashMap<>();
         this.serverRMI = serverRMI;
-    }
-
-    public void addTicket(Ticket ticket) {
-        tickets.put(ticket.getId(), ticket);
+        this.propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
     @Override
-    public void purchaseTicket(Ticket ticket) {
+    public boolean purchaseTicket(Ticket ticket) {
         try {
             Ticket purchasedTicket = serverRMI.purchase(ticket);
             if (purchasedTicket == null) {
                 // purchase failed!
                 System.out.println("Ticket purchase failed");
-                return;
+                return false;
             }
 
+            // filling ticket with correct references
+            //Ticket internalTicket = new Ticket(purchasedTicket.getId(), )
+
             tickets.put(purchasedTicket.getId(), purchasedTicket);
+            propertyChangeSupport.firePropertyChange(
+                    "TicketAdded", null, ticket
+            );
+            return true;
         } catch (Exception e) {
             System.out.println("Ticket purchase failed");
         }
+
+        return false;
     }
 
     /**
@@ -46,9 +56,15 @@ public class TicketModel implements ITicketModel {
             return tickets.get(ticketID);
         }
 
-        // Refreshing all tickets
         try {
             Ticket ticket = serverRMI.getTicketById(ticketID);
+            if (ticket != null) {
+                tickets.put(ticket.getId(), ticket);
+                propertyChangeSupport.firePropertyChange(
+                        "TicketAdded", null, ticket
+                );
+            }
+
             return ticket;
         } catch (RemoteException e) {
             System.out.println("Getting information about a ticket failed!");
@@ -65,9 +81,34 @@ public class TicketModel implements ITicketModel {
     public void cancelTicket(Ticket ticket) {
         try {
             serverRMI.cancelTicket(ticket.getId());
+
+            propertyChangeSupport.firePropertyChange(
+                    "TicketRemoved", tickets.get(ticket.getId()), null
+            );
             tickets.remove(ticket.getId());
         } catch (RemoteException e) {
             System.out.println("Couldn't cancel the ticket");
         }
+    }
+
+    // Property Change Subject implementations
+    @Override
+    public void addPropertyChangeListener(String name, PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(name, listener);
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(String name, PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(name, listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
 }

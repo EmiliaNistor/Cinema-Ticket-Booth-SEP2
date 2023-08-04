@@ -15,5 +15,11 @@ public interface ITicketModel {
      * @param ticket The ticket which to cancel
      */
     void cancelTicket(Ticket ticket);
-    void purchaseTicket(Ticket ticket);
+
+    /**
+     * Make a ticket purchase
+     * @param ticket Ticket containing it's info
+     * @return True if successful
+     */
+    boolean purchaseTicket(Ticket ticket);
 }

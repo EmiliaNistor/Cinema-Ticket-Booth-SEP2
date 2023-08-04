@@ -175,7 +175,7 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         for (Movie m: sameDate) {
             if (m.getStartTime().equals(movieStartTime)) {
                 movie = m;
-                Screen matchingScreen = screenModel.getScreenByMovie(m);
+                Screen matchingScreen = screenModel.getScreenById(movie.getScreenId());
                 if (matchingScreen != null) {
                     seatOptions.setAll(matchingScreen.getSeats());
                 } else {
@@ -205,12 +205,19 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
      * @param movieStartTime The chosen movie start time
      * @param seat The chosen seat for the ticket
      * @param menu The chosen menu for the ticket
+     * @return True if successful
      */
     @Override
-    public void purchaseTicket(LocalTime movieStartTime, Seat seat, Menu menu) {
-        ticketModel.purchaseTicket(
-                new Ticket(-1, seat, movie, screenModel.getScreenByMovie(movie), menu)
+    public boolean purchaseTicket(LocalTime movieStartTime, Seat seat, Menu menu) {
+        if (movieStartTimes == null || seat == null) {
+            return false;
+        }
+
+        boolean success = ticketModel.purchaseTicket(
+                new Ticket(-1, seat, movie, screenModel.getScreenById(movie.getScreenId()), menu)
         );
+
+        return success;
     }
 }
 

@@ -17,8 +17,6 @@ module via.dk.cinema {
 
     exports Client.Core;
     opens Client.Core to javafx.fxml;
-    exports Client.Network;
-    opens Client.Network to javafx.fxml;
     exports Client.Model;
     opens Client.Model to javafx.fxml;
 

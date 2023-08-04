@@ -89,14 +89,15 @@ public class PurchaseTicketPopUpController {
 
     @FXML
     private void pay(ActionEvent action) {
-        if (movieStartTimes.getValue() == null || seatSelection.getValue() == null) {
-            showError("Ticket purchase failed!");
+        boolean success = viewModel.purchaseTicket(
+                movieStartTimes.getValue(), seatSelection.getValue(), menuSelection.getValue()
+        );
+
+        if (!success) {
+            showError("Couldn't purchase ticket. Please try again.");
             return;
         }
 
-        viewModel.purchaseTicket(
-                movieStartTimes.getValue(), seatSelection.getValue(), menuSelection.getValue()
-        );
         Stage stage = (Stage) movieName.getScene().getWindow();
         stage.close();
     }

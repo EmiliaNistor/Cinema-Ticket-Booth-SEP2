@@ -24,59 +24,7 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
 
     public Screen getScreenById(int screenId) throws RemoteException
     {
-        // Check if the screen is already cached in the "screens" map
-        /*if (screens.containsKey(screenId))
-        {
-            return screens.get(screenId);
-        }*/
-
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement screenStatement = connection.prepareStatement("SELECT * FROM sep2reexam_database.screen WHERE id = ?");
-             PreparedStatement seatStatement = connection.prepareStatement("SELECT * FROM sep2reexam_database.seat WHERE screen_id = ?"))
-        {
-
-            // Get the screen details
-            screenStatement.setInt(1, screenId);
-            ResultSet screenResult = screenStatement.executeQuery();
-
-            // If the screen is found, create the Screen object
-            if (screenResult.next())
-            {
-                int id = screenResult.getInt("id");
-                // Other fields to retrieve from the database, such as name, etc.
-
-                // Get the associated seats for the screen
-                seatStatement.setInt(1, id);
-                ResultSet seatResult = seatStatement.executeQuery();
-                ArrayList<Seat> seats = new ArrayList<>();
-
-                while (seatResult.next())
-                {
-                    int seatId = seatResult.getInt("id");
-                    String row = seatResult.getString("row");
-                    int number = seatResult.getInt("number");
-                    // Other fields to retrieve from the database, such as seat number, etc.
-
-                    // Create the Seat object and add it to the seats list
-                    Seat seat = new Seat(row,number);
-                    seats.add(seat);
-                }
-
-                // Create the Screen object with the retrieved data
-                Screen screen = new Screen(id, seats);
-
-                // Cache the screen in the "screens" map for future use
-                //screens.put(screenId, screen);
-
-                return screen;
-            }
-
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-
-        return null; // Return null if the screen is not found in the database
+        return database.getScreenById(screenId);
     }
     @Override
     public User signUp(String username, String password) throws RemoteException {
@@ -108,31 +56,6 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
         return database.getTicket(ticketId);
     }
 
-
-//    private Screen getScreenById(int screenId) {
-//        // Fetch the Screen object from the database based on the screenId
-//        // Assuming you have a 'screens' table in the database with columns 'id', 'name', 'capacity', etc.
-//        String query = "SELECT * FROM sep2reexam.screen WHERE id = ?";
-//        try (Connection connection = DatabaseUtil.getConnection();
-//             PreparedStatement statement = connection.prepareStatement(query)) {
-//            statement.setInt(1, screenId);
-//            try (ResultSet resultSet = statement.executeQuery()) {
-//                if (resultSet.next()) {
-//                    int id = resultSet.getInt("id");
-//                    String name = resultSet.getString("name");
-//                    int capacity = resultSet.getInt("capacity");
-//                    // Other relevant data for Screen
-//
-//                    // Create and return the Screen object
-//                    return new Screen();
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null; // Return null if screen with the given ID is not found
-//    }
-
     private Movie getMovieById(int movieId)
     {
         // Fetch the Movie object from the database based on the movieId
@@ -153,8 +76,9 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
                     String genre = resultSet.getString("genre");
                     int length = resultSet.getInt("length");
                     LocalDate date = resultSet.getDate("date").toLocalDate();
+                    int screenId = resultSet.getInt("screen_id");
 
-                    Movie movie = new Movie(id, name, date, startTime, endTime, genre, length);
+                    Movie movie = new Movie(id, name, date, startTime, endTime, genre, length, screenId);
                     System.out.println(movie);
                     return movie;
                 }
@@ -171,6 +95,11 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
     public ArrayList<Movie> getAllMovies() throws RemoteException
     {
         return database.getAllMovies();
+    }
+
+    @Override
+    public ArrayList<Screen> getAllScreens() throws RemoteException {
+        return database.getAllScreens();
     }
 
 

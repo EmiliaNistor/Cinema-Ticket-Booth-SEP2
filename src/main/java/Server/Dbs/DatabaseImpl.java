@@ -17,7 +17,6 @@ public class DatabaseImpl implements Database {
     @Override
     public ArrayList<Movie> getAllMovies() {
         try {
-
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM sep2reexam_database.movie");
 
@@ -31,8 +30,9 @@ public class DatabaseImpl implements Database {
                 String genre = resultSet.getString("genre");
                 int length = resultSet.getInt("length");
                 LocalDate date = resultSet.getDate("date").toLocalDate();
+                int screenId = resultSet.getInt("screen_id");
 
-                Movie movie = new Movie(id, name, date, startTime, endTime, genre, length);
+                Movie movie = new Movie(id, name, date, startTime, endTime, genre, length, screenId);
                 movies.add(movie);
             }
 
@@ -42,8 +42,105 @@ public class DatabaseImpl implements Database {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    /**
+     * Get all screens within the cinema
+     *
+     * @return A list of screens
+     */
+    @Override
+    public ArrayList<Screen> getAllScreens() {
+        try {
+            Statement screenStatement = connection.createStatement();
+            Statement seatStatement = connection.createStatement();
+            ResultSet screenResultSet = screenStatement.executeQuery("SELECT * FROM sep2reexam_database.screen");
+
+            ArrayList<Screen> screens = new ArrayList<>();
+            while (screenResultSet.next())
+            {
+                int id = screenResultSet.getInt("id");
+                String name = screenResultSet.getString("name");
+
+                ResultSet seatResultSet = seatStatement.executeQuery("SELECT * FROM sep2reexam_database.seat  WHERE screen_id = ?");
+                ArrayList<Seat> seats = new ArrayList<>();
+                while (seatResultSet.next()) {
+                    String row = screenResultSet.getString("row");
+                    int number = screenResultSet.getInt("number");
+                    seats.add(new Seat(row, number));
+                }
+
+                screens.add(
+                        new Screen(id, name, seats)
+                );
+            }
+
+            screenStatement.close();
+            seatStatement.close();
+
+            return screens;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return null;
+    }
+
+    /**
+     * Get a screen by its id
+     * @param screenId The screen's id
+     * @return Found screen
+     */
+    @Override
+    public Screen getScreenById(int screenId) {
+        try (Connection connection = DatabaseUtil.getConnection();
+             PreparedStatement screenStatement = connection.prepareStatement("SELECT * FROM sep2reexam_database.screen WHERE id = ? LIMIT 1");
+             PreparedStatement seatStatement = connection.prepareStatement("SELECT * FROM sep2reexam_database.seat WHERE screen_id = ?"))
+        {
+            // Get the screen details
+            screenStatement.setInt(1, screenId);
+            ResultSet screenResult = screenStatement.executeQuery();
+
+            // If the screen is found, create the Screen object
+            if (screenResult.next())
+            {
+                int id = screenResult.getInt("id");
+                String name = screenResult.getString("name");
+                // Other fields to retrieve from the database, such as name, etc.
+
+                // Get the associated seats for the screen
+                seatStatement.setInt(1, id);
+                ResultSet seatResult = seatStatement.executeQuery();
+                ArrayList<Seat> seats = new ArrayList<>();
+
+                while (seatResult.next())
+                {
+                    int seatId = seatResult.getInt("id");
+                    String row = seatResult.getString("row");
+                    int number = seatResult.getInt("number");
+                    // Other fields to retrieve from the database, such as seat number, etc.
+
+                    // Create the Seat object and add it to the seats list
+                    Seat seat = new Seat(row,number);
+                    seats.add(seat);
+                }
+
+                // Create the Screen object with the retrieved data
+                Screen screen = new Screen(id, name, seats);
+
+                // Cache the screen in the "screens" map for future use
+                //screens.put(screenId, screen);
+
+                return screen;
+            }
+
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null; // Return null if the screen is not found in the database
     }
 
     /**
@@ -118,9 +215,9 @@ public class DatabaseImpl implements Database {
     public int getSeatId(int screen, String row, int number)
     {
         try {
-            String query = "SELECT id" +
-                    "FROM seat" +
-                    "WHERE screen_id = ? AND row = ? AND number = ?" +
+            String query = "SELECT s.id " +
+                    "FROM sep2reexam_database.seat s " +
+                    "WHERE screen_id = ? AND row = ? AND number = ? " +
                     "LIMIT 1";
             //creating a PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -145,9 +242,10 @@ public class DatabaseImpl implements Database {
     public Ticket makePurchase(Ticket ticket) {
         try {
             // provides query with placeholders for the values.
-            String query = "INSERT INTO sep2reexam_database.ticket VALUES (?, ?, ?)";
+            String query = "INSERT INTO sep2reexam_database.ticket (seat_id, movie_id, menu_id) VALUES (?, ?, ?);";
             //creating a PreparedStatement obj with query
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query, new String[] {"id"});
+
             //setting 1st placeholder to seat id
             preparedStatement.setInt(1,
                     getSeatId(ticket.getScreen().getScreenId(),
@@ -156,9 +254,9 @@ public class DatabaseImpl implements Database {
                     )
             );
             //setting 2nd placeholder to movie name
-            preparedStatement.setString(2, ticket.getMovie().getName());
+            preparedStatement.setInt(2, ticket.getMovie().getMovieId());
             //setting 3rd placeholder to menu
-            preparedStatement.setString(3, String.valueOf(ticket.getMenu()));
+            preparedStatement.setInt(3, ticket.getMenu().getMenuId());
 
             //executing SQL query and storing number of rows affected by the query in  rowsAffected
             int rowsAffected = preparedStatement.executeUpdate();
@@ -166,7 +264,7 @@ public class DatabaseImpl implements Database {
                 ResultSet results = preparedStatement.getGeneratedKeys();
                 if (results.next()) {
                     // fetching newly made ticket info
-                    int newTicketId = results.getInt(1);
+                    int newTicketId = results.getInt("id");
                     preparedStatement.close();
                     return getTicket(newTicketId);
                 } else {
@@ -192,11 +290,10 @@ public class DatabaseImpl implements Database {
                             "m.name, m.start_time, m.end_time, m.date, m.length, m.genre, " +
                             "f.food, f.price " +
                             "FROM sep2reexam_database.ticket t " +
-                            "JOIN seat s ON t.seat_id = s.id " +
-                            "JOIN movie m ON t.movie_id = m.id " +
-                            "JOIN menu f ON t.menu_id = f.id" +
-                            "WHERE t.id = ?"
-            );
+                            "JOIN sep2reexam_database.seat s ON t.seat_id = s.id " +
+                            "JOIN sep2reexam_database.movie m ON t.movie_id = m.id " +
+                            "JOIN sep2reexam_database.menu f ON t.menu_id = f.id " +
+                            "WHERE t.id = ?");
             preparedStatement.setInt(1, ticketId);
 
             // executing the query returns a ResultSet which has the result of the query
@@ -208,7 +305,7 @@ public class DatabaseImpl implements Database {
                 Seat seat = new Seat(seatRow, seatNumber);
 
                 // empty screen data, because we only need screen id
-                Screen screen = new Screen(resultSet.getInt("number"), new ArrayList<>());
+                Screen screen = new Screen(resultSet.getInt("screen_id"), "", new ArrayList<>());
 
                 int movieId = resultSet.getInt("movie_id");
                 String name = resultSet.getString("name");
@@ -218,7 +315,7 @@ public class DatabaseImpl implements Database {
                 int length = resultSet.getInt("length");
                 String genre = resultSet.getString("genre");
 
-                Movie movie = new Movie(movieId, name, date, startTime, endTime, genre, length);
+                Movie movie = new Movie(movieId, name, date, startTime, endTime, genre, length, resultSet.getInt("screen_id"));
 
                 int menuId = resultSet.getInt("menu_id");
                 String food = resultSet.getString("food");

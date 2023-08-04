@@ -12,9 +12,7 @@ import java.rmi.registry.Registry;
 public class ModelFactory {
     private final ITicketModel ticketModel;
     private  final  IMovieListModel movieListModel;
-
     private final IAccountModel accountModel;
-
     private final IScreenModel screenModel;
     private final IMenuModel menuModel;
 
@@ -27,7 +25,7 @@ public class ModelFactory {
         // Creating models
         ticketModel = new TicketModel(serverRMI);
         movieListModel = new MovieListModel(serverRMI);
-        screenModel = new ScreenModel(serverRMI, movieListModel);
+        screenModel = new ScreenModel(serverRMI);
         accountModel = new AccountModel(serverRMI);
         menuModel = new MenuModel(serverRMI);
     }

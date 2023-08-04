@@ -24,7 +24,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="inputField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" onAction="#inputChanged" prefHeight="27.0" prefWidth="134.0" promptText="Enter Ticket ID" HBox.hgrow="ALWAYS">
+            <TextField fx:id="inputField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="27.0" prefWidth="134.0" promptText="Enter Ticket ID" HBox.hgrow="ALWAYS">
                <font>
                   <Font size="13.0" />
                </font>
@@ -41,7 +41,7 @@
                   <Insets bottom="-15.0" top="-15.0" />
                </padding>
             </Button>
-            <Button fx:id="continueButton" defaultButton="true" disable="true" layoutX="266.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#continueAction" prefHeight="28.0" prefWidth="104.0" text="Continue" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+            <Button defaultButton="true" layoutX="266.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#continueAction" prefHeight="28.0" prefWidth="104.0" text="Continue" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
                <font>
                   <Font size="18.0" />
                </font>

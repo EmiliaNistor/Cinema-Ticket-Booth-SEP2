@@ -21,7 +21,7 @@ public class ViewModelFactory {
         movieListViewModel = new MovieListViewModel(
                 this, modelFactory.getMovieListModel(), modelFactory.getAccountModel()
         );
-        purchaseTicketPopUpViewModel = new PurchaseTicketPopUpViewModel(
+        purchaseTicketPopUpViewModel = new PurchaseTicketPopUpViewModel(this,
                 modelFactory.getMovieListModel(), modelFactory.getScreenModel(), modelFactory.getTicketModel(),
                 modelFactory.getMenuModel()
         );
@@ -30,7 +30,7 @@ public class ViewModelFactory {
                 modelFactory.getMenuModel()
         );
         cancelTicketViewModel = new CancelTicketViewModel(modelFactory.getTicketModel());
-        viewTicketPopupViewModel = new ViewTicketPopupViewModel(modelFactory.getTicketModel());
+        viewTicketPopupViewModel = new ViewTicketPopupViewModel(this, modelFactory.getTicketModel());
         signupViewModel = new SignupViewModel(modelFactory.getAccountModel()); // Create an instance of SignupViewModel
         mainSceneViewModel = new MainSceneViewModel(this, modelFactory.getAccountModel());
         logInViewModel = new LogInViewModel(modelFactory.getAccountModel());
@@ -57,13 +57,5 @@ public class ViewModelFactory {
 
     public SignupViewModel getSignupViewModel() {
         return signupViewModel; // Return the SignupViewModel instance
-    }
-
-    /**
-     * Updates the purchase ticket popup's movie information
-     * @param movie The movie to use
-     */
-    public void updatePurchaseTicketMovie(Movie movie) {
-        purchaseTicketPopUpViewModel.setMovie(movie);
     }
 }

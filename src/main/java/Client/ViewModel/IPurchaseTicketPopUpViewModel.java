@@ -9,7 +9,6 @@ import java.time.LocalTime;
 
 public interface IPurchaseTicketPopUpViewModel {
     StringProperty getMovieNameProperty();
-    StringProperty getMovieScreenProperty();
     StringProperty getMovieLengthProperty();
     StringProperty getMovieDateProperty();
     StringProperty getTicketPriceProperty();

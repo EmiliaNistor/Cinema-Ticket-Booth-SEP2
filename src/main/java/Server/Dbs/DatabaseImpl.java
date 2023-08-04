@@ -338,8 +338,6 @@ public class DatabaseImpl implements Database {
             //executing SQL query  and storing number of rows affected by the query in  rowsAffected
             int rowsAffected = preparedStatement.executeUpdate();
             preparedStatement.close();
-            //committing changes to db
-            connection.commit();
 
             if (rowsAffected > 0) {
                 System.out.println("Ticket " + ticketId + " was cancelled successfully.");

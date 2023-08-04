@@ -5,6 +5,7 @@ import Client.ViewModel.IMainSceneViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -54,15 +55,30 @@ public class MainSceneController {
      * Sets the base information about the controller
      * @param viewHandler View Handler to manage the program's scenes
      */
-    public void init(ViewHandler viewHandler, IMainSceneViewModel viewModel) {
+    public void init(ViewHandler viewHandler, IMainSceneViewModel viewModel, Parent movieList, Parent ticketInfo) {
         this.viewHandler = viewHandler;
         this.viewModel = viewModel;
         logInButton.textProperty().bind(viewModel.logInTextStringProperty());
         ticketInfoButton.visibleProperty().bind(viewModel.loggedInProperty());
         menusButton.visibleProperty().bind(viewModel.administratorProperty());
 
+        // setting views
+        insertView(movieList);
+        insertView(ticketInfo);
+        movieList.visibleProperty().bind(viewModel.movieListVisible());
+        ticketInfo.visibleProperty().bind(viewModel.ticketInfoVisible());
+
         // setting default scene to movies
         viewMovies(null);
+    }
+
+    private void insertView(Parent view) {
+        selectedSubsceneParent.getChildren().add(view);
+        // auto resizing
+        AnchorPane.setTopAnchor(view, 0.0);
+        AnchorPane.setRightAnchor(view, 0.0);
+        AnchorPane.setLeftAnchor(view, 0.0);
+        AnchorPane.setBottomAnchor(view, 0.0);
     }
 
     @FXML
@@ -79,20 +95,8 @@ public class MainSceneController {
 
     @FXML
     private void viewMovies(ActionEvent actionEvent) {
-        // setting movie button to blue color
+        // setting button "colors"
         moviesButton.setDefaultButton(true);
-        /*selectedSubscene.setRoot(
-                viewHandler.getMovieListScene()
-        );*/
-        var movieList = viewHandler.getMovieList();
-        selectedSubsceneParent.getChildren().setAll(movieList);
-        // auto resizing
-        AnchorPane.setTopAnchor(movieList, 0.0);
-        AnchorPane.setRightAnchor(movieList, 0.0);
-        AnchorPane.setLeftAnchor(movieList, 0.0);
-        AnchorPane.setBottomAnchor(movieList, 0.0);
-
-        // setting other buttons to default color
         ticketInfoButton.setDefaultButton(false);
         menusButton.setDefaultButton(false);
     }

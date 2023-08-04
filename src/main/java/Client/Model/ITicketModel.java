@@ -18,8 +18,8 @@ public interface ITicketModel {
 
     /**
      * Make a ticket purchase
-     * @param ticket Ticket containing it's info
-     * @return True if successful
+     * @param ticket Ticket containing its info
+     * @return The purchased ticket, null if failed
      */
-    boolean purchaseTicket(Ticket ticket);
+    Ticket purchaseTicket(Ticket ticket);
 }

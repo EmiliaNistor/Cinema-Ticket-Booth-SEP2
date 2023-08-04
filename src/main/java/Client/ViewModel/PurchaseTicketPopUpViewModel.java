@@ -1,6 +1,7 @@
 package Client.ViewModel;
 
 import Client.Core.PropertyChangeSubject;
+import Client.Core.ViewModelFactory;
 import Client.Model.IMenuModel;
 import Client.Model.IMovieListModel;
 import Client.Model.IScreenModel;
@@ -21,9 +22,9 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
     private final IScreenModel screenModel;
     private final ITicketModel ticketModel;
     private final IMenuModel menuModel;
+    private final ViewModelFactory vmf;
 
     private final StringProperty movieName;
-    private final StringProperty movieScreen;
     private final StringProperty movieLength;
     private final StringProperty movieDate;
     private final StringProperty ticketPrice;
@@ -34,9 +35,10 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
 
     private double basePrice;
 
-    public PurchaseTicketPopUpViewModel(
+    public PurchaseTicketPopUpViewModel( ViewModelFactory vmf,
             IMovieListModel movieModel, IScreenModel screenModel, ITicketModel ticketModel, IMenuModel menuModel
     ) {
+        this.vmf = vmf;
         this.movieModel = movieModel;
         this.screenModel = screenModel;
         this.ticketModel = ticketModel;
@@ -44,7 +46,6 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         this.basePrice = 100;
 
         movieName = new SimpleStringProperty();
-        movieScreen = new SimpleStringProperty();
         movieLength = new SimpleStringProperty();
         movieDate = new SimpleStringProperty();
         ticketPrice = new SimpleStringProperty(String.format("%.2f DKK",basePrice));
@@ -121,11 +122,6 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
     }
 
     @Override
-    public StringProperty getMovieScreenProperty() {
-        return movieScreen;
-    }
-
-    @Override
     public StringProperty getMovieLengthProperty() {
         return movieLength;
     }
@@ -186,10 +182,6 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         }
     }
 
-    /**
-     * Updates the information about the selected menu
-     * @param menu The chosen menu item
-     */
     @Override
     public void updateMenu(Menu menu) {
         if (menu == null) {
@@ -200,31 +192,29 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
         ticketPrice.setValue(String.format("%.2f DKK",basePrice+menu.getPrice()));
     }
 
-    /**
-     * Handle the purchase of a ticket
-     * @param movieStartTime The chosen movie start time
-     * @param seat The chosen seat for the ticket
-     * @param menu The chosen menu for the ticket
-     * @return True if successful
-     */
     @Override
     public boolean purchaseTicket(LocalTime movieStartTime, Seat seat, Menu menu) {
         if (movieStartTimes == null || seat == null) {
             return false;
         }
 
+        Ticket purchased;
         if (menu == null) {
-            boolean success = ticketModel.purchaseTicket(
+            purchased = ticketModel.purchaseTicket(
                     new Ticket(-1, seat, movie.getMovieId(), -1)
             );
-            return success;
+        } else {
+            purchased = ticketModel.purchaseTicket(
+                    new Ticket(-1, seat, movie.getMovieId(), menu.getMenuId())
+            );
         }
 
-        boolean success = ticketModel.purchaseTicket(
-                new Ticket(-1, seat, movie.getMovieId(), menu.getMenuId())
-        );
-
-        return success;
+        if (purchased != null) {
+            vmf.getTicketInformationViewModel().setCurrentTicket(purchased);
+            vmf.getMainSceneViewModel().changeToTicketInfo();
+            return true;
+        }
+        return false;
     }
 }
 

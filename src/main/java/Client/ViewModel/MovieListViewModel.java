@@ -84,7 +84,7 @@ public class MovieListViewModel implements IMovieListViewModel
      */
     @Override
     public void setPopUpMovie(Movie movie) {
-        viewModelFactory.updatePurchaseTicketMovie(movie);
+        viewModelFactory.getPurchaseTicketPopUpViewModel().setMovie(movie);
     }
 
     @Override

@@ -1,13 +1,14 @@
 package Client.View.Controllers;
 
+import Client.Core.ViewHandler;
 import Client.ViewModel.ITicketInformationViewModel;
-import Shared.Model.Ticket;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class TicketInformationController {
     private ITicketInformationViewModel viewModel;
+    private ViewHandler viewHandler;
     @FXML
     private Label title;
     @FXML
@@ -21,12 +22,13 @@ public class TicketInformationController {
     @FXML
     private Label movieLength;
     @FXML
-    private Label movieSeatInfo;
+    private Label seatInfo;
     @FXML
     private Label chosenMenu;
 
-    public void init(ITicketInformationViewModel viewModel)
+    public void init(ViewHandler viewHandler, ITicketInformationViewModel viewModel)
     {
+        this.viewHandler = viewHandler;
         this.viewModel = viewModel;
 
         // Binding values
@@ -37,10 +39,11 @@ public class TicketInformationController {
         movieEndTime.textProperty().bind(viewModel.endTime());
         movieLength.textProperty().bind(viewModel.length());
         chosenMenu.textProperty().bind(viewModel.chosenMenu());
+        seatInfo.textProperty().bind(viewModel.seatInfo());
     }
 
     @FXML
-    public void cancelTicket(ActionEvent action) {
+    private void cancelTicket(ActionEvent action) {
         viewModel.openCancelTicket();
     }
 }

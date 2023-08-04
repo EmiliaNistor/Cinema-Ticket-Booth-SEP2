@@ -24,25 +24,25 @@ public class TicketModel implements ITicketModel, PropertyChangeSubject {
     }
 
     @Override
-    public boolean purchaseTicket(Ticket ticket) {
+    public Ticket purchaseTicket(Ticket ticket) {
         try {
             Ticket purchasedTicket = serverRMI.purchase(ticket);
             if (purchasedTicket == null) {
                 // purchase failed!
                 System.out.println("Ticket purchase failed");
-                return false;
+                return null;
             }
 
             tickets.put(purchasedTicket.getId(), purchasedTicket);
             propertyChangeSupport.firePropertyChange(
                     "TicketAdded", null, ticket
             );
-            return true;
+            return purchasedTicket;
         } catch (Exception e) {
             System.out.println("Ticket purchase failed");
         }
 
-        return false;
+        return null;
     }
 
     @Override

@@ -25,7 +25,10 @@ public class ViewModelFactory {
                 modelFactory.getMovieListModel(), modelFactory.getScreenModel(), modelFactory.getTicketModel(),
                 modelFactory.getMenuModel()
         );
-        ticketInformationViewModel = new TicketInformationViewModel();
+        ticketInformationViewModel = new TicketInformationViewModel(
+                this, modelFactory.getTicketModel(), modelFactory.getMovieListModel(), modelFactory.getScreenModel(),
+                modelFactory.getMenuModel()
+        );
         cancelTicketViewModel = new CancelTicketViewModel(modelFactory.getTicketModel());
         viewTicketPopupViewModel = new ViewTicketPopupViewModel(modelFactory.getTicketModel());
         signupViewModel = new SignupViewModel(modelFactory.getAccountModel()); // Create an instance of SignupViewModel

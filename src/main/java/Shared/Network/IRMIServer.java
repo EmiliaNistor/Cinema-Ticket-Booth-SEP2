@@ -25,6 +25,14 @@ public interface IRMIServer extends Remote
     ArrayList<Movie> getAllMovies() throws RemoteException;
 
     /**
+     * Returns information about the movie from its id
+     * @param movieId The movie's id
+     * @return Information about the movie, null if not found
+     * @throws RemoteException
+     */
+    Movie getMovieById(int movieId) throws RemoteException;
+
+    /**
      * Gets all screens in the cinema
      * @return A list of screens
      * @throws RemoteException

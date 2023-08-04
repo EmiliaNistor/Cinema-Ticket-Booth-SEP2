@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import Client.Core.PropertyChangeSubject;
-import Shared.Model.Menu;
 import Shared.Model.Movie;
 import Shared.Network.IRMIServer;
 
@@ -29,9 +28,6 @@ public class MovieListModel implements IMovieListModel, PropertyChangeSubject
         this.propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
-    /**
-     * Refreshes the available list of movies
-     */
     @Override
     public void refreshMovies()
     {
@@ -61,12 +57,6 @@ public class MovieListModel implements IMovieListModel, PropertyChangeSubject
         }
     }
 
-    /**
-     * Get all the movies that are equal to provided movie and occur on the same date
-     * @param movie The movie to match with
-     * @param date  The date to match with
-     * @return Movies which are equal to provided movie and occur on the same date
-     */
     @Override
     public ArrayList<Movie> getSameMoviesByDate(Movie movie, LocalDate date) {
         ArrayList<Movie> matchingMovies = new ArrayList<>();
@@ -80,11 +70,6 @@ public class MovieListModel implements IMovieListModel, PropertyChangeSubject
         return matchingMovies;
     }
 
-    /**
-     * Get all the movies that are equal to provided movie
-     * @param movie The movie to match with
-     * @return Movies that are equal
-     */
     @Override
     public ArrayList<Movie> getSameMovies(Movie movie) {
         ArrayList<Movie> matchingMovies = new ArrayList<>();
@@ -95,6 +80,35 @@ public class MovieListModel implements IMovieListModel, PropertyChangeSubject
         }
 
         return matchingMovies;
+    }
+
+    @Override
+    public Movie getMovieById(int movieId) {
+        if (movieList.containsKey(movieId)) {
+            return movieList.get(movieId);
+        }
+
+        // Attempting to get movie from server
+        try {
+            Movie receivedMovie = serverRMI.getMovieById(movieId);
+            if (receivedMovie != null) {
+                // populating movies list
+                ArrayList<Movie> movieAR = new ArrayList<>(movieList.values());
+                movieAR.add(receivedMovie);
+
+                propertyChangeSupport.firePropertyChange(
+                        "MovieListChange", new ArrayList<>(movieList.values()), movieAR
+                );
+                movieList.put(receivedMovie.getScreenId(), receivedMovie);
+                return receivedMovie;
+            }
+        } catch (RemoteException e) {
+            System.out.println("Error occurred during movie fetching process.");
+            e.printStackTrace();
+        }
+
+        // movie not found or an error
+        return null;
     }
 
     // Property Change Subject implementations

@@ -12,11 +12,6 @@ public class ViewTicketPopupViewModel implements IViewTicketPopupViewModel
         ticketModel = tm;
     }
 
-    /**
-     * Open the view containing information about the ticket
-     *
-     * @param ticketID Ticket ID whose information to show
-     */
     @Override
     public Ticket getTicket(int ticketID)
     {

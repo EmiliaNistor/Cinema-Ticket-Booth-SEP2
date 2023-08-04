@@ -5,7 +5,10 @@ import java.beans.PropertyChangeSupport;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import Client.Core.ModelFactory;
 import Client.Core.PropertyChangeSubject;
+import Shared.Model.Screen;
+import Shared.Model.Seat;
 import Shared.Model.Ticket;
 import Shared.Network.IRMIServer;
 
@@ -30,9 +33,6 @@ public class TicketModel implements ITicketModel, PropertyChangeSubject {
                 return false;
             }
 
-            // filling ticket with correct references
-            //Ticket internalTicket = new Ticket(purchasedTicket.getId(), )
-
             tickets.put(purchasedTicket.getId(), purchasedTicket);
             propertyChangeSupport.firePropertyChange(
                     "TicketAdded", null, ticket
@@ -45,11 +45,6 @@ public class TicketModel implements ITicketModel, PropertyChangeSubject {
         return false;
     }
 
-    /**
-     * Get the ticket, if it exists
-     * @param ticketID The ticket's ID which to fetch
-     * @return The ticket with all of it's information, null if no ticket found
-     */
     @Override
     public Ticket getTicket(int ticketID) {
         if (tickets.containsKey(ticketID)) {
@@ -73,10 +68,6 @@ public class TicketModel implements ITicketModel, PropertyChangeSubject {
         return null;
     }
 
-    /**
-     * Cancel a given ticket
-     * @param ticket The ticket which to cancel
-     */
     @Override
     public void cancelTicket(Ticket ticket) {
         try {

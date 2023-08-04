@@ -22,9 +22,6 @@ public class MenuModel implements IMenuModel, PropertyChangeSubject {
         this.propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
-    /**
-     * Refreshes the list of all available menus
-     */
     @Override
     public void getAllMenus() {
         try {
@@ -49,6 +46,11 @@ public class MenuModel implements IMenuModel, PropertyChangeSubject {
             System.out.println("Error occurred during menu fetching process.");
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Menu getMenuById(int menuId) {
+        return null;
     }
 
     // Property Change Subject implementations

@@ -19,15 +19,9 @@ public class ScreenModel implements IScreenModel, PropertyChangeSubject {
     public ScreenModel(IRMIServer rmiServer) {
         this.rmiServer = rmiServer;
         this.propertyChangeSupport = new PropertyChangeSupport(this);
-
         screens = new HashMap<>();
     }
 
-    /**
-     * Gets the screen provided by it's id
-     * @param screenId The screen id
-     * @return Screen, null if not found
-     */
     @Override
     public Screen getScreenById(int screenId) {
         if (screens.containsKey(screenId)) {
@@ -57,9 +51,6 @@ public class ScreenModel implements IScreenModel, PropertyChangeSubject {
         return null;
     }
 
-    /**
-     * Refreshes information about screens from the server
-     */
     @Override
     public void refreshScreens() {
         try {
@@ -70,10 +61,9 @@ public class ScreenModel implements IScreenModel, PropertyChangeSubject {
 
                 // populating screens list
                 screens.clear();
-                ArrayList<Screen> screenAR = new ArrayList<>();
+                ArrayList<Screen> screenAR = new ArrayList<>(receivedScreens);
                 for (Screen s: receivedScreens) {
                     screens.put(s.getScreenId(), s);
-                    screenAR.add(s);
                 }
 
                 propertyChangeSupport.firePropertyChange(

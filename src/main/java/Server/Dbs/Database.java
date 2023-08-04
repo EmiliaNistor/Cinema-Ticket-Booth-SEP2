@@ -2,6 +2,7 @@ package Server.Dbs;
 
 import Shared.Model.*;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface Database {
@@ -53,6 +54,13 @@ public interface Database {
       * @return A list of movies
       */
      ArrayList<Movie> getAllMovies();
+
+     /**
+      * Returns information about the movie from its id
+      * @param movieId The movie's id
+      * @return Information about the movie, null if not found
+      */
+     Movie getMovieById(int movieId);
 
      /**
       * Get all screens within the cinema

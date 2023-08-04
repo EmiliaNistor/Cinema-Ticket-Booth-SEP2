@@ -1,45 +1,46 @@
 package Client.View.Controllers;
 
+import Client.ViewModel.ITicketInformationViewModel;
 import Shared.Model.Ticket;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class TicketInformationController {
-
+    private ITicketInformationViewModel viewModel;
     @FXML
-    private Label ticketIdLabel;
-
+    private Label title;
     @FXML
-    private Label seatLabel;
-
+    private Label movieName;
     @FXML
-    private Label movieLabel;
-
+    private Label movieDate;
     @FXML
-    private Label screenLabel;
+    private Label movieStartTime;
+    @FXML
+    private Label movieEndTime;
+    @FXML
+    private Label movieLength;
+    @FXML
+    private Label movieSeatInfo;
+    @FXML
+    private Label chosenMenu;
 
-    private Ticket ticket;
-
-    public void init(Ticket ticket)
+    public void init(ITicketInformationViewModel viewModel)
     {
-        setTicket(ticket);
+        this.viewModel = viewModel;
+
+        // Binding values
+        title.textProperty().bind(viewModel.title());
+        movieName.textProperty().bind(viewModel.movieName());
+        movieDate.textProperty().bind(viewModel.date());
+        movieStartTime.textProperty().bind(viewModel.startTime());
+        movieEndTime.textProperty().bind(viewModel.endTime());
+        movieLength.textProperty().bind(viewModel.length());
+        chosenMenu.textProperty().bind(viewModel.chosenMenu());
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-        updateLabels();
-    }
-
-    private void updateLabels() {
-        if (ticket != null) {
-            ticketIdLabel.setText("Ticket ID: " + ticket.getId());
-            seatLabel.setText("Seat: " + ticket.getSeat());
-            movieLabel.setText("Movie: " + ticket.getMovie().getName());
-        } else {
-            ticketIdLabel.setText("Ticket ID: N/A");
-            seatLabel.setText("Seat: N/A");
-            movieLabel.setText("Movie: N/A");
-            screenLabel.setText("Screen: N/A");
-        }
+    @FXML
+    public void cancelTicket(ActionEvent action) {
+        viewModel.openCancelTicket();
     }
 }

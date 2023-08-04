@@ -213,8 +213,15 @@ public class PurchaseTicketPopUpViewModel implements IPurchaseTicketPopUpViewMod
             return false;
         }
 
+        if (menu == null) {
+            boolean success = ticketModel.purchaseTicket(
+                    new Ticket(-1, seat, movie.getMovieId(), -1)
+            );
+            return success;
+        }
+
         boolean success = ticketModel.purchaseTicket(
-                new Ticket(-1, seat, movie, screenModel.getScreenById(movie.getScreenId()), menu)
+                new Ticket(-1, seat, movie.getMovieId(), menu.getMenuId())
         );
 
         return success;

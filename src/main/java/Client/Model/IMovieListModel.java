@@ -26,4 +26,11 @@ public interface IMovieListModel
      * @return Movies that are equal
      */
     ArrayList<Movie> getSameMovies(Movie movie);
+
+    /**
+     * Get movie by its id
+     * @param movieId The movie's id
+     * @return Movie, null if not found
+     */
+    Movie getMovieById(int movieId);
 }

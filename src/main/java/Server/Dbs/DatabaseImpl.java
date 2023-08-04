@@ -45,11 +45,36 @@ public class DatabaseImpl implements Database {
         return null;
     }
 
-    /**
-     * Get all screens within the cinema
-     *
-     * @return A list of screens
-     */
+    @Override
+    public Movie getMovieById(int movieId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM sep2reexam_database.movie WHERE id = ?");
+            preparedStatement.setInt(1, movieId);
+
+            // executing the query returns a ResultSet which has the result of the query
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                LocalDate date = resultSet.getDate("date").toLocalDate();
+                LocalTime startTime = resultSet.getTime("start_time").toLocalTime();
+                LocalTime endTime = resultSet.getTime("end_time").toLocalTime();
+                String genre = resultSet.getString("genre");
+                int length = resultSet.getInt("length");
+                int screenId = resultSet.getInt("screen_id");
+
+                preparedStatement.close();
+                return new Movie(id, name, date, startTime, endTime, genre, length, screenId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     @Override
     public ArrayList<Screen> getAllScreens() {
         try {
@@ -87,11 +112,6 @@ public class DatabaseImpl implements Database {
         return null;
     }
 
-    /**
-     * Get a screen by its id
-     * @param screenId The screen's id
-     * @return Found screen
-     */
     @Override
     public Screen getScreenById(int screenId) {
         try (Connection connection = DatabaseUtil.getConnection();
@@ -143,12 +163,6 @@ public class DatabaseImpl implements Database {
         return null; // Return null if the screen is not found in the database
     }
 
-    /**
-     * Creates a new user account without administrator privileges
-     * @param username The username of the account (MUST BE UNIQUE)
-     * @param password The password of the account
-     * @return The newly created user account, null if failed
-     */
     @Override
     public User createAccount(String username, String password) {
         try {
@@ -175,13 +189,6 @@ public class DatabaseImpl implements Database {
         return null;
     }
 
-    /**
-     * Checks user's credentials and returns the signed in user
-     *
-     * @param username The username of the account
-     * @param password The password of the account
-     * @return The signed in user
-     */
     @Override
     public User checkUserCredentials(String username, String password) {
         try {
@@ -246,17 +253,24 @@ public class DatabaseImpl implements Database {
             //creating a PreparedStatement obj with query
             PreparedStatement preparedStatement = connection.prepareStatement(query, new String[] {"id"});
 
+            Movie movie = getMovieById(ticket.getMovieId());
+
             //setting 1st placeholder to seat id
             preparedStatement.setInt(1,
-                    getSeatId(ticket.getScreen().getScreenId(),
+                    getSeatId(movie.getScreenId(),
                             ticket.getSeat().getRow(),
                             ticket.getSeat().getNumber()
                     )
             );
             //setting 2nd placeholder to movie name
-            preparedStatement.setInt(2, ticket.getMovie().getMovieId());
+            preparedStatement.setInt(2, ticket.getMovieId());
             //setting 3rd placeholder to menu
-            preparedStatement.setInt(3, ticket.getMenu().getMenuId());
+            if (ticket.getMenuId() < 1) {
+                preparedStatement.setNull(3, Types.INTEGER);
+            } else {
+                preparedStatement.setInt(3, ticket.getMenuId());
+            }
+
 
             //executing SQL query and storing number of rows affected by the query in  rowsAffected
             int rowsAffected = preparedStatement.executeUpdate();
@@ -286,13 +300,9 @@ public class DatabaseImpl implements Database {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT t.id, t.seat_id, t.movie_id, t.menu_id, " +
-                            "s.row, s.number, s.screen_id, " +
-                            "m.name, m.start_time, m.end_time, m.date, m.length, m.genre, " +
-                            "f.food, f.price " +
+                            "s.row, s.number " +
                             "FROM sep2reexam_database.ticket t " +
                             "JOIN sep2reexam_database.seat s ON t.seat_id = s.id " +
-                            "JOIN sep2reexam_database.movie m ON t.movie_id = m.id " +
-                            "JOIN sep2reexam_database.menu f ON t.menu_id = f.id " +
                             "WHERE t.id = ?");
             preparedStatement.setInt(1, ticketId);
 
@@ -304,26 +314,11 @@ public class DatabaseImpl implements Database {
                 int seatNumber = resultSet.getInt("number");
                 Seat seat = new Seat(seatRow, seatNumber);
 
-                // empty screen data, because we only need screen id
-                Screen screen = new Screen(resultSet.getInt("screen_id"), "", new ArrayList<>());
-
                 int movieId = resultSet.getInt("movie_id");
-                String name = resultSet.getString("name");
-                LocalDate date = resultSet.getDate("date").toLocalDate();
-                LocalTime startTime = resultSet.getTime("start_time").toLocalTime();
-                LocalTime endTime = resultSet.getTime("end_time").toLocalTime();
-                int length = resultSet.getInt("length");
-                String genre = resultSet.getString("genre");
-
-                Movie movie = new Movie(movieId, name, date, startTime, endTime, genre, length, resultSet.getInt("screen_id"));
-
                 int menuId = resultSet.getInt("menu_id");
-                String food = resultSet.getString("food");
-                double price = resultSet.getDouble("price");
-                Menu menu = new Menu(menuId,food, price);
 
                 preparedStatement.close();
-                return new Ticket(ticketId, seat, movie,screen, menu);
+                return new Ticket(ticketId, seat, movieId, menuId);
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -56,38 +56,10 @@ public class ServerImpl extends UnicastRemoteObject implements IRMIServer
         return database.getTicket(ticketId);
     }
 
-    private Movie getMovieById(int movieId)
+    @Override
+    public Movie getMovieById(int movieId)
     {
-        // Fetch the Movie object from the database based on the movieId
-        // Assuming you have a 'movies' table in the database with columns 'id', 'name', 'genre', etc.
-        String query = "SELECT * FROM sep2reexam_database.movie WHERE id = ?";
-        try (Connection connection = DatabaseUtil.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query))
-        {
-            statement.setInt(1, movieId);
-            try (ResultSet resultSet = statement.executeQuery())
-            {
-                if (resultSet.next())
-                {
-                    int id = resultSet.getInt("id");
-                    String name = resultSet.getString("name");
-                    LocalTime startTime = resultSet.getTime("start_time").toLocalTime();
-                    LocalTime endTime = resultSet.getTime("end_time").toLocalTime();
-                    String genre = resultSet.getString("genre");
-                    int length = resultSet.getInt("length");
-                    LocalDate date = resultSet.getDate("date").toLocalDate();
-                    int screenId = resultSet.getInt("screen_id");
-
-                    Movie movie = new Movie(id, name, date, startTime, endTime, genre, length, screenId);
-                    System.out.println(movie);
-                    return movie;
-                }
-            }
-        } catch (SQLException e)
-        {
-            e.printStackTrace();
-        }
-        return null; // Return null if movie with the given ID is not found
+        return database.getMovieById(movieId);
     }
 
 

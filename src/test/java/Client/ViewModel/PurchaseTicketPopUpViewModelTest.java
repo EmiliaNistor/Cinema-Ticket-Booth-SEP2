@@ -4,11 +4,13 @@ package Client.ViewModel;
 import Client.Core.ModelFactory;
 import Client.Core.ViewModelFactory;
 import Client.Model.*;
+import Mocks.RMIServerMock;
 import Shared.Model.Menu;
 import Shared.Model.Movie;
 import Shared.Model.Seat;
 import Shared.Network.IRMIServer;
 import javafx.collections.ObservableList;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +27,11 @@ public class PurchaseTicketPopUpViewModelTest {
 
     @BeforeEach
     void setUp() {
+        IRMIServer = new RMIServerMock();
+        try {
+            ModelFactory = new ModelFactory();
+        } catch (Exception e) {}
+
         ViewModelFactory viewModelFactory = new ViewModelFactory(ModelFactory);
         IMovieListModel MovieListModel = new MovieListModel(IRMIServer);
         IScreenModel ScreenModel = new ScreenModel(IRMIServer);
@@ -34,6 +41,13 @@ public class PurchaseTicketPopUpViewModelTest {
         viewModel = new PurchaseTicketPopUpViewModel(
                 viewModelFactory, MovieListModel, ScreenModel, TicketModel, MenuModel
         );
+    }
+
+    @AfterEach
+    void tearDown() {
+        IRMIServer = null;
+        ModelFactory = null;
+        viewModel = null;
     }
 
     @Test

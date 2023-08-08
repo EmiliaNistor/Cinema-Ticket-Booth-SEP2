@@ -18,14 +18,16 @@ class MainSceneViewModelTest {
     private MainSceneViewModel viewModel;
     private IRMIServer IRMIServer;
     private ModelFactory ModelFactory;
+    private IAccountModel accountModel;
 
     @BeforeEach
     void setUp() {
         IRMIServer = new RMIServerMock();
-        ViewModelFactory viewModelFactory = new ViewModelFactory(ModelFactory);
+        //ViewModelFactory viewModelFactory = new ViewModelFactory(ModelFactory);
         IAccountModel accountModel = new AccountModel(IRMIServer);
+        this.accountModel = accountModel;
 
-        viewModel = new MainSceneViewModel(viewModelFactory, accountModel);
+        viewModel = new MainSceneViewModel(null, accountModel);
     }
 
     @AfterEach
@@ -33,6 +35,7 @@ class MainSceneViewModelTest {
         IRMIServer = null;
         ModelFactory = null;
         viewModel = null;
+        accountModel = null;
     }
 
     @Test
@@ -49,7 +52,7 @@ class MainSceneViewModelTest {
     void testLogInAndOut() {
         assertFalse(viewModel.isLoggedIn());
 
-        viewModel.loggedInProperty();
+        accountModel.logIn("yes", "yes"); // mock always returns true
         assertTrue(viewModel.loggedInProperty().get());
         assertFalse(viewModel.administratorProperty().get());
         assertEquals("Log Out", viewModel.logInTextStringProperty().get());

@@ -1,5 +1,9 @@
 package Shared.Model;
 
+import Shared.Model.Menu;
+import Shared.Model.Movie;
+import Shared.Model.Seat;
+import Shared.Model.Ticket;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,22 +40,22 @@ class TicketTest {
     }
 
     @Test
-    void getId() {
+    void getIdTest() {
         assertEquals(1, ticket.getId());
     }
 
     @Test
-    void getSeat() {
+    void getSeatTest() {
         assertEquals(seat, ticket.getSeat());
     }
 
     @Test
-    void getMovie() {
+    void getMovieTest() {
         assertEquals(movie.getMovieId(), ticket.getMovieId());
     }
 
     @Test
-    void getMenu() {
+    void getMenuTest() {
         assertEquals(menu.getMenuId(), ticket.getMenuId());
     }
 }

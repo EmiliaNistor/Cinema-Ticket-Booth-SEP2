@@ -31,7 +31,7 @@ public class MovieListViewModelTest {
     }
 
     @Test
-    void testInitialState() {
+    void initialStateTest() {
         assertFalse(viewModel.loggedInProperty().get());
         assertFalse(viewModel.administratorProperty().get());
         assertTrue(viewModel.getMovieList().isEmpty());

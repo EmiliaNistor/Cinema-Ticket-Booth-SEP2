@@ -17,13 +17,11 @@ class MainSceneViewModelTest {
 
     private MainSceneViewModel viewModel;
     private IRMIServer IRMIServer;
-    private ModelFactory ModelFactory;
     private IAccountModel accountModel;
 
     @BeforeEach
     void setUp() {
         IRMIServer = new RMIServerMock();
-        //ViewModelFactory viewModelFactory = new ViewModelFactory(ModelFactory);
         IAccountModel accountModel = new AccountModel(IRMIServer);
         this.accountModel = accountModel;
 
@@ -33,13 +31,12 @@ class MainSceneViewModelTest {
     @AfterEach
     void tearDown() {
         IRMIServer = null;
-        ModelFactory = null;
         viewModel = null;
         accountModel = null;
     }
 
     @Test
-    void testInitialState() {
+    void initialStateTest() {
         assertFalse(viewModel.loggedInProperty().get());
         assertFalse(viewModel.administratorProperty().get());
         assertEquals("Log In", viewModel.logInTextStringProperty().get());
@@ -49,7 +46,7 @@ class MainSceneViewModelTest {
 
     //Combined test for Login and Logout
     @Test
-    void testLogInAndOut() {
+    void logInAndOutTest() {
         assertFalse(viewModel.isLoggedIn());
 
         accountModel.logIn("yes", "yes"); // mock always returns true
@@ -65,7 +62,7 @@ class MainSceneViewModelTest {
 
     //Combined Test for changing scenes
     @Test
-    void testChangeToMovieListAndTicketInfo() {
+    void changeToMovieListAndTicketInfoTest() {
         assertTrue(viewModel.movieListVisible().get());
         assertFalse(viewModel.ticketInfoVisible().get());
 

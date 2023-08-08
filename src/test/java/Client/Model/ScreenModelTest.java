@@ -25,12 +25,16 @@ class ScreenModelTest {
     }
 
     @Test
-    void getScreenByIdFail() {
+    void getScreenByIdFailTest() {
         assertNull(screenModel.getScreenById(-1));
     }
 
     @Test
-    void getScreenByIdSuccess() {
+    void getScreenByIdOneTest() {
         assertEquals(1, screenModel.getScreenById(1).getScreenId());
+    }
+    @Test
+    void getScreenByIdZeroTest() {
+        assertNull(screenModel.getScreenById(0));
     }
 }

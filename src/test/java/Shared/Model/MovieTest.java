@@ -1,5 +1,6 @@
 package Shared.Model;
 
+import Shared.Model.Movie;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,78 +27,77 @@ class MovieTest {
     }
 
     @Test
-    void getMovieId() {
+    void getMovieIdTest() {
         assertEquals(1, movie.getMovieId());
     }
 
     @Test
-    void getName() {
+    void getNameTest() {
         assertEquals("Oppenheimer", movie.getName());
     }
 
     @Test
-    void setName() {
+    void setNameTest() {
         movie.setName("Barbie");
         assertEquals("Barbie", movie.getName());
     }
 
     @Test
-    void getDate() {
+    void getDateTest() {
         assertEquals(LocalDate.of(2023, 7, 28), movie.getDate());
     }
 
     @Test
-    void setDate() {
+    void setDateTest() {
         movie.setDate(LocalDate.of(2023, 10, 30));
         assertEquals(LocalDate.of(2023, 10, 30), movie.getDate());
     }
 
     @Test
-    void getLength() {
+    void getLengthTest() {
         assertEquals(120, movie.getLength());
-
     }
 
     @Test
-    void setLength() {
+    void setLengthTest() {
         movie.setLength(129);
         assertEquals(129, movie.getLength());
     }
 
     @Test
-    void getGenre() {
+    void getGenreTest() {
         assertEquals("Action", movie.getGenre());
     }
 
     @Test
-    void setGenre() {
+    void setGenreTest() {
         movie.setGenre("Action");
         assertEquals("Action", movie.getGenre());
     }
 
     @Test
-    void getScreenId() {
+    void getScreenIdTest() {
         assertEquals(1, movie.getScreenId());
     }
 
     @Test
-    void getStartTime() {
+    void getStartTimeTest() {
         assertEquals(LocalTime.of(1,2,3), movie.getStartTime());
     }
 
     @Test
-    void setStartTime() {
+    void setStartTimeTest() {
         movie.setStartTime(LocalTime.of(11,22,33));
         assertEquals(LocalTime.of(11,22,33), movie.getStartTime());
     }
 
     @Test
-    void getEndTime() {
+    void getEndTimeTest() {
         assertEquals(LocalTime.of(3,2,1), movie.getEndTime());
     }
 
     @Test
-    void setEndTime() {
+    void setEndTimeTest() {
         movie.setEndTime(LocalTime.of(11,22,33));
         assertEquals(LocalTime.of(11,22,33), movie.getEndTime());
     }

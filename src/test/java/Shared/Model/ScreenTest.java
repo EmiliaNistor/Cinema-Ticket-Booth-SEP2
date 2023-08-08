@@ -1,5 +1,7 @@
 package Shared.Model;
 
+import Shared.Model.Screen;
+import Shared.Model.Seat;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,12 +28,12 @@ class ScreenTest {
     }
 
     @Test
-    void getSeats() {
+    void getSeatsTest() {
         assertEquals(seats, screen.getSeats());
     }
 
     @Test
-    void getScreenId() {
+    void getScreenIdTest() {
         assertEquals(1, screen.getScreenId());
     }
 }

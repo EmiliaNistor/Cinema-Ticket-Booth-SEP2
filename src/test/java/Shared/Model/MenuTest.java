@@ -1,5 +1,6 @@
 package Shared.Model;
 
+import Shared.Model.Menu;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,28 +21,34 @@ class MenuTest {
     }
 
     @Test
-    void getMenuId() {
+    void getMenuIdTest() {
         assertEquals(1, menu.getMenuId());
     }
 
     @Test
-    void getFood() {
+    void getFoodTest() {
         assertEquals("Nachos with drink", menu.getFood());
     }
 
     @Test
-    void setFood() {
+    void setFoodTest() {
         menu.setFood("Food");
         assertEquals("Food", menu.getFood());
     }
 
     @Test
-    void getPrice() {
+    void setFoodNullTest() {
+        menu.setFood(null);
+        assertEquals(null, menu.getFood());
+    }
+
+    @Test
+    void getPriceTest() {
         assertEquals(8.30, menu.getPrice(), 0.001);
     }
 
     @Test
-    void setPrice() {
+    void setPriceTest() {
         menu.setPrice(18.0);
         assertEquals(18.0, menu.getPrice(), 0.001);
     }

@@ -28,26 +28,31 @@ class TicketModelTest {
     }
 
     @Test
-    void purchaseTicketFail() {
+    void purchaseTicketNullSeatTest() {
         assertNull(ticketModel.purchaseTicket(
                 new Ticket(-1, null, 1, -1)
         ));
     }
 
     @Test
-    void purchaseTicketSuccess() {
+    void purchaseTicketNullTest() {
+        assertNull(ticketModel.purchaseTicket(null));
+    }
+
+    @Test
+    void purchaseTicketTest() {
         assertNotNull(ticketModel.purchaseTicket(
                 new Ticket(-1, new Seat("", 1), 1, -1)
         ));
     }
 
     @Test
-    void getTicketFail() {
+    void getTicketFailTest() {
         assertNull(ticketModel.getTicket(-1));
     }
 
     @Test
-    void getTicketSuccess() {
+    void getTicketOneTest() {
         assertNotNull(ticketModel.getTicket(1));
     }
 }

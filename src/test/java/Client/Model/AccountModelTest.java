@@ -25,22 +25,32 @@ class AccountModelTest {
     }
 
     @Test
-    void signupFail() {
+    void signupNullTest() {
         assertFalse(accountModel.signup(null, null));
     }
 
     @Test
-    void signupSuccess() {
+    void signupZeroTest() {
+        assertFalse(accountModel.signup("", ""));
+    }
+
+    @Test
+    void signupTest() {
         assertTrue(accountModel.signup("123", "123"));
     }
 
     @Test
-    void logInFail() {
+    void logInNullTest() {
         assertFalse(accountModel.logIn(null, null));
     }
 
     @Test
-    void logInSuccess() {
+    void logInZeroTest() {
+        assertFalse(accountModel.logIn("", ""));
+    }
+
+    @Test
+    void logInTest() {
         assertTrue(accountModel.logIn("123", "123"));
     }
 }

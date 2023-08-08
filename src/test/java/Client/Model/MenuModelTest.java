@@ -26,13 +26,19 @@ class MenuModelTest {
     }
 
     @Test
-    void getMenuByIdFail() {
+    void getMenuByIdFailTest() {
         Menu returnedMenu = menuModel.getMenuById(-1);
         assertNull(returnedMenu);
     }
 
     @Test
-    void getMenuByIdSuccess() {
+    void getMenuByIdZeroTest() {
+        Menu returnedMenu = menuModel.getMenuById(0);
+        assertEquals(0, returnedMenu.getMenuId());
+    }
+
+    @Test
+    void getMenuByIdOneTest() {
         Menu returnedMenu = menuModel.getMenuById(1);
         assertEquals(1, returnedMenu.getMenuId());
     }

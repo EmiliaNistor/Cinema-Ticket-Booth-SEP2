@@ -15,12 +15,9 @@ public class TicketInformationViewModelTest {
     private TicketInformationViewModel viewModel;
     private Shared.Network.IRMIServer IRMIServer;
 
-    private ModelFactory modelFactory;
-
     @BeforeEach
     void setUp() {
         IRMIServer = new RMIServerMock();
-        //ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory);
         ITicketModel ticketModel = new TicketModel(IRMIServer);
         IMovieListModel movieListModel = new MovieListModel(IRMIServer);
         IScreenModel screenModel = new ScreenModel(IRMIServer);
@@ -30,7 +27,7 @@ public class TicketInformationViewModelTest {
     }
 
     @Test
-    void testSetCurrentTicket() {
+    void setCurrentTicketTest() {
         Ticket ticket = new Ticket(1, new Seat("A", 1), 1, 1);
         viewModel.setCurrentTicket(ticket);
 
@@ -42,6 +39,20 @@ public class TicketInformationViewModelTest {
         assertEquals("00:00", viewModel.endTime().get());
         assertEquals("120", viewModel.length().get());
         assertEquals("Food1", viewModel.chosenMenu().get());
+    }
+
+    @Test
+    void setCurrentTicketNullTest() {
+        viewModel.setCurrentTicket(null);
+
+        assertEquals("Ticket [Missing info]", viewModel.title().get());
+        assertEquals("Missing info", viewModel.seatInfo().get());
+        assertEquals("Missing info", viewModel.movieName().get());
+        assertEquals("Missing info", viewModel.date().get());
+        assertEquals("Missing info", viewModel.startTime().get());
+        assertEquals("Missing info", viewModel.endTime().get());
+        assertEquals("Missing info", viewModel.length().get());
+        assertEquals("Missing info", viewModel.chosenMenu().get());
     }
 
 

@@ -30,7 +30,7 @@ class MovieListModelTest {
     }
 
     @Test
-    void getSameMoviesByDateSuccess() {
+    void getSameMoviesByDateSuccessTest() {
         // refreshing movies from server
         movieListModel.refreshMovies();
         Movie movie = new Movie(1, "Movie1",
@@ -41,7 +41,7 @@ class MovieListModelTest {
     }
 
     @Test
-    void getSameMoviesByDateFail() {
+    void getSameMoviesByDateFailTest() {
         // refreshing movies from server
         Movie movie = new Movie(1, "Movie1",
                 LocalDate.of(2023, 12, 1), LocalTime.now(), LocalTime.now(),
@@ -51,7 +51,7 @@ class MovieListModelTest {
     }
 
     @Test
-    void getSameMoviesByDateWrongDate() {
+    void getSameMoviesByDateWrongDateTest() {
         // refreshing movies from server
         movieListModel.refreshMovies();
         Movie movie = new Movie(1, "Movie1",
@@ -62,7 +62,7 @@ class MovieListModelTest {
     }
 
     @Test
-    void getSameMoviesSuccess() {
+    void getSameMoviesTest() {
         // refreshing movies from server
         movieListModel.refreshMovies();
         Movie movie = new Movie(1, "Movie1",
@@ -75,7 +75,7 @@ class MovieListModelTest {
     }
 
     @Test
-    void getSameMoviesFail() {
+    void getSameMoviesFailTest() {
         // refreshing movies from server
         movieListModel.refreshMovies();
         Movie movie = new Movie(1, "Movie123",
@@ -86,12 +86,17 @@ class MovieListModelTest {
     }
 
     @Test
-    void getMovieByIdFail() {
+    void getMovieByIdFailTest() {
         assertNull(movieListModel.getMovieById(-1));
     }
 
     @Test
-    void getMovieByIdSuccess() {
+    void getMovieByIdOneTest() {
         assertEquals(1, movieListModel.getMovieById(1).getMovieId());
+    }
+
+    @Test
+    void getMovieByIdZeroTest() {
+        assertNull(movieListModel.getMovieById(0));
     }
 }

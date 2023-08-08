@@ -23,16 +23,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PurchaseTicketPopUpViewModelTest {
     private PurchaseTicketPopUpViewModel viewModel;
     private IRMIServer IRMIServer;
-    private ModelFactory ModelFactory;
 
     @BeforeEach
     void setUp() {
         IRMIServer = new RMIServerMock();
-        try {
-            ModelFactory = new ModelFactory();
-        } catch (Exception e) {}
 
-        //ViewModelFactory viewModelFactory = new ViewModelFactory(ModelFactory);
         IMovieListModel MovieListModel = new MovieListModel(IRMIServer);
         IScreenModel ScreenModel = new ScreenModel(IRMIServer);
         ITicketModel TicketModel = new TicketModel(IRMIServer);
@@ -46,14 +41,13 @@ public class PurchaseTicketPopUpViewModelTest {
     @AfterEach
     void tearDown() {
         IRMIServer = null;
-        ModelFactory = null;
         viewModel = null;
     }
 
 
 
     @Test
-    void testUpdateMovieStart() {
+    void updateMovieStartTest() {
         Movie movie = new Movie(1,"Movie Name",
                 LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(2), "Comedy",100, 1);
         viewModel.setMovie(movie);
@@ -66,13 +60,15 @@ public class PurchaseTicketPopUpViewModelTest {
     }
 
     @Test
-    void testUpdateMenu() {
-        viewModel.updateMenu(null);
-        assertEquals("100.00 DKK", viewModel.getTicketPriceProperty().get());
-
+    void updateMenuTest() {
         Menu menu = new Menu(1, "Happy Meal", 120.00);
         viewModel.updateMenu(menu);
         assertEquals("220.00 DKK", viewModel.getTicketPriceProperty().get());
     }
 
+    @Test
+    void updateMenuNullTest() {
+        viewModel.updateMenu(null);
+        assertEquals("100.00 DKK", viewModel.getTicketPriceProperty().get());
+    }
 }

@@ -12,7 +12,7 @@ public class CancelTicketViewModel implements ICancelTicketViewModel {
     private final ITicketModel ticketModel;
     private final StringProperty title;
     private final StringProperty info;
-    private Ticket selectedTicket;
+    public Ticket selectedTicket;
 
     public CancelTicketViewModel(ITicketModel ticketModel) {
         this.ticketModel = ticketModel;

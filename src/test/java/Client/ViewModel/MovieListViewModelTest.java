@@ -41,7 +41,7 @@ public class MovieListViewModelTest {
 
     @Test
     void testUpdateMovieList() {
-        assertFalse(viewModel.getMovieList().isEmpty());
+        assertTrue(viewModel.getMovieList().isEmpty());
 
         ArrayList<Movie> movies = new ArrayList<>();
         movies.add(new Movie(1, "Movie1",

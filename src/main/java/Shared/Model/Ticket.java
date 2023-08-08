@@ -35,10 +35,18 @@ public class Ticket implements Serializable
         return seat;
     }
 
+    /**
+     * Get the movie id the ticket is for
+     * @return The movie's id
+     */
     public int getMovieId() {
         return movieId;
     }
 
+    /**
+     * Get the menu id, if chosen
+     * @return The menu id chosen with the movie, -1 if none
+     */
     public int getMenuId() {
         return menuId;
     }

@@ -99,6 +99,7 @@ public class MainSceneController {
         moviesButton.setDefaultButton(true);
         ticketInfoButton.setDefaultButton(false);
         menusButton.setDefaultButton(false);
+        viewModel.changeToMovieList();
     }
 
     @FXML

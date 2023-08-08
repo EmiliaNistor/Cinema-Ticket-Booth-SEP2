@@ -74,4 +74,31 @@ class MovieTest {
         movie.setGenre("Action");
         assertEquals("Action", movie.getGenre());
     }
+
+    @Test
+    void getScreenId() {
+        assertEquals(1, movie.getScreenId());
+    }
+
+    @Test
+    void getStartTime() {
+        assertEquals(LocalTime.of(1,2,3), movie.getStartTime());
+    }
+
+    @Test
+    void setStartTime() {
+        movie.setStartTime(LocalTime.of(11,22,33));
+        assertEquals(LocalTime.of(11,22,33), movie.getStartTime());
+    }
+
+    @Test
+    void getEndTime() {
+        assertEquals(LocalTime.of(3,2,1), movie.getEndTime());
+    }
+
+    @Test
+    void setEndTime() {
+        movie.setEndTime(LocalTime.of(11,22,33));
+        assertEquals(LocalTime.of(11,22,33), movie.getEndTime());
+    }
 }

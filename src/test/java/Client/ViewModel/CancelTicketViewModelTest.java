@@ -21,7 +21,7 @@ public class CancelTicketViewModelTest {
         IRMIServer = new RMIServerMock();
         ITicketModel ticketModel = new TicketModel(IRMIServer);
         ICancelTicketViewModel cancelTicketViewModel = new CancelTicketViewModel(ticketModel);
-        viewModel = new CancelTicketViewModel(null);
+        viewModel = new CancelTicketViewModel(ticketModel);
     }
 
 

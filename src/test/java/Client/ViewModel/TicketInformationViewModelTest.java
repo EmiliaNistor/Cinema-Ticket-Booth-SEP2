@@ -3,6 +3,7 @@ package Client.ViewModel;
 import Client.Core.ModelFactory;
 import Client.Core.ViewModelFactory;
 import Client.Model.*;
+import Mocks.RMIServerMock;
 import Shared.Model.Seat;
 import Shared.Model.Ticket;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,13 +19,14 @@ public class TicketInformationViewModelTest {
 
     @BeforeEach
     void setUp() {
-        ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory);
+        IRMIServer = new RMIServerMock();
+        //ViewModelFactory viewModelFactory = new ViewModelFactory(modelFactory);
         ITicketModel ticketModel = new TicketModel(IRMIServer);
         IMovieListModel movieListModel = new MovieListModel(IRMIServer);
         IScreenModel screenModel = new ScreenModel(IRMIServer);
         IMenuModel menuModel = new MenuModel(IRMIServer);
 
-        viewModel = new TicketInformationViewModel(viewModelFactory, ticketModel, movieListModel, screenModel, menuModel);
+        viewModel = new TicketInformationViewModel(null, ticketModel, movieListModel, screenModel, menuModel);
     }
 
     @Test
@@ -34,12 +36,12 @@ public class TicketInformationViewModelTest {
 
         assertEquals("Ticket [1]", viewModel.title().get());
         assertEquals("A - 1", viewModel.seatInfo().get());
-        assertEquals("Oppenheimer", viewModel.movieName().get());
-        assertEquals("2023-08-08", viewModel.date().get());
-        assertEquals("10:00 AM", viewModel.startTime().get());
-        assertEquals("13:30 AM", viewModel.endTime().get());
-        assertEquals("180", viewModel.length().get());
-        assertEquals("Happy Meal", viewModel.chosenMenu().get());
+        assertEquals("Movie1", viewModel.movieName().get());
+        assertEquals("2023-12-01", viewModel.date().get());
+        assertEquals("00:00", viewModel.startTime().get());
+        assertEquals("00:00", viewModel.endTime().get());
+        assertEquals("120", viewModel.length().get());
+        assertEquals("Food1", viewModel.chosenMenu().get());
     }
 
 

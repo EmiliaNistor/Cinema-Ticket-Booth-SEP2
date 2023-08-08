@@ -50,6 +50,33 @@ public class MenuModel implements IMenuModel, PropertyChangeSubject {
 
     @Override
     public Menu getMenuById(int menuId) {
+        try {
+            ArrayList<Menu> menus = serverRMI.getAllMenuItems();
+            if (menus != null) {
+                // successful fetch
+                Collection<Menu> oldMenuList = menuList.values();
+
+                // populating menu list
+                menuList.clear();
+                ArrayList<Menu> menuAR = new ArrayList<>();
+                for (Menu m: menus) {
+                    menuList.put(m.getMenuId(), m);
+                    menuAR.add(m);
+                }
+
+                propertyChangeSupport.firePropertyChange(
+                        "MenuListChange", oldMenuList, menuAR
+                );
+
+                if (menuList.containsKey(menuId)) {
+                    return menuList.get(menuId);
+                }
+            }
+        } catch (RemoteException e) {
+            System.out.println("Error occurred during menu fetching process.");
+            e.printStackTrace();
+        }
+
         return null;
     }
 

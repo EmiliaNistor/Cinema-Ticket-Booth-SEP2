@@ -18,12 +18,6 @@ public class AccountModel implements IAccountModel, PropertyChangeSubject {
         this.propertyChangeSupport = new PropertyChangeSupport(this);
     }
 
-    /**
-     * Attempt to create a new user account on the server.
-     * @param username The username for the new account.
-     * @param password The password for the new account.
-     * @return True if sign up has been successful
-     */
     @Override
     public boolean signup(String username, String password)
     {
@@ -47,12 +41,6 @@ public class AccountModel implements IAccountModel, PropertyChangeSubject {
         return false;
     }
 
-    /**
-     * Attempt to log in to a user's account
-     * @param username The username of the account
-     * @param password The password of the account
-     * @return True if logging in has been successful
-     */
     @Override
     public boolean logIn(String username, String password) {
         try
@@ -75,9 +63,6 @@ public class AccountModel implements IAccountModel, PropertyChangeSubject {
         return false;
     }
 
-    /**
-     * Log out of currently logged in account
-     */
     @Override
     public void logOut() {
         propertyChangeSupport.firePropertyChange("AccountChange", this.loggedInUser, null);

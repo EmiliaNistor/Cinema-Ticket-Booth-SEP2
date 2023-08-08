@@ -4,8 +4,10 @@ import Client.Core.ModelFactory;
 import Client.Core.ViewModelFactory;
 import Client.Model.AccountModel;
 import Client.Model.IAccountModel;
+import Mocks.RMIServerMock;
 import Shared.Network.IRMIServer;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,14 +19,20 @@ class MainSceneViewModelTest {
     private IRMIServer IRMIServer;
     private ModelFactory ModelFactory;
 
-
-
     @BeforeEach
     void setUp() {
+        IRMIServer = new RMIServerMock();
         ViewModelFactory viewModelFactory = new ViewModelFactory(ModelFactory);
         IAccountModel accountModel = new AccountModel(IRMIServer);
 
         viewModel = new MainSceneViewModel(viewModelFactory, accountModel);
+    }
+
+    @AfterEach
+    void tearDown() {
+        IRMIServer = null;
+        ModelFactory = null;
+        viewModel = null;
     }
 
     @Test

@@ -38,7 +38,8 @@ public class PurchaseTicketPopUpViewModelTest {
 
     @Test
     void testSetMovie() {
-        Movie movie = new Movie(1, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(2), 120);
+        Movie movie = new Movie(1, "Movie Name",
+                LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(2), "Comedy", 120, 1);
         viewModel.setMovie(movie);
 
         assertEquals("Movie Name", viewModel.getMovieNameProperty().get());
@@ -55,7 +56,8 @@ public class PurchaseTicketPopUpViewModelTest {
 
     @Test
     void testUpdateMovieStart() {
-        Movie movie = new Movie(1, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(2), 120);
+        Movie movie = new Movie(1,"Movie Name",
+                LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(2), "Comedy",120, 1);
         viewModel.setMovie(movie);
 
         viewModel.updateMovieStart(LocalTime.now());

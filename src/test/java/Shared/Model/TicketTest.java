@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class TicketTest {
     private Ticket ticket;
     private Movie movie;
-    private Screen screen;
     private Seat seat;
     private Menu menu;
 
@@ -24,16 +23,14 @@ class TicketTest {
         LocalTime startTime = LocalTime.of(1,2,3);
         LocalTime endTime = LocalTime.of(3,2,1);
         movie = new Movie(2321, "Oppenheimer", date, startTime, endTime, "biographical thriller", 180, 1);
-        screen = new Screen(1, "IMAX", new ArrayList<>());
         menu = new Menu(17, "Popcorn",3.55);
-        ticket = new Ticket(1, seat, 2321, 1, 17);
+        ticket = new Ticket(1, seat, 2321, 17);
     }
 
     @AfterEach
     void tearDown() {
         ticket = null;
         movie = null;
-        screen = null;
         seat = null;
         menu = null;
     }
@@ -51,11 +48,6 @@ class TicketTest {
     @Test
     void getMovie() {
         assertEquals(movie.getMovieId(), ticket.getMovieId());
-    }
-
-    @Test
-    void getScreen() {
-        assertEquals(screen.getScreenId(), ticket.getScreenId());
     }
 
     @Test

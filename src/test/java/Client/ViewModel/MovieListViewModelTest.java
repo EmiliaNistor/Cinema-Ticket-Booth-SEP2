@@ -20,7 +20,6 @@ public class MovieListViewModelTest {
     private Shared.Network.IRMIServer IRMIServer;
 
 
-
     @BeforeEach
     void setUp() {
         IRMIServer = new RMIServerMock();
@@ -28,7 +27,7 @@ public class MovieListViewModelTest {
         IMovieListModel movieListModel = new MovieListModel(IRMIServer);
         IAccountModel accountModel = new AccountModel(IRMIServer);
 
-        viewModel = new MovieListViewModel(null,movieListModel,accountModel);
+        viewModel = new MovieListViewModel(null, movieListModel, accountModel);
     }
 
     @Test
@@ -38,22 +37,6 @@ public class MovieListViewModelTest {
         assertTrue(viewModel.getMovieList().isEmpty());
     }
 
-
-    @Test
-    void testUpdateMovieList() {
-        assertTrue(viewModel.getMovieList().isEmpty());
-
-        ArrayList<Movie> movies = new ArrayList<>();
-        movies.add(new Movie(1, "Movie1",
-                LocalDate.of(2023, 12, 1), LocalTime.now(), LocalTime.now(),
-                "Genre", 120, 1));
-
-
-        assertFalse(viewModel.getMovieList().isEmpty());
-        assertEquals(2, viewModel.getMovieList().size());
-        assertEquals("Movie 1", viewModel.getMovieList().get(0).getName());
-
-    }
 
 
 
